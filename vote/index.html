@@ -326,7 +326,7 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
   <div class="eyebrow" id="eyebrow">ข้อมูลประกอบการลงมติ · รับมอบสโมสร</div>
   <h1 class="title" id="title">เฟส 1 จะรับมอบสโมสรหรือไม่</h1>
   <div class="uline"></div>
-  <div class="snote">ข้อมูลจากโบรชัวร์ SENA และผังโครงการ · ค่าใช้จ่ายสโมสรเป็นตัวอย่าง</div>
+  <div class="snote">ข้อมูลห้องจากโบรชัวร์และผังโครงการ · ยอดเก็บได้และค่าสโมสรจากงบนิติฯ ม.ค.–ส.ค. 2569</div>
 
   <ol class="chapters" id="chapters"></ol>
   <div class="ctl">
@@ -422,7 +422,7 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
     <!-- 4 รายได้ A1–A4 + รวมเฟส 1 -->
     <section class="scene" data-sc="4">
       <h3 class="sh">ค่าส่วนกลางที่เก็บได้: ต่ออาคาร และรวมเฟส 1</h3>
-      <p class="sub">ห้องใหญ่มี 25% ของห้อง แต่จ่าย 34% ของยอดแต่ละอาคาร · ยอดเต็มคือถ้าทุกห้องจ่ายครบ</p>
+      <p class="sub">ยอดเต็มคือถ้าทุกห้องจ่ายครบ · <b style="color:var(--bad)">ตามงบนิติฯ เก็บได้จริงเฉลี่ย 196,682 บาท/เดือน (81%) ช่วง มี.ค.–ส.ค. 2569 และ ส.ค. เหลือ 166,211 บาท (69%)</b></p>
       <div class="formula num" data-f="formula">
         <span class="t ta">59 ห้อง × 25 = 1,475 ตร.ม.</span><span class="op">+</span>
         <span class="t tb">20 ห้อง × 38 = 760 ตร.ม.</span><span class="op">=</span>
@@ -437,7 +437,7 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
       </div>
       <div class="panel calcbar num">
         <div class="ctrlrow"><label for="rate">อัตรา (บาท/ตร.ม.)</label><input type="number" id="rate" value="27" min="0" step="0.5"></div>
-        <div class="ctrlrow"><label for="coll">เก็บได้จริง <b id="collOut">90%</b></label><input type="range" id="coll" min="60" max="100" value="90"></div>
+        <div class="ctrlrow"><label for="coll">เก็บได้จริง <b id="collOut">81%</b> <small style="color:var(--muted)">(ค่าจริงเฉลี่ย)</small></label><input type="range" id="coll" min="60" max="100" value="81"></div>
         <div class="cb"><span>เก็บได้จริง/เดือน</span><b id="gotM">–</b></div>
         <div class="cb"><span>เก็บได้จริง/ปี</span><b id="gotY">–</b></div>
         <div class="cb"><span>ต่ออาคาร/เดือน</span><b id="gotB">–</b></div>
@@ -474,14 +474,14 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
 
     <!-- 6 ค่าสโมสร 40% -->
     <section class="scene" data-sc="6">
-      <h3 class="sh">ใช้ต่อ ไม่ต้องจ่ายเพิ่ม: ค่าสโมสรอยู่ในค่าส่วนกลางเดิมแล้ว<span class="tagx">แก้ตัวเลขได้</span></h3>
-      <p class="sub">ส่วนแบ่ง 40% ของเฟส 1 จ่ายจากค่าส่วนกลาง 27 บาท/ตร.ม. ที่เก็บอยู่แล้ว · ค่าใช้จ่ายสโมสรตั้งต้นเป็นตัวอย่าง ให้แทนด้วยงบจริง</p>
+      <h3 class="sh">ใช้ต่อ ไม่ต้องจ่ายเพิ่ม: ค่าสโมสรอยู่ในค่าส่วนกลางเดิมแล้ว<span class="tagx">ตัวเลขจริง</span></h3>
+      <p class="sub">จากงบกระแสเงินสดนิติบุคคลเฟส 1 ม.ค.–ส.ค. 2569 รายการ "ค่าใช้จ่ายเกี่ยวกับอาคารสโมสรคืนให้กับนิติบุคคลเฟส 2" จ่ายจากค่าส่วนกลาง 27 บาท/ตร.ม. ที่เก็บอยู่แล้ว</p>
       <div class="s7">
         <div class="panel cost num" id="costs"></div>
         <div class="panel res num">
-          <div class="ctrlrow"><label for="share">สัดส่วนของเฟส 1 (%)</label><input type="number" id="share" value="40" min="0" max="100"></div>
-          <div class="kv" data-f="share"><span>ส่วนของเฟส 1/เดือน (อยู่ในงบเดิม)</span><b id="r1">–</b></div>
+          <div class="kv" data-f="share"><span>ส่วนของเฟส 1 เฉลี่ย/เดือน (อยู่ในงบเดิม)</span><b id="r1">–</b></div>
           <div class="kv"><span>เฉลี่ยต่อ ตร.ม. (จาก 27 บาทเดิม)</span><b id="r2">–</b></div>
+          <div class="kv"><span>ค่าใช้จ่ายสโมสรทั้งหมดโดยประมาณ (ถ้าเฟส 1 จ่าย 40%)</span><b id="rT">–</b></div>
           <div class="hi" data-f="hi">
             <div class="hi-h">ใช้ต่อ: แต่ละห้องต้องจ่ายเพิ่ม</div>
             <div class="hi-g">
@@ -510,7 +510,7 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
             <li>มีสิทธิพิจารณาในอนาคตเมื่อมีการเสนอรับโอนจริง</li>
           </ul></div>
           <div class="o2s con"><h5>สิ่งที่ต้องพิจารณา</h5><ul>
-            <li>ส่วนแบ่ง 40% ใช้จากงบค่าส่วนกลางเดิม ต้องดูแลให้งบพอ</li>
+            <li>ส่วนแบ่งของเฟส 1 ราว 8,100 บาท/เดือน (~4% ของค่าส่วนกลางที่เก็บได้) จ่ายจากงบเดิม</li>
             <li>อาจมีค่าซ่อมและค่าบำรุงรักษา เช่น ปั๊ม ระบบกรอง หลังคา</li>
             <li>ต้องมีระบบตรวจสอบเงิน บัญชีแยก และขอบเขตค่าใช้จ่ายที่ชัดเจน</li>
           </ul></div>
@@ -519,7 +519,7 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
           <div class="o2h"><b>2</b>ไม่ใช้บริการร่วมต่อ<small>ค่าส่วนกลางเท่าเดิม · หมดสิทธิ์</small></div>
           <div class="o2s pro"><h5>ประโยชน์</h5><ul>
             <li>ลดภาระดูแลสโมสรในอนาคต ไม่ต้องรับค่าซ่อมใหญ่</li>
-            <li>นำทรัพยากรไปดูแลพื้นที่ของเฟส 1 เอง</li>
+            <li>งบนิติฯ อาจประหยัดราว 8,100 บาท/เดือน (~97,000 บาท/ปี) แต่ค่าส่วนกลางของแต่ละห้องไม่ลด</li>
           </ul></div>
           <div class="o2s con" data-f="o2con"><h5>สิ่งที่ต้องพิจารณา</h5><ul>
             <li><b>ค่าส่วนกลางไม่ลดลง</b> (นิติฯ ยืนยัน) แต่หมดสิทธิใช้สโมสร ที่จอดรถส่วนกลาง และพื้นที่เช่าที่จอดรถ</li>
@@ -530,21 +530,13 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
           <div class="o2s val" data-f="o2val"><h5>ผลต่อมูลค่าห้อง</h5><ul>
             <li>ค่าเช่าอาจลดลงหรือห้องว่างนานขึ้น เพราะประกาศเขียน "มีสระ ฟิตเนส" ไม่ได้</li>
             <li>ราคาขายต่ออาจต้องลด เพราะห้องเฟส 2 แบบเดียวกันข้าง ๆ ใช้สโมสรได้</li>
-            <li>ค่าเช่าลด 200–300 บาท/เดือน = เสีย 2,400–3,600 บาท/ปี โดยไม่ได้ประหยัดค่าส่วนกลางเลย</li>
+            <li>ถ้าค่าเช่าลด 200–300 บาท/เดือน = ห้องละเสีย 2,400–3,600 บาท/ปี โดยไม่ได้ประหยัดค่าส่วนกลางเลย</li>
           </ul></div>
         </div>
       </div>
       <div class="o2c"><b>ถ้าเลือกทางที่ 1 ควรมีเงื่อนไข</b>ทำบันทึกข้อตกลงกับเฟส 2 (แบ่ง 40/60 ผู้บริหาร บัญชีแยก) · กำหนดเพดานงบและวิธีอนุมัติค่าซ่อมใหญ่</div>
     </section>
 
-    <!-- 8 เช็กลิสต์ -->
-    <section class="scene" data-sc="8">
-      <div style="display:flex;justify-content:space-between;align-items:baseline">
-        <h3 class="sh">เช็กลิสต์ข้อมูลก่อนโหวต</h3><span class="prog9 num" id="prog9">0/9</span>
-      </div>
-      <p class="sub">ติ๊กเมื่อได้ข้อมูลแล้ว เบราว์เซอร์นี้จะจำไว้</p>
-      <div class="checks" id="checks"></div>
-    </section>
 
     <!-- 11 วิธีลงคะแนน -->
     <section class="scene" data-sc="11">
@@ -605,13 +597,14 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
     <div class="box">
       <button class="x" id="endX" title="ปิด (Esc)" aria-label="ปิด">✕</button>
       <h3>สรุปสำหรับลูกบ้านเฟส 1</h3>
-      <p>ตัวเลขรายได้มาจากผังโครงการ ส่วนค่าใช้จ่ายสโมสรต้องได้งบจริงก่อนโหวต</p>
+      <p>จำนวนห้องจากผังโครงการ · ยอดเก็บได้และค่าสโมสรจากงบนิติฯ ม.ค.–ส.ค. 2569</p>
       <ol class="num">
         <li style="transition-delay:.1s"><b>1</b>4 อาคาร × 79 ห้อง = 316 ห้อง (ห้องเล็ก 25 ตร.ม. 236 ห้อง · ห้องใหญ่ 38 ตร.ม. 80 ห้อง)</li>
         <li style="transition-delay:.25s"><b>2</b>อาคารละ 2,235 ตร.ม. เก็บได้ 60,345 บาท/เดือน</li>
-        <li style="transition-delay:.4s"><b>3</b>รวมเฟส 1 เต็มที่ 241,380 บาท/เดือน หรือ 2.90 ล้านบาท/ปี</li>
+        <li style="transition-delay:.4s"><b>3</b>รวมเฟส 1 เรียกเก็บเต็ม 241,380 บาท/เดือน · เก็บได้จริงเฉลี่ย 196,682 บาท (81%)</li>
         <li style="transition-delay:.55s"><b>4</b>สัดส่วนสโมสร 40 : 60 ใกล้กับพื้นที่ห้องชุดของสองเฟส (39.9 : 60.1)</li>
-        <li style="transition-delay:.7s"><b>5</b>ใช้ต่อหรือไม่ ค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม. ต่างกันแค่ได้ใช้สโมสรหรือไม่</li>
+        <li style="transition-delay:.7s"><b>5</b>ค่าสโมสรจริงของเฟส 1 ราว 8,100 บาท/เดือน (ห้องเล็ก ~23 ห้องใหญ่ ~35 บาท) อยู่ในค่าส่วนกลางเดิม</li>
+        <li style="transition-delay:.85s"><b>6</b>ใช้ต่อหรือไม่ ค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม. ต่างกันแค่ได้ใช้สโมสรหรือไม่</li>
       </ol>
       <button class="back" id="endRe">↺ ดูอีกครั้ง</button>
     </div>
@@ -634,9 +627,9 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
     [1,9,'ผัง','อาคาร A1–A4 อาคารละ 79 ห้อง เรียงตามแนวซอยโรงสวด'],
     [2,9,'แบบห้อง','ห้องเล็ก 25 ตร.ม. จ่าย 675 บาท · ห้องใหญ่ 38 ตร.ม. จ่าย 1,026 บาท ต่อเดือน'],
     [3,9,'นับห้อง','1 อาคาร = ห้องเล็ก 59 + ห้องใหญ่ 20 = 79 ห้อง · ทั้งเฟส 1 = 316 ห้อง'],
-    [4,9,'รายได้','A1–A4 อาคารละ 60,345 บาท/เดือน · รวมเฟส 1 เรียกเก็บเต็ม 241,380 บาท/เดือน หรือ 2.9 ล้านบาท/ปี'],
+    [4,9,'รายได้','เรียกเก็บเต็ม 241,380 บาท/เดือน (อาคารละ 60,345) · เก็บได้จริงเฉลี่ย 196,682 บาท/เดือน (81%)'],
     [5,9,'สโมสร','พื้นที่ห้องชุด เฟส 1 : เฟส 2 = 39.9 : 60.1 ใกล้กับสัดส่วน 40 : 60'],
-    [6,9,'ค่าสโมสร','ใช้ต่อไม่ต้องจ่ายเพิ่ม · ส่วนแบ่ง 40% อยู่ในค่าส่วนกลาง 27 บาท/ตร.ม. ที่จ่ายอยู่แล้ว'],
+    [6,9,'ค่าสโมสร','ค่าสโมสรจริงของเฟส 1 ราว 8,100 บาท/เดือน อยู่ในค่าส่วนกลาง 27 บาท/ตร.ม. ที่จ่ายอยู่แล้ว · ใช้ต่อไม่ต้องจ่ายเพิ่ม'],
     [7,9,'ทางเลือก','ทางที่ 1 ใช้บริการสโมสรต่อ · ทางที่ 2 ไม่ใช้บริการร่วมต่อ'],
     [8,9,'เช็กลิสต์','ข้อมูล 10 อย่างที่ควรได้ก่อนวันลงคะแนน'],
     [9,9,'เหตุผล','ไม่ต้องจ่ายเพิ่ม · รักษามูลค่าห้อง · ไม่ใช้ก็ไม่ได้ลด'],
@@ -645,8 +638,8 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
   ];
   var TITLES=['เฟส 1 จะรับมอบสโมสรหรือไม่','ผังโครงการเฟส 1','แบบห้องและค่าส่วนกลางต่อห้อง','นับห้องเล็ก ห้องใหญ่ ต่ออาคาร','รายได้ค่าส่วนกลาง A1–A4 และรวมเฟส 1','สโมสรที่จะรับมอบ','ค่าสโมสรอยู่ในค่าส่วนกลางเดิม','ก่อนโหวต ควรพิจารณา 2 ทางเลือก','ก่อนวันโหวต','เหตุผลที่ควรใช้ต่อ','เชิญลงคะแนน','วิธีลงคะแนน'];
 
-  // hidden chapters: โครงการ, ผังเฟส 1, แบบห้อง (scenes stay in the file; remove an index to show it again)
-  var HIDE=[0,1,2,9,10];
+  // hidden chapters: 0-2 intro pages, 8 checklist (removed), 9-10 video-only
+  var HIDE=[0,1,2,8,9,10];
   var ALL=STEPS.slice();
   STEPS=STEPS.filter(function(s){return HIDE.indexOf(s[0])<0});
 
@@ -670,16 +663,14 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
     bg.appendChild(d);
   });
 
-  // costs (scene 7)
-  var COSTS=[['ค่าไฟฟ้า (ปั๊มสระ แอร์ ไฟ)',25000],['ค่าน้ำประปา',3000],['เคมีและดูแลสระ',8000],['แม่บ้าน / ทำความสะอาด',12000],['ซ่อมบำรุงฟิตเนส ปั๊ม ระบบกรอง',5000],['ประกันภัย ภาษี (เฉลี่ย/เดือน)',3000]];
+  // actual clubhouse payments to phase 2 (cash-flow report ม.ค.–ส.ค. 2569)
+  var CLUB=[['ม.ค. 2569',34888.62],['เม.ย. 2569',17368.03],['ก.ค. 2569',20716.01]],CLUB_T=72972.66,CLUB_M=9;
   var cw=$('costs');
-  cw.innerHTML='<h4>ค่าใช้จ่ายสโมสร/เดือน <span class="tagx">ตัวอย่าง</span></h4>';
-  COSTS.forEach(function(c,i){
-    var r=document.createElement('div');r.className='ctrlrow';
-    r.innerHTML='<label for="c'+i+'">'+c[0]+'</label><input type="number" id="c'+i+'" value="'+c[1]+'" min="0" step="500">';
-    cw.appendChild(r);
-  });
-  var cs=document.createElement('div');cs.className='csum';cs.innerHTML='<span>รวมทั้งสโมสร</span><span id="csum">–</span>';cw.appendChild(cs);
+  cw.innerHTML='<h4>เฟส 1 จ่ายค่าสโมสรคืนเฟส 2 <span class="tagx">จากงบจริง</span></h4>'+
+    CLUB.map(function(c){return '<div class="kv"><span>งวด '+c[0]+'</span><b>'+fmt2(c[1])+'</b></div>'}).join('')+
+    '<div class="csum"><span>รวม 3 งวด</span><span>'+fmt2(CLUB_T)+' บาท</span></div>'+
+    '<p class="sub" style="margin-top:10px">จ่ายราวไตรมาสละงวด จึงเฉลี่ยเป็นรายเดือนโดยหาร 9 เดือน</p>'+
+    '<div class="verdict good" style="margin-top:12px">เทียบกับงบนิติฯ: รายจ่ายประจำเกินรายรับประจำราว 155,000 บาท/เดือน ค่าสโมสรเป็นส่วนเล็ก ไม่ใช่ต้นเหตุของการขาดดุล</div>';
 
   function v(id){var n=parseFloat($(id).value);return isFinite(n)&&n>=0?n:0}
   function calc(){
@@ -688,47 +679,22 @@ body.video .title.swap,body.video .cap .txt.swap{animation:none}
     var full=AREA*rate,got=full*coll;
     $('t5m').textContent=fmt(full);$('t5y').textContent=fmt(full*12);
     $('gotM').textContent=fmt(got)+' บาท';$('gotY').textContent=fmt(got*12)+' บาท';$('gotB').textContent=fmt(got/4)+' บาท';
-    var tot=0;COSTS.forEach(function(_,i){tot+=v('c'+i)});
-    $('csum').textContent=fmt(tot)+' บาท';
-    var sh=Math.min(v('share'),100)/100,mine=tot*sh,psqm=mine/AREA;
-    $('r1').textContent=fmt(mine)+' บาท';
+    var mine=CLUB_T/CLUB_M,psqm=Math.round(mine/AREA*100)/100;
+    $('r1').textContent='≈ '+fmt(Math.round(mine/100)*100)+' บาท';
     $('r2').textContent=fmt2(psqm)+' บาท';
+    $('rT').textContent='≈ '+fmt(Math.round(mine/0.4/1000)*1000)+' บาท';
     $('r3').textContent=fmt(psqm*25);
     $('r4').textContent=fmt(psqm*38);
     var pct=got?mine/got*100:0;
     $('r5').textContent=got?fmt2(pct)+'%':'–';
     var cls=pct<=20?'good':'warn';
     var msg='ใช้ต่อหรือไม่ใช้ ค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม. (นิติฯ ยืนยันว่าไม่ใช้สโมสรก็ไม่ลด) ต่างกันแค่ได้ใช้สโมสรหรือไม่'
-      +(cls==='good'?'':' · ค่าสโมสรใช้เกิน 20% ของรายได้ ควรตรวจว่างบเดิมยังพอ');
+      +(cls==='good'?' · ค่าสโมสรเป็นเพียง '+fmt2(pct)+'% ของค่าส่วนกลางที่เก็บได้จริง':' · ค่าสโมสรใช้เกิน 20% ของรายได้ ควรตรวจว่างบเดิมยังพอ');
     var vd=$('verdict');vd.className='verdict '+cls;vd.textContent=msg;
     var m=$('meter');m.style.width=Math.min(pct*2.5,100)+'%';m.style.background='var(--'+(cls==='good'?'ok':cls)+')';
   }
   ['input','change'].forEach(function(ev){document.addEventListener(ev,function(e){if(e.target.matches('#screen input[type=number],#screen input[type=range],#screen select'))calc()})});
   calc();
-
-  // checklist (scene 9)
-  var ITEMS=[
-    ['ค่าใช้จ่ายสุทธิที่เฟส 1 ต้องจ่ายจริง','งบสโมสรจริง 6–12 เดือน × 40% หักรายได้ที่สโมสรเก็บเอง (ถ้ามี)'],
-    ['รายการซ่อมและผู้รับผิดชอบ','สระ ปั๊ม ระบบกรอง หลังคา ฟิตเนส โซลาร์ ใครซ่อม ใครจ่าย'],
-    ['สิทธิใช้บริการและที่จอดรถ','ถ้าไม่ใช้ต่อ ยังจอดได้หรือไม่ เช่าได้ในราคาเท่าไร'],
-    ['วันเริ่ม/ยุติบริการ และผลต่อการรับโอนในอนาคต','ถ้าเลิกตอนนี้ กลับมารับโอนภายหลังได้หรือไม่'],
-    ['ภาระเดิมที่ต้องสะสาง','ค่าใช้จ่ายค้างระหว่างเฟส 1 กับเฟส 2 หรือ SENA'],
-    ['ทะเบียนห้องชุด A1–A4','ยืนยันจำนวนห้องเล็ก/ใหญ่ และพื้นที่ตามโฉนด'],
-    ['ยอดค้างชำระค่าส่วนกลาง','ใช้ตั้ง % เก็บได้จริง'],
-    ['งบรายรับรายจ่ายเฟส 1 ปัจจุบัน','ดูว่าเหลือเงินต่อเดือนเท่าไร'],
-    ['ร่างข้อตกลงกับเฟส 2','แบ่ง 40/60 ผู้บริหาร บัญชีแยก ค่าซ่อมใหญ่'],
-    ['ข้อบังคับนิติบุคคลและ พ.ร.บ.อาคารชุด','คะแนนเสียงและองค์ประชุมที่มติต้องใช้']
-  ];
-  var st={};try{st=JSON.parse(localStorage.getItem('cv2-checks')||'{}')}catch(e){}
-  var ck=$('checks');
-  function p9(){var d=0;ITEMS.forEach(function(_,i){if(st[i])d++});$('prog9').textContent='ได้แล้ว '+d+'/'+ITEMS.length}
-  ITEMS.forEach(function(it,i){
-    var l=document.createElement('label');l.className='check'+(st[i]?' done':'');l.setAttribute('for','k'+i);
-    l.innerHTML='<input type="checkbox" id="k'+i+'"'+(st[i]?' checked':'')+'><span><span class="t">'+it[0]+'</span><small>'+it[1]+'</small></span>';
-    l.querySelector('input').addEventListener('change',function(e){st[i]=e.target.checked;l.classList.toggle('done',st[i]);p9();try{localStorage.setItem('cv2-checks',JSON.stringify(st))}catch(err){}});
-    ck.appendChild(l);
-  });
-  p9();
 
   // count-up
   function countUp(el){
