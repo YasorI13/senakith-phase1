@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>งบการเงินเฟส 1 ปี 2569</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>document.documentElement.setAttribute('data-theme','light')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* 16:9 deck (1600x900 stage scaled to fit) · one shared filter state drives every chart */
+:root{
+  --paper:#f6f7fb; --card:#ffffff; --ink:#1d2433; --muted:#5b6578; --line:#e1e6ef; --soft:#eef2f8;
+  --navy:#0b2a66; --brand:#154295; --brandS:#eaf1fd; --yellow:#ffcc00; --yellowS:#fff7d1;
+  --good:#16865a; --goodS:#e3f5ec; --warn:#a86e00; --warnS:#fff4d6; --bad:#c8102e; --badS:#fde8eb;
+  --in:#2f6fd6; --out:#e0a400; --out2:#c98a00;
+  --hf:"Kanit","Sarabun","Leelawadee UI",Tahoma,sans-serif;
+  --bf:"Sarabun","Leelawadee UI",Tahoma,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0f1626; --card:#172036; --ink:#e6ebf5; --muted:#9aa6bd; --line:#2a3550; --soft:#1d2840;
+  --navy:#d3e0ff; --brand:#8fb2ff; --brandS:#1d2b4b; --yellow:#ffd23f; --yellowS:#2e2810;
+  --good:#5ccf95; --goodS:#13291f; --warn:#f0bd4a; --warnS:#2c2410; --bad:#ff7d8d; --badS:#2e1419;
+  --in:#6f9cf0; --out:#f0bd4a; --out2:#d9a22e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f1626; --card:#172036; --ink:#e6ebf5; --muted:#9aa6bd; --line:#2a3550; --soft:#1d2840;
+  --navy:#d3e0ff; --brand:#8fb2ff; --brandS:#1d2b4b; --yellow:#ffd23f; --yellowS:#2e2810;
+  --good:#5ccf95; --goodS:#13291f; --warn:#f0bd4a; --warnS:#2c2410; --bad:#ff7d8d; --badS:#2e1419;
+  --in:#6f9cf0; --out:#f0bd4a; --out2:#d9a22e; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#dde3ee;overflow:hidden}
+:root[data-theme="dark"] body{background:#050a18}
+body{font-family:var(--bf);color:var(--ink);-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+button,input{font:inherit;color:inherit}
+.deck{position:fixed;inset:0}
+.stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center;overflow:hidden;font-size:20px;line-height:1.5;background:var(--paper)}
+.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--yellow);z-index:5}
+.eyebrow{position:absolute;left:64px;top:30px;font:500 15px/1 var(--hf);letter-spacing:.1em;color:var(--brand)}
+.title{position:absolute;left:64px;top:52px;right:420px;margin:0;font:600 36px/1.2 var(--hf);color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uline{position:absolute;left:64px;top:102px;width:72px;height:6px;border-radius:3px;background:var(--yellow)}
+.badge{position:absolute;right:64px;top:36px;display:flex;align-items:center;gap:10px;font:500 15px/1 var(--hf);color:var(--brand);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 13px}
+.badge b{background:var(--yellow);color:#0b2a66;border-radius:8px;padding:6px 9px;font-weight:600}
+.snote{position:absolute;right:64px;top:94px;max-width:760px;text-align:right;font:400 14px/1.3 var(--hf);color:var(--muted)}
+
+.scene{position:absolute;left:64px;right:64px;top:128px;height:688px;display:none}
+.scene.on{display:block;animation:fin .35s ease}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* nav */
+.nav{position:absolute;left:64px;right:64px;bottom:20px;height:48px;display:flex;align-items:center;gap:8px}
+.nav .arw{flex:none;width:48px;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--brand);font-size:18px;cursor:pointer}
+.nav .arw:hover{background:var(--brandS)}
+.tabs{flex:1;display:flex;gap:6px;min-width:0}
+.tabs button{flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;display:flex;align-items:center;gap:8px;padding:0 10px;font:400 14px/1.1 var(--hf);color:var(--muted);white-space:nowrap;overflow:hidden}
+.tabs button i{flex:none;font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--brand);display:grid;place-items:center;font:600 13px/1 var(--hf)}
+.tabs button span{overflow:hidden;text-overflow:ellipsis}
+.tabs button.on{background:var(--brand);border-color:var(--brand);color:var(--card)}
+.tabs button.on i{background:var(--yellow);color:#0b2a66}
+.nav .full{flex:none;width:48px;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--muted);cursor:pointer;font-size:18px}
+
+/* shared bits */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;min-width:0}
+.card h3,.h3{margin:0 0 6px;font:600 21px/1.25 var(--hf);color:var(--navy)}
+.muted{color:var(--muted)}
+.small{font-size:15px;line-height:1.45}
+.chip{display:inline-block;font:600 13px/1 var(--hf);border-radius:999px;padding:6px 10px;white-space:nowrap}
+.chip.hi{background:var(--badS);color:var(--bad)} .chip.md{background:var(--warnS);color:var(--warn)} .chip.lo{background:var(--brandS);color:var(--brand)} .chip.ok{background:var(--goodS);color:var(--good)}
+.pos{color:var(--good)} .neg{color:var(--bad)}
+svg text{font-family:var(--hf);fill:var(--muted);font-size:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi span{font:400 15px/1.3 var(--hf);color:var(--muted)}
+.kpi b{font:600 30px/1.15 var(--hf);color:var(--navy);white-space:nowrap}
+.kpi small{font:400 14px/1.3 var(--hf);color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font:500 15px/1.2 var(--hf);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--brand)}
+.btn.on{background:var(--brand);border-color:var(--brand);color:var(--card)}
+.btn.pri{background:var(--yellow);border-color:var(--yellow);color:#0b2a66;font-weight:600}
+.tg{display:flex;align-items:center;gap:10px;font:400 16px/1.3 var(--hf);cursor:pointer;user-select:none}
+.tg input{width:20px;height:20px;accent-color:var(--brand);margin:0;flex:none;cursor:pointer}
+
+/* 1 cover */
+.cov{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;height:100%;grid-template-rows:auto auto auto 1fr}
+.facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px;display:flex;flex-direction:column;gap:4px;cursor:pointer;text-align:left}
+.fact:hover{border-color:var(--brand)}
+.fact span{font:400 15px/1.3 var(--hf);color:var(--muted)}
+.fact b{font:600 30px/1.15 var(--hf)}
+.fact small{font:400 14px/1.35 var(--hf);color:var(--muted)}
+.big{border-radius:22px;padding:26px 30px;display:flex;flex-direction:column;gap:6px}
+.big span{font:500 19px/1.3 var(--hf)}
+.big b{font:600 64px/1.05 var(--hf);letter-spacing:-.01em}
+.big small{font:400 17px/1.4 var(--hf);color:var(--muted)}
+.big.a{background:var(--goodS);border:2px solid var(--good)} .big.a b,.big.a span{color:var(--good)}
+.big.b{background:var(--badS);border:2px solid var(--bad)} .big.b b,.big.b span{color:var(--bad)}
+.kpis4{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.thesis{grid-column:1/-1;background:var(--yellowS);border:2px solid var(--yellow);border-radius:18px;padding:18px 24px;font:500 21px/1.55 var(--hf);display:flex;flex-direction:column;gap:12px}
+.thesis b{color:var(--bad)}
+.thesis .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.thesis .row .btn{font-size:17px;padding:11px 18px}
+
+/* 2 dashboard */
+.dash{display:grid;grid-template-columns:440px minmax(0,1fr);gap:22px;height:100%}
+.pick{display:flex;flex-direction:column;gap:4px;padding:14px 16px}
+.pick h4{margin:4px 0 2px;display:flex;justify-content:space-between;align-items:baseline;font:600 18px/1.3 var(--hf);color:var(--navy)}
+.pick h4 em{font-style:normal;font-weight:500;font-size:16px}
+.prow{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:10px;align-items:center;height:28px;font:400 15px/1.2 var(--hf);cursor:pointer;user-select:none}
+.prow input{width:18px;height:18px;margin:0;accent-color:var(--brand);cursor:pointer}
+.prow .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .nm u{text-decoration:none;font-size:12px;margin-left:6px;padding:2px 6px;border-radius:6px;background:var(--warnS);color:var(--warn)}
+.prow b{font-weight:500;font-variant-numeric:tabular-nums}
+.prow.off .nm,.prow.off b{color:var(--muted);opacity:.55}
+.prow.off b{text-decoration:line-through}
+.dright{display:flex;flex-direction:column;gap:12px;min-width:0}
+.bar1{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar1 .lb{font:500 15px/1 var(--hf);color:var(--muted);margin-right:4px}
+.mo{min-width:62px;text-align:center}
+.mo.off{opacity:.5;text-decoration:line-through}
+.k4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.chartbox{flex:1;min-height:0;padding:12px 16px 8px}
+.leg{display:flex;gap:18px;font:400 14px/1 var(--hf);color:var(--muted);align-items:center}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.say{font:500 17px/1.45 var(--hf);background:var(--brandS);border-radius:12px;padding:10px 14px;color:var(--ink)}
+
+/* two-col generic */
+.two{display:grid;grid-template-columns:minmax(0,1fr) 460px;gap:22px;height:100%}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.field{display:flex;flex-direction:column;gap:6px;font:400 16px/1.3 var(--hf)}
+.field .in{display:flex;align-items:center;gap:10px}
+.field input[type=number]{width:140px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font:500 18px/1.2 var(--hf);font-variant-numeric:tabular-nums}
+.field input[type=range]{flex:1;accent-color:var(--brand)}
+.field output{min-width:120px;text-align:right;font:600 18px/1 var(--hf);color:var(--navy);font-variant-numeric:tabular-nums}
+.tbl{width:100%;border-collapse:collapse;font:400 16px/1.3 var(--hf)}
+.tbl td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.tbl td:first-child{text-align:left}
+.tbl tr.sum td{font-weight:600;color:var(--navy);border-bottom:0}
+
+/* 6 expenses */
+.erow{display:grid;grid-template-columns:22px 270px minmax(0,1fr) 130px 56px;gap:12px;align-items:center;height:52px;border-radius:12px;padding:0 10px;cursor:pointer}
+.erow:hover{background:var(--soft)}
+.erow.sel{background:var(--brandS);outline:2px solid var(--brand)}
+.erow input{width:20px;height:20px;margin:0;accent-color:var(--brand);cursor:pointer}
+.erow .nm{font:500 17px/1.2 var(--hf)}
+.erow .nm u{text-decoration:none;font-size:12px;margin-left:6px;padding:2px 6px;border-radius:6px;background:var(--warnS);color:var(--warn)}
+.erow .tr{height:16px;border-radius:8px;background:var(--soft);overflow:hidden}
+.erow .tr i{display:block;height:100%;background:var(--out);border-radius:8px;transition:width .35s}
+.erow b{font:500 17px/1 var(--hf);text-align:right;font-variant-numeric:tabular-nums}
+.erow em{font:400 15px/1 var(--hf);font-style:normal;color:var(--muted);text-align:right}
+.erow.off .nm,.erow.off b,.erow.off em{opacity:.45}
+.erow.off b{text-decoration:line-through}
+
+/* 7 causes */
+.cz{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;height:100%;grid-template-rows:1fr 1fr}
+.cz .card{display:flex;flex-direction:column;gap:8px;padding:22px 26px}
+.cz .card b.n{font:600 46px/1.05 var(--hf);color:var(--bad)}
+.cz .card p{margin:0;font:400 18px/1.55 var(--bf)}
+
+/* 8 future */
+.fut{display:grid;grid-template-columns:470px minmax(0,1fr);gap:22px;height:100%}
+.fut .ctl{display:flex;flex-direction:column;gap:14px}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+
+/* 9 anomalies */
+.an{display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:22px;height:100%}
+.agrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:146px;gap:12px;align-content:start}
+.acard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;cursor:pointer;text-align:left;transition:transform .15s}
+.acard:hover{transform:translateY(-2px);border-color:var(--brand)}
+.acard.sel{outline:3px solid var(--brand);border-color:var(--brand)}
+.acard .chip{align-self:flex-start}
+.acard b{font:500 16px/1.35 var(--hf);color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.adet{display:flex;flex-direction:column;gap:14px;padding:24px 26px}
+.adet h3{font-size:25px}
+.adet p{margin:0;font:400 18px/1.6 var(--bf)}
+.adet .fix{background:var(--goodS);border-radius:14px;padding:14px 16px}
+.adet .fix b{color:var(--good);font-family:var(--hf)}
+
+/* 10 actions */
+.act{display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:22px;height:100%}
+.alist{display:flex;flex-direction:column;gap:12px;height:100%}
+.aitem{flex:1;display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.aitem .chip{justify-self:start}
+.aitem h4{margin:0 0 4px;font:600 22px/1.3 var(--hf);color:var(--navy)}
+.aitem p{margin:0;font:400 18px/1.5 var(--bf)}
+.aitem .chip{font-size:14px;padding:8px 12px}
+.club{background:var(--goodS);border:2px solid var(--good);border-radius:18px;padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+.club h3{margin:0;font:600 22px/1.3 var(--hf);color:var(--good)}
+.club b.n{font:600 44px/1.1 var(--hf);color:var(--good)}
+.club p{margin:0;font:400 17px/1.5 var(--bf)}
+
+.rotate{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:99;background:#ffcc00;color:#0b2a66;font:500 14px/1.4 var(--hf);border-radius:12px;padding:10px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.rotate[hidden]{display:none}
+.rotate button{border:0;background:#0b2a66;color:#fff;border-radius:8px;padding:6px 10px;font:500 13px/1 var(--hf)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="deck"><div class="stage" id="stage">
+  <div class="eyebrow">สรุปงบการเงิน · เกณฑ์เงินสด ม.ค.–ส.ค. 2569</div>
+  <h1 class="title" id="title"></h1>
+  <div class="uline"></div>
+  <div class="badge"><b>เฟส 1</b>เสนาคิทท์ เวสต์เกท–บางบัวทอง</div>
+  <div class="snote" id="snote"></div>
+
+  <!-- 1 ภาพรวม -->
+  <section class="scene" data-t="สรุปงบการเงิน ม.ค.–ส.ค. 2569" data-tab="ภาพรวม" data-n="จากงบกระแสเงินสดของนิติบุคคล 3 หน้า · ตัดเลขบัญชีธนาคารออก">
+    <div class="cov">
+      <div class="big a"><span>ตามงบ: เงินในบัญชีออมทรัพย์เพิ่มขึ้น</span><b class="num" id="cvA"></b><small>2.48 ล้าน → 3.27 ล้านบาท ระหว่าง ม.ค.–ส.ค.</small></div>
+      <div class="big b"><span>เฉพาะรายรับ–รายจ่ายประจำ: ขาด</span><b class="num" id="cvB"></b><small id="cvBs"></small></div>
+      <div class="kpis4 num" id="cvK"></div>
+      <div class="thesis">
+        <div>เงินในบัญชีดูเพิ่มขึ้น แต่มาจาก<b>เงินสินไหมแผ่นดินไหวที่ยังไม่ได้จ่ายออก</b>และ<b>เงินกองทุน</b>ที่เก็บครั้งเดียว ถ้าตัดสองก้อนนี้ออก นิติบุคคลใช้เงินเกินรายรับประจำทุกเดือน และเงินดำเนินงานจะหมดในราว 1–2 ปีถ้าไม่มีอะไรเปลี่ยน</div>
+        <div class="row"><button class="btn pri" id="goCore">ตัดรายการที่ไม่ใช่รายการประจำออก แล้วดูผล →</button><button class="btn" data-go="7">ดูการคาดการณ์อนาคต</button><button class="btn" data-go="8">ดูสิ่งผิดปกติ 12 ข้อ</button></div>
+      </div>
+      <div class="facts num" id="cvF"></div>
+    </div>
+  </section>
+
+  <!-- 2 ปรับตัวเลข -->
+  <section class="scene" data-t="ปรับตัวเลขเอง: เลือกรายการและเดือนที่จะนับ" data-tab="ปรับตัวเลข" data-n="ติ๊กออกเพื่อตัดรายการนั้น · ตัวเลือกนี้ใช้ร่วมกับหน้ารายจ่าย">
+    <div class="dash">
+      <div class="card pick" id="pick"></div>
+      <div class="dright">
+        <div class="bar1"><span class="lb">ชุดตัวเลือก</span><span id="presets" style="display:flex;gap:8px;flex-wrap:wrap"></span></div>
+        <div class="bar1"><span class="lb">เดือนที่นับ</span><span id="months" style="display:flex;gap:6px;flex-wrap:wrap"></span></div>
+        <div class="k4 num" id="dK"></div>
+        <div class="card chartbox"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">รายรับ เทียบ รายจ่าย รายเดือน (ตามที่เลือก)</h3><div class="leg"><span><i style="background:var(--in)"></i>รายรับ</span><span><i style="background:var(--out)"></i>รายจ่าย</span><span><i style="background:var(--bad)"></i>ส่วนต่าง</span></div></div><div id="dC"></div></div>
+        <div class="say" id="dSay"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ค่าส่วนกลาง -->
+  <section class="scene" data-t="ค่าส่วนกลางที่เก็บได้ ลดลงต่อเนื่อง" data-tab="ค่าส่วนกลาง" data-n="ก.พ.* รวมยอดของ ม.ค. ที่บันทึกเป็นเงินโอนรอตรวจสอบ · พื้นที่เป็นค่าประมาณ แก้ได้">
+    <div class="two">
+      <div class="card" style="display:flex;flex-direction:column"><h3>ค่าส่วนกลางที่เก็บได้ เทียบ ยอดเรียกเก็บเต็ม</h3><p class="small muted" style="margin:0">เส้นประ = อัตรา × พื้นที่ ต่อเดือน · ตัวเลขบนแท่ง = % ของยอดเต็ม</p><div id="fC" style="flex:1"></div></div>
+      <div class="side">
+        <div class="card" style="display:flex;flex-direction:column;gap:14px">
+          <h3 style="margin:0">ปรับสมมติฐาน</h3>
+          <label class="field">อัตราค่าส่วนกลาง (บาท/ตร.ม./เดือน)<span class="in"><input type="number" id="fRate" value="27" min="1" step="0.5"></span></label>
+          <label class="field">พื้นที่ห้องชุดรวม (ตร.ม.)<span class="in"><input type="number" id="fArea" value="8940" min="100" step="10"><span class="small muted">ประมาณจากผัง A1–A4</span></span></label>
+          <label class="tg"><input type="checkbox" id="fAdv" checked>รวมเงินรับล่วงหน้า</label>
+        </div>
+        <div class="card"><table class="tbl" id="fT"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 เงินในบัญชี -->
+  <section class="scene" data-t="เงินในบัญชี: ยอดที่เห็น กับ เงินที่ใช้ได้จริง" data-tab="เงินในบัญชี" data-n="ยอดสิ้นเดือน · เงินกองทุนนับเฉพาะที่รับในปี 2569">
+    <div class="two">
+      <div class="card" style="display:flex;flex-direction:column"><h3>ยอดเงินสิ้นเดือน ม.ค.–ส.ค. 2569</h3><p class="small muted" style="margin:0">เลือกเส้นที่ต้องการดูทางขวา</p><div id="cC" style="flex:1"></div></div>
+      <div class="side">
+        <div class="card" style="display:flex;flex-direction:column;gap:12px" id="cTg"></div>
+        <div class="card"><h3>ณ สิ้น ส.ค. 2569</h3><table class="tbl" id="cT"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ที่มาเงินเพิ่ม -->
+  <section class="scene" data-t="เงินเพิ่ม 794,964 บาท มาจากไหน" data-tab="ที่มาเงินเพิ่ม" data-n="คลิกแท่งเพื่ออ่านคำอธิบาย">
+    <div class="two">
+      <div class="card" style="display:flex;flex-direction:column"><h3>จากยอดต้นปี ถึงยอด ส.ค. (บัญชีออมทรัพย์)</h3><div id="wC" style="flex:1"></div></div>
+      <div class="side"><div class="card" style="flex:1;display:flex;flex-direction:column;gap:12px;padding:24px" id="wD"></div></div>
+    </div>
+  </section>
+
+  <!-- 6 รายจ่าย -->
+  <section class="scene" data-t="รายจ่าย 8 เดือน แยกหมวด" data-tab="รายจ่าย" data-n="ติ๊กออกเพื่อตัดหมวด · คลิกชื่อหมวดเพื่อดูรายการย่อย">
+    <div class="two">
+      <div class="card" style="padding:14px 12px;display:flex;flex-direction:column;gap:2px" id="eL"></div>
+      <div class="side"><div class="card" style="flex:1;display:flex;flex-direction:column;gap:10px" id="eD"></div></div>
+    </div>
+  </section>
+
+  <!-- 7 สาเหตุ -->
+  <section class="scene" data-t="ทำไมรายจ่ายสูงกว่ารายรับ" data-tab="สาเหตุ" data-n="ตัวเลขจากงบ ม.ค.–ส.ค. 2569">
+    <div class="cz">
+      <div class="card"><span class="chip hi" style="align-self:flex-start">ค่าใช้จ่ายคงที่</span><b class="n num">≈ 320,000 บาท/เดือน</b><p>ค่าบริหาร รปภ. แม่บ้าน สวน ขยะ และน้ำเสีย ราว 246,000 บาท บวกค่าไฟและน้ำส่วนกลางอีกราว 74,000 บาท เป็นรายจ่ายที่ต้องจ่ายทุกเดือนก่อนนับค่าซ่อม</p></div>
+      <div class="card"><span class="chip hi" style="align-self:flex-start">รายรับไม่พอ</span><b class="n num">−24%</b><p>ค่าส่วนกลางที่เก็บได้ลดจาก 218,261 บาท (มี.ค.) เหลือ 166,211 บาท (ส.ค.) จากยอดเรียกเก็บเต็มประมาณ 241,000 บาท และไม่มีรายงานยอดค้างชำระ</p></div>
+      <div class="card"><span class="chip md" style="align-self:flex-start">ค่าใช้จ่ายรายปีลงก้อนเดียว</span><b class="n num">239,897 บาท</b><p>ประกันอาคาร ดูแลลิฟต์ กำจัดปลวก และตรวจอาคาร จ่ายใน พ.ค.–ก.ค. โดยไม่ได้ตั้งสำรองไว้ และ มิ.ย. มีค่าซ่อมถังน้ำ งานสวน ปั๊มน้ำ รวม 140,925 บาท</p></div>
+      <div class="card"><span class="chip md" style="align-self:flex-start">ค่าไฟส่วนกลางเพิ่ม</span><b class="n num">+16%</b><p>จาก 39,291 บาท (ม.ค.) เป็น 45,557 บาท (ส.ค.) ถ้าแนวโน้มนี้ต่อไป ส่วนต่างรายเดือนจะกว้างขึ้นอีก</p></div>
+    </div>
+  </section>
+
+  <!-- 8 อนาคต -->
+  <section class="scene" data-t="อนาคต: เงินดำเนินงานจะพอถึงเมื่อไร" data-tab="อนาคต" data-n="ค่าเริ่มต้นมาจากค่าเฉลี่ย 8 เดือน · เป็นการประมาณ ไม่ได้รวมค่าใช้จ่ายที่อาจเพิ่มขึ้น">
+    <div class="fut">
+      <div class="card ctl">
+        <h3 style="margin:0">ลองปรับดู</h3>
+        <label class="field">อัตราค่าส่วนกลาง (บาท/ตร.ม.)<span class="in"><input type="range" id="sRate" min="20" max="50" step="0.5"><output id="oRate"></output></span></label>
+        <label class="field">เก็บได้จริง (% ของยอดเต็ม)<span class="in"><input type="range" id="sColl" min="50" max="100" step="1"><output id="oColl"></output></span></label>
+        <label class="field">รายจ่ายประจำต่อเดือน (บาท)<span class="in"><input type="range" id="sExp" min="250000" max="500000" step="5000"><output id="oExp"></output></span></label>
+        <div style="display:flex;flex-direction:column;gap:10px;padding-top:4px;border-top:1px solid var(--line)">
+          <span class="small muted" style="padding-top:8px">เงินตั้งต้น ณ สิ้น ส.ค. 2569</span>
+          <label class="tg"><input type="checkbox" id="sClaim">นับเงินสินไหมค้างจ่าย 1.74 ล้าน เป็นเงินใช้ได้</label>
+          <label class="tg"><input type="checkbox" id="sFund">กันเงินกองทุนที่รับปีนี้ 0.50 ล้าน ไว้ไม่ใช้</label>
+          <label class="tg"><input type="checkbox" id="sFd">นับเงินฝากประจำ 1.34 ล้าน</label>
+        </div>
+        <button class="btn" id="sReset" style="align-self:flex-start">กลับค่าเริ่มต้น</button>
+        <p class="small muted" id="sNote" style="margin:auto 0 0;background:var(--soft);border-radius:12px;padding:12px 14px"></p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <div class="res num" id="sR"></div>
+        <div class="card" style="flex:1;display:flex;flex-direction:column"><h3>ยอดเงินคาดการณ์ ก.ย. 2569 – ส.ค. 2572</h3><div id="sC" style="flex:1"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 สิ่งผิดปกติ -->
+  <section class="scene" data-t="สิ่งที่ผิดปกติ และควรแก้ไข" data-tab="ผิดปกติ" data-n="คลิกการ์ดเพื่ออ่านรายละเอียดและวิธีแก้">
+    <div class="an">
+      <div style="display:flex;flex-direction:column;gap:12px;min-width:0"><div class="bar1" id="aF"></div><div class="agrid" id="aG"></div></div>
+      <div class="card adet" id="aD"></div>
+    </div>
+  </section>
+
+  <!-- 10 ข้อเสนอ -->
+  <section class="scene" data-t="ข้อเสนอให้คณะกรรมการ" data-tab="ข้อเสนอ" data-n="เรียงตามความเร่งด่วน">
+    <div class="act">
+      <div class="alist" id="acts"></div>
+      <div class="side">
+        <div class="club">
+          <h3>ค่าสโมสรจริงของเฟส 1 จากงบนี้</h3>
+          <b class="n num">≈ 8,100 บาท/เดือน</b>
+          <p>จ่ายคืนเฟส 2 สามงวด (ม.ค., เม.ย., ก.ค.) รวม 72,972.66 บาท ≈ 0.91 บาท/ตร.ม. หรือห้องเล็กราว 23 บาท ห้องใหญ่ราว 35 บาทต่อเดือน อยู่ในค่าส่วนกลาง 27 บาทเดิมแล้ว และไม่ใช่ต้นเหตุของการขาดดุล</p>
+        </div>
+        <div class="card small muted" style="display:flex;flex-direction:column;gap:6px">
+          <b style="color:var(--ink);font-family:var(--hf)">ข้อจำกัดของการวิเคราะห์</b>
+          <span>งบนี้เป็นเกณฑ์เงินสด ไม่มีงบดุลและยอดลูกหนี้ค้างชำระ</span>
+          <span>"รายการประจำ" เป็นการจัดกลุ่มเพื่อวิเคราะห์ ไม่ใช่หมวดในงบ</span>
+          <span>พื้นที่ 8,940 ตร.ม. ประมาณจากผัง (อาคารละ 59 × 25 + 20 × 38 ตร.ม.)</span>
+          <span>ควรยืนยันข้อสรุปกับนิติบุคคลก่อนเผยแพร่</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="nav"><button class="arw" id="bPrev" aria-label="หน้าก่อนหน้า">◀</button><div class="tabs" id="tabs"></div><button class="arw" id="bNext" aria-label="หน้าถัดไป">▶</button><button class="full" id="bFull" aria-label="เต็มจอ" title="เต็มจอ (F)">⛶</button></nav>
+</div></div>
+<div class="rotate" id="rotate" hidden><span>หมุนโทรศัพท์เป็นแนวนอนเพื่อดูสไลด์ได้ชัดขึ้น</span><button id="rotX">ปิด</button></div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.'];
+var MY=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+var f0=function(v){return Math.round(v).toLocaleString('en-US')};
+var fs=function(v){return (v<0?'−':'+')+f0(Math.abs(v))};
+var fn=function(v){return (v<0?'−':'')+f0(Math.abs(v))};
+var fM=function(v){return (v<0?'−':'')+(Math.abs(v)/1e6).toFixed(2)};
+var fk=function(v){var a=Math.abs(v);return (v<0?'−':'')+(a>=1e6?(a/1e6).toFixed(2)+'M':a>=1000||a===0?Math.round(a/1000)+'k':Math.round(a))};
+var sum=function(a){return a.reduce(function(s,x){return s+x},0)};
+function add(){var o=[0,0,0,0,0,0,0,0];for(var j=0;j<arguments.length;j++)for(var i=0;i<8;i++)o[i]+=arguments[j][i]||0;return o}
+
+/* ---------- data: every line of the cash-flow report, ม.ค.–ส.ค. 2569 ---------- */
+var D={
+ fee:[0,465558.57,216972.64,178457.31,205448.01,196307.00,172855.65,166175.95], adv_fee:[0,13096.46,1288.07,22926.22,13180.62,3675.55,2767.38,35.27],
+ water:[0,70180.00,31496.41,27235.14,28920.60,40316.69,31644.83,29974.06], adv_w:[0,327.98,1106.53,21.48,221.17,161.15,100.05,0], meter:[0,340,120,300,300,600,30,0],
+ pen_fee:[0,276.35,2418.46,2546.98,2468.27,4281.26,1768.01,1880.92], pen_w:[0,16,81.45,108.28,87.46,166.82,40.52,54.12], pen_m:[0,18.3,3.9,14.6,9.3,47.92,43.2,0], pen_i:[0,32.87,6.65,18.87,15.52,82.13,52.07,0.38],
+ fine:[0,2000,0,1000,0,2000,1000,1000], lock:[0,500,0,0,1000,0,0,0],
+ insprem:[0,570,151.92,407.68,436.55,1151.12,37.98,0], key:[0,1500,3300,3900,900,3000,1500,2400], sticker:[0,0,200,400,300,0,0,400],
+ rent:[0,0,0,0,0,0,11156.20,652.40], rent_el:[0,0,0,0,0,0,0,8710],
+ fund:[0,266351.51,125271.64,15189.57,19142.99,34005.76,9122.16,29827.84], adv_fund:[0,0.5,0,0,0,0,0,0],
+ claim:[0,910836.75,92339.54,0,0,1745171.50,0,0],
+ unid_in:[541194.37,0,147489.11,103914.71,216699.07,0,0,0], unid_out:[0,-610892.74,-73852.18,-8642.20,-16271.67,-233781.33,-146300.41,-99438.54],
+ diff:[0,12.08,63.00,0,0,0,0,0],
+ mgmt:[205140,132080,132080,132080,132080,132080,132080,132080], sec:[43472,43472,43472,43472,43472,43472,43472,43472],
+ garden:[20800,20800,20800,20800,14490.70,19101.34,19760,19760], clean:[35932,35932,35932,35932,39520,39520,39520,39520],
+ copy:[1560,1560,1560,1560,1560,1560,1624.28,1560], garb:[6630,6630,6630,6630,6630,6450,6450,6450], wwater:[0,0,0,3556.8,3556.8,3556.8,3556.8,3556.8],
+ lift:[0,0,0,0,74880,0,0,0], pest:[0,0,0,0,14560,0,0,0], ins:[0,0,0,0,129657.08,0,0,0], inspect:[0,0,0,0,0,0,20800,0],
+ el:[39291.43,36895.44,37118.32,40517.28,42877.81,43709.78,44454.64,45556.67], w:[25864.36,26520.49,24802.07,27114.12,28441.99,30644.69,27567.16,28645.08], tel:[0,1707.72,0,0,853.86,426.93,426.93,426.93],
+ rep:[1870,908,1581,33020,16551.2,140925,7500,23430], off:[2264,1781,3495,2065,13705,2219,7403,1518], ast:[0,0,0,0,0,0,0,5000],
+ wht:[16358.56,6745.5,6745.5,7748.1,10776.18,10554.6,7523.45,7581.6], club:[34888.62,0,0,17368.03,0,0,20716.01,0],
+ quake:[0,0,910836.5,0,92339.54,10141.57,0,0], cclaim:[0,0,0,0,3000,0,0,0], dep:[10000,0,0,0,0,0,0,10000]
+};
+var IN=[
+ {k:'fee',n:'ค่าส่วนกลาง',core:1,it:[['ค่าส่วนกลาง','fee'],['รับล่วงหน้า-ค่าส่วนกลาง','adv_fee']]},
+ {k:'water',n:'ค่าน้ำประปา และมิเตอร์',core:1,it:[['ค่าน้ำประปา','water'],['รับล่วงหน้า-ค่าน้ำ','adv_w'],['ค่ารักษามิเตอร์น้ำ','meter']]},
+ {k:'pen',n:'เงินเพิ่ม และค่าปรับ',core:1,it:[['เงินเพิ่ม-ค่าส่วนกลาง','pen_fee'],['เงินเพิ่ม-ค่าน้ำ','pen_w'],['เงินเพิ่ม-มิเตอร์','pen_m'],['เงินเพิ่ม-เบี้ยประกัน','pen_i'],['ค่าปรับผิดระเบียบ','fine'],['ค่าปรับล็อกล้อ','lock']]},
+ {k:'etc',n:'เบี้ยประกัน คีย์การ์ด สติกเกอร์',core:1,it:[['ค่าเบี้ยประกันภัยอาคาร','insprem'],['ค่าคีย์การ์ด','key'],['ค่าสติกเกอร์','sticker']]},
+ {k:'rent',n:'ค่าเช่าพื้นที่ส่วนกลาง',core:1,it:[['ค่าเช่าพื้นที่','rent'],['ค่าไฟพื้นที่เช่า','rent_el']]},
+ {k:'fund',n:'เงินกองทุน',core:0,it:[['ค่าเงินกองทุน','fund'],['รับล่วงหน้า-เงินกองทุน','adv_fund']]},
+ {k:'claim',n:'รับเงินสินไหม',core:0,it:[['ค่าสินไหมทดแทน / เคลมประกัน','claim']]},
+ {k:'unid',n:'เงินโอนรอตรวจสอบ (สุทธิ)',core:0,it:[['รับเงินโอนไม่ทราบที่มา','unid_in'],['ตัดไปออกใบเสร็จแล้ว','unid_out']]},
+ {k:'diff',n:'ส่วนต่างในยอดรวมงบ',core:0,it:[['ยอดรวมสูงกว่าผลบวกรายการ','diff']]}
+];
+var EX=[
+ {k:'fixed',n:'ค่าบริหาร และบริการประจำ',core:1,it:[['ค่าบริหารจัดการ','mgmt'],['รักษาความปลอดภัย','sec'],['ทำความสะอาด','clean'],['งานสวน','garden'],['เก็บขยะ','garb'],['วิเคราะห์น้ำเสีย','wwater'],['เครื่องถ่ายเอกสาร','copy']]},
+ {k:'util',n:'ค่าไฟ น้ำ โทรศัพท์ส่วนกลาง',core:1,it:[['ค่าไฟฟ้า','el'],['ค่าน้ำประปา','w'],['โทรศัพท์/อินเทอร์เน็ต','tel']]},
+ {k:'annual',n:'ค่าใช้จ่ายรายปี',core:1,annual:1,it:[['เบี้ยประกันภัยอาคาร','ins'],['ดูแลลิฟต์','lift'],['ตรวจสอบอาคาร','inspect'],['กำจัดปลวก','pest']]},
+ {k:'rep',n:'ซ่อมแซม และบำรุงรักษา',core:1,it:[['รวมงานซ่อมทุกระบบ','rep']]},
+ {k:'wht',n:'ภาษีหัก ณ ที่จ่าย',core:1,it:[['ค่าภาษีหัก ณ ที่จ่าย','wht']]},
+ {k:'club',n:'ค่าสโมสรคืนเฟส 2',core:1,it:[['ค่าใช้จ่ายอาคารสโมสร','club']]},
+ {k:'office',n:'สำนักงาน และทรัพย์สิน',core:1,it:[['ดำเนินงานและสำนักงาน','off'],['ซื้อมือถือประจำนิติฯ','ast']]},
+ {k:'quake',n:'จ่ายเงินสินไหม',core:0,it:[['ภัยจากแผ่นดินไหว','quake'],['ภัยจากส่วนกลาง','cclaim']]},
+ {k:'dep',n:'คืนเงินค้ำประกันตกแต่ง',core:0,it:[['คืนเงินค้ำประกันตกแต่ง','dep']]}
+];
+[IN,EX].forEach(function(G){G.forEach(function(g){g.v=add.apply(null,g.it.map(function(x){return D[x[1]]}));g.t=sum(g.v)})});
+var cash=[2572368.06,3378060.54,2701465.29,2677400.6,2481306.33,3794130.19,3497093.56,3270208.88];
+var held=[0,910836.75,92339.79,92339.79,0.25,1735030.18,1735030.18,1735030.18];
+var fd=[1336229.20,1336229.20,1336229.20,1336229.20,1338069.90,1336229.20,1338957.42,1338957.42];
+var fundCum=[];IN[5].v.reduce(function(s,x,i){fundCum[i]=s+x;return s+x},0);
+var OPEN=cash[0]-(sum(IN.map(function(g){return g.v[0]}))-sum(EX.map(function(g){return g.v[0]})));
+var coreSum=function(G,m){return sum(G.filter(function(g){return g.core}).map(function(g){return m==null?g.t:g.v[m]}))};
+var CORE_IN=coreSum(IN),CORE_EX=coreSum(EX);
+
+/* ---------- shared state ---------- */
+var KEY='fin69-deck-v1',S;
+function fresh(){var o={on:{},mo:[1,1,1,1,1,1,1,1],slide:0,esel:'fixed',asel:0,af:'all'};IN.concat(EX).forEach(function(g){o.on[(IN.indexOf(g)>=0?'i:':'e:')+g.k]=1});return o}
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||!S.on||!S.mo)S=fresh();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var isOn=function(p,g){return S.on[p+g.k]!==0};
+var PRE=[
+ ['all','ทั้งหมดตามงบ',function(p,g){return 1},[1,1,1,1,1,1,1,1]],
+ ['core','เฉพาะรายการประจำ',function(p,g){return g.core},[1,1,1,1,1,1,1,1]],
+ ['noann','ประจำ ไม่รวมรายปี',function(p,g){return g.core&&!g.annual},[1,1,1,1,1,1,1,1]],
+ ['steady','ประจำ เฉพาะ มี.ค.–ส.ค.',function(p,g){return g.core},[0,0,1,1,1,1,1,1]]
+];
+function setPreset(id){var p=PRE.filter(function(x){return x[0]===id})[0];IN.forEach(function(g){S.on['i:'+g.k]=p[2]('i:',g)?1:0});EX.forEach(function(g){S.on['e:'+g.k]=p[2]('e:',g)?1:0});S.mo=p[3].slice();save();renderAll()}
+function curPreset(){return PRE.filter(function(p){return IN.every(function(g){return !!p[2]('i:',g)===isOn('i:',g)})&&EX.every(function(g){return !!p[2]('e:',g)===isOn('e:',g)})&&p[3].join()===S.mo.join()}).map(function(p){return p[0]})[0]}
+function selTot(G,p,m){return sum(G.filter(function(g){return isOn(p,g)}).map(function(g){return g.v[m]}))}
+
+/* ---------- svg helpers ---------- */
+function nice(v){if(v<=0)return 1;var e=Math.pow(10,Math.floor(Math.log10(v/5))),s=[1,2,2.5,5,10].map(function(x){return x*e}).filter(function(x){return v/x<=5})[0];return Math.ceil(v/s)*s}
+function T(x,y,s,a,ex){return '<text x="'+x+'" y="'+y+'" text-anchor="'+(a||'middle')+'"'+(ex||'')+'>'+s+'</text>'}
+function axis(W,L,R,T0,B,lo,hi,fmt){var st=nice(hi-lo)/5,o='';var y=function(v){return B-(v-lo)/(hi-lo)*(B-T0)};for(var v=lo;v<=hi+1e-6;v+=st){o+='<line x1="'+L+'" x2="'+R+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)"'+(Math.abs(v)<1e-6?' stroke-width="2"':'')+'/>'+T(L-8,y(v)+5,fmt(v),'end')}return {g:o,y:y}}
+function range(lo,hi){var st=nice(hi-lo)/5;return [Math.floor(lo/st)*st,Math.ceil(hi/st)*st]}
+
+/* ---------- 1 cover ---------- */
+function rCover(){
+  $('cvA').textContent=fs(cash[7]-OPEN)+' บาท';
+  $('cvB').textContent=fs(CORE_IN-CORE_EX)+' บาท';
+  $('cvBs').textContent='ใน 8 เดือน หรือเฉลี่ย '+fs((CORE_IN-CORE_EX)/8)+' บาท/เดือน';
+  var ti=sum(IN.map(function(g){return g.t})),te=sum(EX.map(function(g){return g.t}));
+  $('cvK').innerHTML=[['รายรับรวม 8 เดือน',f0(ti),'รวมเงินสินไหม '+fM(IN[6].t)+' ล้าน'],['รายจ่ายรวม 8 เดือน',f0(te),'รวมจ่ายเงินสินไหม '+fM(EX[7].t)+' ล้าน'],['รายรับประจำ',f0(CORE_IN),'ค่าส่วนกลาง ค่าน้ำ ค่าปรับ ค่าเช่า ฯลฯ'],['รายจ่ายประจำ',f0(CORE_EX),'บริหาร ไฟ น้ำ ซ่อม ภาษี สโมสร ฯลฯ']]
+    .map(function(k){return '<div class="kpi"><span>'+k[0]+'</span><b>'+k[1]+'</b><small>'+k[2]+'</small></div>'}).join('');
+  var opr=cash[7]-held[7]-fundCum[7],f3=D.fee[7]+D.adv_fee[7],f2=D.fee[2]+D.adv_fee[2];
+  $('cvF').innerHTML=[[3,'เงินดำเนินงานที่ใช้ได้จริง ณ ส.ค.',f0(opr)+' บาท','หักเงินสินไหมค้างจ่ายและเงินกองทุนปีนี้ออก',''],
+    [2,'ค่าส่วนกลางที่เก็บได้ มี.ค. → ส.ค.',Math.round((f3/f2-1)*100)+'%',f0(f2)+' → '+f0(f3)+' บาท/เดือน','neg'],
+    [8,'สิ่งผิดปกติที่พบในงบ',A.length+' ข้อ',A.filter(function(a){return a[0]==='hi'}).length+' ข้อความสำคัญสูง · คลิกเพื่อดู','']]
+    .map(function(k){return '<button class="fact" data-go="'+k[0]+'"><span>'+k[1]+'</span><b class="'+k[4]+'">'+k[2]+'</b><small>'+k[3]+'</small></button>'}).join('');
+}
+
+/* ---------- 2 dashboard ---------- */
+function rDash(){
+  var tin=0,tex=0,n=0,i;
+  for(i=0;i<8;i++)if(S.mo[i]){tin+=selTot(IN,'i:',i);tex+=selTot(EX,'e:',i);n++}
+  function rows(G,p){return G.map(function(g){var on=isOn(p,g),v=sum(g.v.filter(function(_,i){return S.mo[i]}));
+    return '<label class="prow'+(on?'':' off')+'"><input type="checkbox" data-k="'+p+g.k+'"'+(on?' checked':'')+'><span class="nm">'+g.n+(g.core?'':'<u>ไม่ประจำ</u>')+(g.annual?'<u>รายปี</u>':'')+'</span><b>'+fn(v)+'</b></label>'}).join('')}
+  $('pick').innerHTML='<h4>รายรับ <em class="num">'+f0(tin)+'</em></h4>'+rows(IN,'i:')+'<h4 style="margin-top:10px">รายจ่าย <em class="num">'+f0(tex)+'</em></h4>'+rows(EX,'e:');
+  var cp=curPreset();
+  $('presets').innerHTML=PRE.map(function(p){return '<button class="btn'+(cp===p[0]?' on':'')+'" data-pre="'+p[0]+'">'+p[1]+'</button>'}).join('');
+  $('months').innerHTML=M.map(function(m,i){return '<button class="btn mo'+(S.mo[i]?'':' off')+'" data-mo="'+i+'">'+m+'</button>'}).join('');
+  var net=tin-tex;
+  $('dK').innerHTML=[['รายรับที่เลือก',f0(tin),n+' เดือน',''],['รายจ่ายที่เลือก',f0(tex),n+' เดือน',''],['ส่วนต่าง',fs(net),net<0?'ใช้เงินเกินรายรับ':'รายรับมากกว่ารายจ่าย',net<0?'neg':'pos'],['เฉลี่ยต่อเดือน',n?fs(net/n):'–','ส่วนต่าง ÷ '+n+' เดือน',net<0?'neg':'pos']]
+    .map(function(k){return '<div class="kpi"><span>'+k[0]+'</span><b class="'+k[3]+'">'+k[1]+'</b><small>'+k[2]+'</small></div>'}).join('');
+  // chart
+  var W=1000,H=340,L=70,R=W-8,T0=26,B=H-30,ins=[],outs=[];
+  for(i=0;i<8;i++){ins.push(selTot(IN,'i:',i));outs.push(selTot(EX,'e:',i))}
+  var lo=Math.min(0,Math.min.apply(null,ins)),rg=range(lo,Math.max(1,Math.max.apply(null,ins.concat(outs)))),ax=axis(W,L,R,T0,B,rg[0],rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/8,bw=w*.3;
+  for(i=0;i<8;i++){var cx=L+w*i+w/2,op=S.mo[i]?1:.18,a=ins[i],b=outs[i],g=a-b;
+    o+='<g opacity="'+op+'"><rect x="'+(cx-bw-3)+'" y="'+Math.min(y(a),y(0))+'" width="'+bw+'" height="'+Math.abs(y(0)-y(a))+'" rx="4" fill="var(--in)"/><rect x="'+(cx+3)+'" y="'+y(b)+'" width="'+bw+'" height="'+(y(0)-y(b))+'" rx="4" fill="var(--out)"/>'+
+      T(cx,Math.min(y(Math.max(a,0)),y(b))-8,(g<0?'':'+')+fk(g),'middle',' style="font-weight:600;font-size:15px;fill:var('+(g<0?'--bad':'--good')+')"')+'</g>';
+    o+=T(cx,B+22,M[i],'middle',S.mo[i]?' style="fill:var(--ink)"':'');}
+  $('dC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="รายรับเทียบรายจ่ายรายเดือนตามรายการที่เลือก">'+o+'</svg>';
+  var off=IN.filter(function(g){return !isOn('i:',g)}).concat(EX.filter(function(g){return !isOn('e:',g)})).map(function(g){return g.n});
+  var ex=M.filter(function(_,i){return !S.mo[i]});
+  $('dSay').innerHTML=(net<0?'ช่วงที่เลือก ใช้เงินเกินรายรับ <b class="neg">'+f0(-net)+'</b> บาท':'ช่วงที่เลือก รายรับมากกว่ารายจ่าย <b class="pos">'+f0(net)+'</b> บาท')+(n?' หรือเฉลี่ย '+fs(net/n)+' บาท/เดือน':'')+
+    '<br><span class="muted small">'+(off.length?'ตัดออก: '+off.join(', '):'นับทุกรายการตามงบ')+(ex.length?' · ไม่นับเดือน '+ex.join(' '):'')+(isOn('i:',IN[7])||!S.mo[0]?'':' · ม.ค. รายรับประจำเป็น 0 เพราะงบบันทึกเป็นเงินโอนรอตรวจสอบ แล้วไปออกใบเสร็จใน ก.พ.')+'</span>';
+}
+
+/* ---------- 3 fee ---------- */
+function rFee(){
+  var rate=+$('fRate').value||27,area=+$('fArea').value||8940,adv=$('fAdv').checked,full=rate*area;
+  var v=[];for(var i=1;i<8;i++)v.push(D.fee[i]+(adv?D.adv_fee[i]:0));
+  var lab=['ก.พ.*'].concat(M.slice(2)),bill=[2*full,full,full,full,full,full,full];
+  var W=960,H=600,L=70,R=W-10,T0=24,B=H-34,rg=range(0,Math.max(Math.max.apply(null,v),2*full)),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/7,bw=w*.56;
+  v.forEach(function(x,i){var cx=L+w*i+w/2,p=x/bill[i]*100;
+    o+='<rect x="'+(cx-w/2+6)+'" y="'+y(bill[i])+'" width="'+(w-12)+'" height="'+(B-y(bill[i]))+'" rx="6" fill="var(--soft)"/>';
+    o+='<rect x="'+(cx-bw/2)+'" y="'+y(x)+'" width="'+bw+'" height="'+(B-y(x))+'" rx="5" fill="var(--in)"/>';
+    o+='<line x1="'+(cx-w/2+6)+'" x2="'+(cx+w/2-6)+'" y1="'+y(bill[i])+'" y2="'+y(bill[i])+'" stroke="var(--bad)" stroke-width="2" stroke-dasharray="6 4"/>';
+    o+=T(cx,y(x)-10,Math.round(p)+'%','middle',' style="font-weight:600;font-size:17px;fill:var('+(p<80?'--bad':p<92?'--warn':'--good')+')"');
+    o+=T(cx,y(x)+24,fk(x),'middle',' style="fill:var(--card);font-size:15px;font-weight:500"');
+    o+=T(cx,B+24,lab[i],'middle',' style="fill:var(--ink)"');});
+  $('fC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ค่าส่วนกลางที่เก็บได้รายเดือนเทียบยอดเต็ม">'+o+'</svg>';
+  var avg=sum(v.slice(1))/6;
+  $('fT').innerHTML='<tr><td>ยอดเรียกเก็บเต็มต่อเดือน</td><td>'+f0(full)+'</td></tr><tr><td>เก็บได้เฉลี่ย มี.ค.–ส.ค.</td><td>'+f0(avg)+'</td></tr><tr><td>เก็บได้ ส.ค. 2569</td><td>'+f0(v[6])+'</td></tr><tr><td>ลดลงจาก มี.ค. ถึง ส.ค.</td><td class="neg">'+Math.round((v[6]/v[1]-1)*100)+'%</td></tr><tr class="sum"><td>ขาดจากยอดเต็ม เฉลี่ย/เดือน</td><td class="neg">'+fn(avg-full)+'</td></tr>';
+}
+
+/* ---------- 4 cash ---------- */
+var LINES=[
+ ['sav','เงินในบัญชีออมทรัพย์ (ตามงบ)','var(--brand)','',function(i){return cash[i]},1],
+ ['net','หักเงินสินไหมที่ยังไม่จ่ายออก','var(--bad)','6 4',function(i){return cash[i]-held[i]},1],
+ ['nf','หักเงินกองทุนที่รับปีนี้ด้วย','var(--warn)','2 4',function(i){return cash[i]-held[i]-fundCum[i]},0],
+ ['fd','รวมเงินฝากประจำ','var(--good)','',function(i){return cash[i]+fd[i]},0]
+];
+function rCash(){
+  if(!S.lines)S.lines={sav:1,net:1,nf:0,fd:0};
+  $('cTg').innerHTML='<h3 style="margin:0">แสดงเส้น</h3>'+LINES.map(function(l){return '<label class="tg"><input type="checkbox" data-line="'+l[0]+'"'+(S.lines[l[0]]?' checked':'')+'><svg width="34" height="10"><line x1="0" x2="34" y1="5" y2="5" stroke="'+l[2]+'" stroke-width="3" stroke-dasharray="'+l[3]+'"/></svg>'+l[1]+'</label>'}).join('');
+  var vis=LINES.filter(function(l){return S.lines[l[0]]}),all=[];vis.forEach(function(l){for(var i=0;i<8;i++)all.push(l[4](i))});if(!all.length)all=[0];
+  var W=980,H=600,L=70,R=W-90,T0=24,B=H-34,rg=range(0,Math.max.apply(null,all)),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/8,X=function(i){return L+w*i+w/2};
+  M.forEach(function(m,i){o+=T(X(i),B+24,m,'middle',' style="fill:var(--ink)"')});
+  o+='<rect x="'+(X(5)-w/2)+'" y="'+T0+'" width="'+(w*3)+'" height="'+(B-T0)+'" fill="var(--badS)" opacity=".5"/>'+T(X(6),T0+18,'เงินสินไหมก้อนใหญ่เข้า มิ.ย.','middle',' style="fill:var(--bad);font-size:13px"');
+  vis.forEach(function(l){var d='';for(var i=0;i<8;i++)d+=(i?'L':'M')+X(i)+' '+y(l[4](i));
+    o+='<path d="'+d+'" fill="none" stroke="'+l[2]+'" stroke-width="3" stroke-dasharray="'+l[3]+'"/>';
+    for(i=0;i<8;i++)o+='<circle cx="'+X(i)+'" cy="'+y(l[4](i))+'" r="'+(i===7?5:3.5)+'" fill="'+l[2]+'"/>';
+    o+=T(X(7)+12,y(l[4](7))+5,fM(l[4](7))+'M','start',' style="font-weight:600;font-size:16px;fill:'+l[2]+'"');});
+  $('cC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ยอดเงินสิ้นเดือน">'+o+'</svg>';
+  $('cT').innerHTML='<tr><td>เงินในบัญชีออมทรัพย์</td><td>'+f0(cash[7])+'</td></tr><tr><td>หัก เงินสินไหมที่ยังไม่จ่ายออก</td><td class="neg">−'+f0(held[7])+'</td></tr><tr><td>หัก เงินกองทุนที่รับปีนี้</td><td class="neg">−'+f0(fundCum[7])+'</td></tr><tr class="sum"><td>เงินดำเนินงานที่ใช้ได้จริง</td><td>'+f0(cash[7]-held[7]-fundCum[7])+'</td></tr><tr><td class="muted">เงินฝากประจำ (แยกต่างหาก)</td><td class="muted">'+f0(fd[7])+'</td></tr>';
+}
+
+/* ---------- 5 waterfall ---------- */
+var WF,WL=['ยอด|ต้นปี','ประจำ|รับ−จ่าย','เงิน|กองทุน','เงินสินไหม|(สุทธิ)','เงินโอน|รอตรวจสอบ','คืนเงิน|ค้ำประกัน','ส่วนต่าง|ในงบ','ยอด|ส.ค.'];
+function rWf(){
+  var claimNet=IN[6].t-EX[7].t;
+  WF=[['ยอดต้นปี',OPEN,'s','เงินในบัญชีออมทรัพย์ต้นเดือน ม.ค. 2569 คำนวณย้อนจากยอดสิ้น ม.ค. และรายรับ–รายจ่ายของ ม.ค.'],
+   ['รายรับ−รายจ่าย ประจำ',CORE_IN-CORE_EX,'d','รายรับประจำ '+f0(CORE_IN)+' บาท หัก รายจ่ายประจำ '+f0(CORE_EX)+' บาท ติดลบเฉลี่ยราว '+f0((CORE_EX-CORE_IN)/8)+' บาทต่อเดือน นี่คือสุขภาพการเงินที่แท้จริงของนิติบุคคล'],
+   ['เงินกองทุน',IN[5].t,'d','เจ้าของห้องจ่ายครั้งเดียวตอนรับโอนห้อง ไม่ใช่รายได้ประจำ และควรแยกไว้เป็นเงินสำรองระยะยาว ไม่ควรนำมาใช้จ่ายประจำเดือน'],
+   ['เงินสินไหม (สุทธิ)',claimNet,'d','รับเงินสินไหมแผ่นดินไหว '+f0(IN[6].t)+' บาท จ่ายออก '+f0(EX[7].t)+' บาท เหลือค้างในบัญชี '+f0(claimNet)+' บาท ส่วนใหญ่เป็นก้อน มิ.ย. ที่ยังไม่มีคำอธิบายว่าเป็นของห้องใดหรือจะใช้ซ่อมอะไร'],
+   ['เงินโอนรอตรวจสอบ',IN[7].t,'d','ตัดเงินโอนไปออกใบเสร็จมากกว่าที่รับเข้าในปีนี้ แปลว่ามีเงินโอนค้างจากปี 2568 ถูกนำมาออกใบเสร็จ ยอดนี้ไม่ใช่เงินหาย แต่ทำให้รายรับรายเดือนอ่านยาก'],
+   ['คืนเงินค้ำประกันตกแต่ง',-EX[8].t,'d','คืนเงินค้ำประกันการตกแต่งห้องให้เจ้าของห้อง 2 ราย ราย 10,000 บาท'],
+   ['ส่วนต่างในงบ',IN[8].t,'d','ยอดรวมรายรับ ก.พ. สูงกว่าผลบวกรายการ 12.08 บาท และ มี.ค. 63.00 บาท ไม่มีรายการใดอธิบาย'],
+   ['ยอด ส.ค.',cash[7],'e','เงินในบัญชีออมทรัพย์สิ้น ส.ค. 2569 ไม่รวมเงินฝากประจำ '+f0(fd[7])+' บาท']];
+  if(S.wsel==null)S.wsel=1;
+  var W=980,H=560,L=70,R=W-10,T0=30,B=H-64,run=0,hi=0;WF.forEach(function(s){if(s[2]==='s')run=s[1];else if(s[2]==='d')run+=s[1];hi=Math.max(hi,run,s[1])});
+  var rg=range(0,hi),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/WF.length,bw=w*.66;run=0;
+  WF.forEach(function(s,i){var a,b,c;if(s[2]==='d'){a=run;b=run+s[1];run=b;c=s[1]<0?'var(--bad)':'var(--good)'}else{a=0;b=s[1];run=s[1];c='var(--brand)'}
+    var cx=L+w*i+w/2,top=y(Math.max(a,b)),h=Math.max(2,Math.abs(y(a)-y(b)));
+    o+='<g data-w="'+i+'" style="cursor:pointer"><rect x="'+(cx-w/2+2)+'" y="'+T0+'" width="'+(w-4)+'" height="'+(B-T0+56)+'" rx="10" fill="'+(S.wsel===i?'var(--brandS)':'transparent')+'"/><rect x="'+(cx-bw/2)+'" y="'+top+'" width="'+bw+'" height="'+h+'" rx="5" fill="'+c+'"/>'+
+      T(cx,top-9,s[2]==='d'?fk(s[1]).replace(/^(?!−)/,'+'):fM(s[1])+'M','middle',' style="font-weight:600;font-size:16px;fill:'+c+'"');
+    var parts=WL[i].split('|');o+='<text x="'+cx+'" y="'+(B+24)+'" text-anchor="middle" style="fill:var(--ink);font-size:14px">'+parts.map(function(p,j){return '<tspan x="'+cx+'" dy="'+(j?18:0)+'">'+p+'</tspan>'}).join('')+'</text></g>';
+    if(i<WF.length-1)o+='<line x1="'+(cx+bw/2)+'" x2="'+(cx+w-bw/2)+'" y1="'+y(run)+'" y2="'+y(run)+'" stroke="var(--muted)" stroke-dasharray="3 3"/>';});
+  $('wC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ที่มาของเงินที่เพิ่มขึ้น">'+o+'</svg>';
+  var s=WF[S.wsel];
+  $('wD').innerHTML='<span class="chip '+(s[2]!=='d'?'lo':s[1]<0?'hi':'ok')+'" style="align-self:flex-start">'+(S.wsel+1)+' / '+WF.length+'</span><h3 style="font-size:26px;margin:0">'+s[0]+'</h3><b class="num" style="font:600 40px/1.1 var(--hf);color:'+(s[2]!=='d'?'var(--brand)':s[1]<0?'var(--bad)':'var(--good)')+'">'+(s[2]==='d'?fs(s[1]):f0(s[1]))+' บาท</b><p style="margin:0;font:400 19px/1.6 var(--bf)">'+s[3]+'</p>'+
+    '<div style="margin-top:auto;display:flex;gap:8px"><button class="btn" data-wstep="-1">◀ ก่อนหน้า</button><button class="btn" data-wstep="1">ถัดไป ▶</button></div>';
+}
+
+/* ---------- 6 expenses ---------- */
+function rExp(){
+  var tot=sum(EX.filter(function(g){return isOn('e:',g)}).map(function(g){return g.t})),mx=Math.max.apply(null,EX.map(function(g){return g.t}));
+  $('eL').innerHTML='<div class="erow" style="cursor:default;height:34px;background:none;font:500 14px/1 var(--hf);color:var(--muted)"><span></span><span>หมวด</span><span></span><span style="text-align:right">บาท</span><span style="text-align:right">%</span></div>'+
+    EX.map(function(g){var on=isOn('e:',g);return '<div class="erow'+(on?'':' off')+(S.esel===g.k?' sel':'')+'" data-esel="'+g.k+'"><input type="checkbox" data-k="e:'+g.k+'"'+(on?' checked':'')+' aria-label="นับ '+g.n+'"><span class="nm">'+g.n+(g.core?'':'<u>ไม่ประจำ</u>')+(g.annual?'<u>รายปี</u>':'')+'</span><span class="tr"><i style="width:'+(g.t/mx*100)+'%;'+(on?'':'background:var(--line)')+'"></i></span><b>'+f0(g.t)+'</b><em>'+(on&&tot?Math.round(g.t/tot*100)+'%':'–')+'</em></div>'}).join('')+
+    '<div class="erow" style="cursor:default;margin-top:auto;border-top:2px solid var(--line);border-radius:0"><span></span><span class="nm" style="color:var(--navy)">รวมหมวดที่เลือก</span><span></span><b style="color:var(--navy);font-weight:600">'+f0(tot)+'</b><em>100%</em></div>';
+  var g=EX.filter(function(x){return x.k===S.esel})[0]||EX[0],mxm=Math.max.apply(null,g.v),W=420,H=120,bw=W/8;
+  var bars='';g.v.forEach(function(v,i){var h=mxm?v/mxm*(H-34):0;bars+='<rect x="'+(i*bw+6)+'" y="'+(H-22-h)+'" width="'+(bw-12)+'" height="'+h+'" rx="3" fill="var(--out)"/>'+T(i*bw+bw/2,H-4,M[i],'middle',' style="font-size:12px"')});
+  $('eD').innerHTML='<h3 style="margin:0">'+g.n+'</h3><span class="small muted">รวม 8 เดือน '+f0(g.t)+' บาท · เฉลี่ย '+f0(g.t/8)+' บาท/เดือน</span><svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="รายเดือน">'+bars+'</svg>'+
+    '<table class="tbl">'+g.it.map(function(x){return '<tr><td>'+x[0]+'</td><td>'+f0(sum(D[x[1]]))+'</td></tr>'}).join('')+'</table>'+(NOTE[g.k]?'<p class="small" style="margin:0;background:var(--yellowS);border-radius:10px;padding:10px 12px">'+NOTE[g.k]+'</p>':'');
+}
+var NOTE={fixed:'ค่าบริหารจัดการ ม.ค. 205,140 บาท สูงกว่าเดือนอื่น 73,060 บาท มีหมายเหตุ "พ.ย.68/" น่าจะเป็นยอดค้างจากปีก่อน',annual:'จ่ายก้อนเดียวใน พ.ค. และ ก.ค. โดยไม่ได้ตั้งสำรอง ควรกันเงินไว้เดือนละราว 20,000 บาท',util:'ค่าไฟส่วนกลางเพิ่มจาก 39,291 บาท (ม.ค.) เป็น 45,557 บาท (ส.ค.) หรือ +16%',rep:'มิ.ย. สูงผิดปกติ 140,925 บาท จากซ่อมถังเก็บน้ำ งานสวน และปั๊มน้ำ',wht:'ถ้าค่าจ้างผู้รับเหมาบันทึกยอดเต็มอยู่แล้ว รายการนี้อาจนับซ้ำ',club:'จ่ายเป็นงวด ม.ค. เม.ย. ก.ค. เฉลี่ยราว 8,100 บาท/เดือน',quake:'จ่ายออกน้อยกว่าที่รับเข้ามา 1.73 ล้านบาท',dep:'เงินของเจ้าของห้องที่ฝากไว้ระหว่างตกแต่ง ไม่ใช่ค่าใช้จ่ายของนิติบุคคล'};
+
+/* ---------- 8 future ---------- */
+var FEE8=sum(D.fee)+sum(D.adv_fee),AREA=8940,BASE={rate:27,coll:Math.round(FEE8/8/(27*AREA)*100),exp:Math.round(CORE_EX/8/5000)*5000};
+var OTHER=(CORE_IN-FEE8)/8;
+function rFut(first){
+  if(first||!S.fut)S.fut={rate:BASE.rate,coll:BASE.coll,exp:BASE.exp,claim:0,fund:0,fd:0};
+  var F=S.fut;$('sRate').value=F.rate;$('sColl').value=F.coll;$('sExp').value=F.exp;$('sClaim').checked=!!F.claim;$('sFund').checked=!!F.fund;$('sFd').checked=!!F.fd;
+  $('oRate').textContent=(+F.rate).toFixed(1)+' บาท';$('oColl').textContent=F.coll+'%';$('oExp').textContent=f0(F.exp);
+  var inc=F.rate*AREA*F.coll/100+OTHER,net=inc-F.exp,s0=cash[7]-(F.claim?0:held[7])-(F.fund?fundCum[7]:0)+(F.fd?fd[7]:0);
+  var k=net<0?Math.ceil(s0/-net):null,when=k!=null?(function(){var m=7+k;return MY[m%12]+' '+(2569+Math.floor(m/12))})():null;
+  var be=(F.exp-OTHER)/(AREA*F.coll/100);
+  $('sR').innerHTML='<div class="kpi"><span>ส่วนต่างต่อเดือน</span><b class="'+(net<0?'neg':'pos')+'">'+fs(net)+'</b><small>รายรับ '+f0(inc)+' − รายจ่าย '+f0(F.exp)+'</small></div>'+
+    '<div class="kpi"><span>เงินดำเนินงานหมด</span><b class="'+(k!=null&&k<24?'neg':'')+'">'+(k!=null?'ราว '+when:'ไม่หมด')+'</b><small>'+(k!=null?'อีกประมาณ '+k+' เดือน จากเงินตั้งต้น '+fM(s0)+' ล้าน':'รายรับพอจ่าย เงินสะสมเพิ่มขึ้น')+'</small></div>'+
+    '<div class="kpi"><span>อัตราที่ทำให้ไม่ขาดดุล</span><b>'+be.toFixed(1)+' บาท/ตร.ม.</b><small>ที่เก็บได้ '+F.coll+'% · ถ้าเก็บครบ 100%: '+((F.exp-OTHER)/AREA).toFixed(1)+' บาท</small></div>';
+  var N=36,bal=[];for(var i=0;i<=N;i++)bal.push(s0+net*i);
+  var W=960,H=420,L=70,R=W-14,T0=20,B=H-34,rg=range(Math.min(0,bal[N]),Math.max(s0,bal[N])),ax=axis(W,L,R,T0,B,rg[0],rg[1],fk),y=ax.y,o=ax.g,X=function(i){return L+(R-L)*i/N};
+  for(i=0;i<=N;i+=6){var m=7+i;o+=T(X(i),B+24,MY[m%12]+' '+String(2569+Math.floor(m/12)).slice(2),i===N?'end':i?'middle':'start',' style="fill:var(--ink)"')}
+  if(k!=null&&k<=N)o+='<rect x="'+X(k)+'" y="'+T0+'" width="'+(R-X(k))+'" height="'+(B-T0)+'" fill="var(--badS)" opacity=".6"/>'+T(X(k)+8,T0+20,'เงินไม่พอจ่าย','start',' style="fill:var(--bad);font-weight:600"');
+  var d='';bal.forEach(function(v,i){d+=(i?'L':'M')+X(i)+' '+y(v)});
+  o+='<path d="'+d+'" fill="none" stroke="var(--brand)" stroke-width="3.5"/><circle cx="'+X(0)+'" cy="'+y(s0)+'" r="6" fill="var(--brand)"/>'+T(X(0)+10,y(s0)-10,'เริ่ม '+fM(s0)+'M','start',' style="font-weight:600;fill:var(--brand)"');
+  if(k!=null&&k<=N)o+='<circle cx="'+X(s0/-net)+'" cy="'+y(0)+'" r="7" fill="var(--bad)"/>';
+  $('sNote').textContent='ค่าเริ่มต้นมาจากค่าเฉลี่ย 8 เดือน: รายจ่ายประจำ '+f0(CORE_EX/8)+' บาท (รวมค่าใช้จ่ายรายปี และค่าบริหาร ม.ค. ที่ค้างจากปีก่อน) · รายรับอื่นนอกจากค่าส่วนกลาง เฉลี่ย '+f0(OTHER)+' บาท/เดือน · พื้นที่ '+f0(AREA)+' ตร.ม.';
+  $('sC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ยอดเงินคาดการณ์">'+o+'</svg>';
+}
+
+/* ---------- 9 anomalies ---------- */
+var A=[
+ ['hi','สูง','เงินสินไหมแผ่นดินไหว 1.73 ล้านบาท ยังไม่มีคำอธิบาย','รับเงินสินไหม 2,748,347.79 บาท (ก.พ., มี.ค., มิ.ย.) แต่จ่ายออกเพียง 1,016,317.61 บาท ก้อน มิ.ย. 1,745,171.50 บาท จ่ายออกแค่ 10,141.57 บาท งบไม่ได้บอกว่าเงินนี้เป็นของห้องใดหรือจะใช้ซ่อมอะไร','ขอรายการเคลมแยกตามห้องและส่วนกลาง ระบุผู้รับเงินและกำหนดจ่าย และแยกเงินนี้ไว้อีกบัญชี'],
+ ['hi','สูง','รายจ่ายประจำสูงกว่ารายรับประจำ ราว 150,000 บาท/เดือน','8 เดือนขาด 1.24 ล้านบาท ที่เงินสดยังเพิ่มเพราะมีเงินสินไหมและเงินกองทุนเข้ามาบัง','ทำงบประมาณปี 2570 เสนอที่ประชุม พร้อมทางเลือกลดค่าใช้จ่ายหรือปรับอัตราค่าส่วนกลาง'],
+ ['hi','สูง','ยอด "รวม" เงินคงเหลือใช้เกณฑ์ไม่เหมือนกัน','ม.ค.–พ.ค. ไม่นับเงินฝากประจำ 1.34 ล้าน แต่ มิ.ย.–ส.ค. นับ ยอดรวม มิ.ย. จึงกระโดดจาก 2.48 เป็น 5.13 ล้าน (+2.65 ล้าน) ทั้งที่เงินเพิ่มจริง 1.31 ล้าน และยอดยกมาต้นเดือนไม่มีบรรทัดเงินฝากประจำ','ให้ใช้เกณฑ์เดียวทุกเดือน และแสดงเงินฝากประจำทั้งยอดยกมาและยกไป'],
+ ['md','กลาง','เงินฝากประจำขึ้นลงผิดปกติ และไม่บันทึกดอกเบี้ย','1,336,229.20 → 1,338,069.90 (พ.ค.) → กลับเป็น 1,336,229.20 (มิ.ย.) → 1,338,957.42 (ก.ค.–ส.ค.) ขณะที่ "รายรับอื่น ๆ" เป็น 0 ทุกเดือน','แนบสำเนาสมุดบัญชีเงินฝากประจำ และบันทึกดอกเบี้ยเป็นรายรับ'],
+ ['md','กลาง','เงินโอนไม่ทราบที่มาสูง','รับเข้า 1,009,297.26 บาท ตัดออกไปออกใบเสร็จ 1,189,179.07 บาท รายรับ ม.ค. ทั้งเดือนมีแต่เงินโอนรอตรวจสอบ 541,194.37 บาท ไม่มีค่าส่วนกลางแม้แต่บาทเดียว','รายงานยอดเงินโอนรอตรวจสอบคงค้างทุกเดือน และให้ลูกบ้านส่งหลักฐานโอนผ่านช่องทางเดียว'],
+ ['md','กลาง','ค่าส่วนกลางที่เก็บได้ลดลง 24% ใน 6 เดือน','มี.ค. 218,261 บาท → ส.ค. 166,211 บาท ไม่มีรายงานยอดค้างชำระ จึงไม่รู้ว่าค้างกี่ห้อง','ทำรายงานลูกหนี้ค้างชำระแยกตามอายุหนี้ (aging) ทุกเดือน ติดตามห้องค้างเกิน 3 เดือน (ห้องค้างเกิน 6 เดือนไม่มีสิทธิ์โหวต)'],
+ ['md','กลาง','เงินกองทุนปนกับเงินดำเนินงาน','รับเงินกองทุน 498,911.97 บาท เข้าบัญชีเดียวกับค่าส่วนกลาง และนับเป็นรายรับของงบเดียวกัน','โอนเงินกองทุนเข้าบัญชีแยก และรายงานยอดกองทุนคงเหลือทุกเดือน'],
+ ['lo','ต่ำ','ค่าบริหารจัดการ ม.ค. สูงกว่าปกติ 73,060 บาท','ม.ค. 205,140 บาท เดือนอื่น 132,080 บาท มีหมายเหตุ "พ.ย.68/" น่าจะเป็นยอดค้างจากปีก่อน','ขอใบแจ้งหนี้ประกอบ และระบุงวดที่จ่ายในรายงาน'],
+ ['lo','ต่ำ','ยอดรวมรายรับ ก.พ. และ มี.ค. ไม่เท่าผลบวกรายการ','ก.พ. สูงกว่าผลบวก 12.08 บาท มี.ค. 63.00 บาท รวม 75.08 บาท','ตรวจสูตรในไฟล์ หรือแสดงรายการที่ซ่อนอยู่'],
+ ['lo','ต่ำ','ค่าใช้จ่ายรายปีไม่ได้ตั้งสำรอง','ประกันอาคาร ลิฟต์ ปลวก ตรวจอาคาร รวม 239,897 บาท จ่ายก้อนเดียว ทำให้ พ.ค. ติดลบ 196,094 บาท','กันเงินสำรองเดือนละราว 20,000 บาท'],
+ ['lo','ต่ำ','ภาษีหัก ณ ที่จ่าย 74,033 บาท แสดงเป็นรายจ่ายแยก','ถ้าค่าจ้างผู้รับเหมาบันทึกยอดเต็มอยู่แล้ว รายการนี้อาจนับซ้ำ','ตรวจว่าค่าบริการบันทึกยอดสุทธิหลังหักภาษีหรือไม่'],
+ ['ok','ปกติ','ค่าน้ำประปา','เก็บจากลูกบ้าน 259,767.73 บาท จ่ายการประปา 219,599.96 บาท ส่วนต่าง 40,168 บาท ใช้เป็นค่าน้ำส่วนกลางและค่าสูญเสียได้','แสดงที่มาของส่วนต่างในรายงาน']
+];
+function rAn(){
+  var F=[['all','ทั้งหมด'],['hi','สูง'],['md','กลาง'],['lo','ต่ำ'],['ok','ปกติ']];
+  $('aF').innerHTML='<span class="lb">ความรุนแรง</span>'+F.map(function(f){var c=f[0]==='all'?A.length:A.filter(function(a){return a[0]===f[0]}).length;return '<button class="btn'+(S.af===f[0]?' on':'')+'" data-af="'+f[0]+'">'+f[1]+' ('+c+')</button>'}).join('');
+  $('aG').innerHTML=A.map(function(a,i){return (S.af==='all'||S.af===a[0])?'<button class="acard'+(S.asel===i?' sel':'')+'" data-a="'+i+'"><span class="chip '+a[0]+'">'+(i+1)+' · '+a[1]+'</span><b>'+a[2]+'</b></button>':''}).join('');
+  var a=A[S.asel]||A[0];
+  $('aD').innerHTML='<span class="chip '+a[0]+'" style="align-self:flex-start">ข้อ '+(S.asel+1)+' · ความสำคัญ'+a[1]+'</span><h3 style="margin:0">'+a[2]+'</h3><p>'+a[3]+'</p><div class="fix"><b>ควรแก้:</b> '+a[4]+'</div>';
+}
+var B=[
+ ['hi','ทันที','ขอคำชี้แจงเงินสินไหม 1.73 ล้านบาทเป็นลายลักษณ์อักษร','เป็นของห้องใด ส่วนกลางส่วนไหน จะจ่ายเมื่อไร และแยกบัญชีไว้ก่อน'],
+ ['hi','ทันที','ขอรายงานลูกหนี้ค่าส่วนกลางค้างชำระ','จำนวนห้อง ยอดค้าง และอายุหนี้ เพื่อดูว่ายอดเก็บได้ที่ลดลงมาจากอะไร'],
+ ['md','ใน 1–2 เดือน','ปรับรูปแบบรายงานรายเดือน','นับเงินฝากประจำทุกเดือน บันทึกดอกเบี้ย แยกเงินกองทุน แสดงเงินโอนรอตรวจสอบคงค้าง'],
+ ['md','ก่อนประชุมใหญ่','จัดทำงบประมาณปี 2570','เทียบสัญญาค่าบริหาร รปภ. แม่บ้าน กับตลาด ลดค่าไฟส่วนกลาง และเสนอทางเลือกอัตราค่าส่วนกลาง'],
+ ['lo','ต่อเนื่อง','ขอให้ผู้สอบบัญชีตรวจงบ','งบการเงินเกณฑ์คงค้างพร้อมงบดุล ตามที่ พ.ร.บ.อาคารชุดกำหนดให้เสนอที่ประชุมใหญ่']
+];
+$('acts').innerHTML=B.map(function(a,i){return '<div class="aitem"><span class="chip '+a[0]+'">'+(i+1)+' · '+a[1]+'</span><div><h4>'+a[2]+'</h4><p>'+a[3]+'</p></div></div>'}).join('');
+
+/* ---------- deck ---------- */
+var SC=[].slice.call(document.querySelectorAll('.scene'));
+$('tabs').innerHTML=SC.map(function(s,i){return '<button data-go="'+i+'" title="'+s.dataset.t+'"><i>'+(i+1)+'</i><span>'+s.dataset.tab+'</span></button>'}).join('');
+function renderAll(){rCover();rDash();rFee();rCash();rWf();rExp();rAn()}
+function show(i){i=Math.max(0,Math.min(SC.length-1,i));S.slide=i;save();
+  SC.forEach(function(s,j){s.classList.toggle('on',j===i)});
+  [].forEach.call($('tabs').children,function(b,j){b.classList.toggle('on',j===i)});
+  $('title').textContent=SC[i].dataset.t;$('snote').textContent=SC[i].dataset.n||'';}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-go],[data-pre],[data-mo],[data-esel],[data-a],[data-af],[data-w],[data-wstep]');if(!t)return;
+  if(t.dataset.go!=null)show(+t.dataset.go);
+  else if(t.dataset.pre)setPreset(t.dataset.pre);
+  else if(t.dataset.mo!=null){S.mo[+t.dataset.mo]=S.mo[+t.dataset.mo]?0:1;save();rDash()}
+  else if(t.dataset.esel){if(e.target.matches('input'))return;S.esel=t.dataset.esel;save();rExp()}
+  else if(t.dataset.a!=null){S.asel=+t.dataset.a;save();rAn()}
+  else if(t.dataset.af){S.af=t.dataset.af;save();rAn()}
+  else if(t.dataset.w!=null){S.wsel=+t.dataset.w;save();rWf()}
+  else if(t.dataset.wstep){S.wsel=(S.wsel+ +t.dataset.wstep+WF.length)%WF.length;save();rWf()}
+});
+document.addEventListener('change',function(e){var t=e.target;
+  if(t.dataset.k){S.on[t.dataset.k]=t.checked?1:0;save();rDash();rExp()}
+  else if(t.dataset.line){S.lines[t.dataset.line]=t.checked?1:0;save();rCash()}
+  else if(t.id==='fAdv')rFee();
+  else if(/^s(Claim|Fund|Fd)$/.test(t.id)){S.fut[t.id.slice(1).toLowerCase()]=t.checked?1:0;save();rFut()}
+});
+document.addEventListener('input',function(e){var t=e.target;
+  if(t.id==='fRate'||t.id==='fArea')rFee();
+  else if(t.id==='sRate'||t.id==='sColl'||t.id==='sExp'){S.fut[{sRate:'rate',sColl:'coll',sExp:'exp'}[t.id]]=+t.value;save();rFut()}
+});
+$('goCore').onclick=function(){setPreset('core');show(1)};
+$('sReset').onclick=function(){rFut(true);save()};
+$('bPrev').onclick=function(){show(S.slide-1)};
+$('bNext').onclick=function(){show(S.slide+1)};
+function full(){var d=document;if(d.fullscreenElement)d.exitFullscreen();else if(d.documentElement.requestFullscreen)d.documentElement.requestFullscreen().catch(function(){})}
+$('bFull').onclick=full;
+addEventListener('keydown',function(e){if(e.target.matches('input'))return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();show(S.slide+1)}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(S.slide-1)}
+  else if(e.key==='f'||e.key==='F')full();});
+renderAll();rFut(!S.fut);
+var h=/^#(\d+)$/.exec(location.hash);show(h?+h[1]-1:(S.slide||0));
+var stage=$('stage'),rotClosed=false;
+function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';$('rotate').hidden=!(innerWidth<700&&innerHeight>innerWidth)||rotClosed}
+$('rotX').onclick=function(){rotClosed=true;$('rotate').hidden=true};
+addEventListener('resize',fit);fit();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>โหวตรับมอบสโมสร เสนาคิทท์ เวสต์เกต</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: 1600×900 stage scaled to fit; chapters + controls on the left, one "screen" of content on the right, caption bar below (same grammar as the POMD demo deck) */
+:root{
+  --navy:#0b2a66; --brand:#154295; --brand2:#034ea2; --brandS:#eef5fe; --yellow:#ffcc00; --red:#e31837;
+  --ink:#222222; --muted:#5b6578; --line:#e3e8f0; --paper:#f8f8f8; --card:#ffffff;
+  --a:#efe9b8; --aD:#8a7a12; --b:#c9ad92; --bD:#7a5636;
+  --ok:#16865a; --okS:#e3f5ec; --warn:#b77900; --warnS:#fff6d6; --bad:#c8102e; --badS:#fde8eb;
+  --hf:"Kanit","Sarabun","Leelawadee UI",Tahoma,sans-serif;
+  --bf:"Sarabun","Leelawadee UI",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#050a18;overflow:hidden}
+body{font-family:var(--bf);color:var(--ink);-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+.deck{position:fixed;inset:0}
+.stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center;overflow:hidden;font-size:20px;line-height:1.5;
+  background:radial-gradient(1100px 560px at 100% 0%,#eef5fe 0%,transparent 62%),radial-gradient(700px 500px at 0% 100%,#f1f6fe 0%,transparent 60%),var(--paper)}
+.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--yellow);z-index:5}
+.eyebrow{position:absolute;left:72px;top:40px;font:500 16px/1 var(--hf);letter-spacing:.12em;color:var(--brand2);text-transform:uppercase}
+.title{position:absolute;left:72px;top:64px;right:330px;font:600 38px/1.2 var(--hf);color:var(--brand);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.title.swap{animation:tin .5s ease}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.uline{position:absolute;left:72px;top:118px;width:76px;height:6px;border-radius:3px;background:var(--yellow)}
+.snote{position:absolute;right:72px;top:126px;font:400 13px/1 var(--hf);color:#8a93a6}
+.badge-top{position:absolute;right:72px;top:34px;display:flex;align-items:center;gap:10px;font:500 15px/1 var(--hf);color:var(--brand);background:#fff;border-radius:12px;padding:10px 14px;box-shadow:0 6px 18px rgba(21,66,149,.12)}
+.badge-top b{background:var(--yellow);border-radius:8px;padding:6px 9px;font-weight:600}
+
+/* chapters */
+.chapters{position:absolute;left:72px;top:150px;width:300px;margin:0;padding:0;list-style:none}
+.chapters li{display:flex;gap:10px;align-items:center;padding:7px 10px;border-radius:12px;margin-bottom:3px;cursor:pointer;transition:background .3s,opacity .3s;opacity:.55}
+.chapters li b{flex:none;width:28px;height:28px;border-radius:50%;background:#e4eaf5;color:var(--brand);font:600 14px/28px var(--hf);text-align:center;transition:background .3s,color .3s}
+.chapters li span{font:400 15px/1.3 var(--hf);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chapters li.done{opacity:.85}
+.chapters li.done b{background:var(--ok);color:#fff}
+.chapters li.on{opacity:1;background:#fff;box-shadow:0 10px 30px rgba(21,66,149,.12)}
+.chapters li.on b{background:var(--yellow);color:var(--brand)}
+.chapters li.on span{font-weight:500;color:var(--brand)}
+.chapters li:hover{opacity:1}
+
+.ctl{position:absolute;left:72px;top:736px;width:300px;display:flex;gap:8px;align-items:center}
+.ctl button{font:500 15px/1 var(--hf);border:0;border-radius:10px;height:40px;min-width:44px;padding:0 12px;background:#fff;color:var(--brand);box-shadow:0 4px 14px rgba(21,66,149,.12);cursor:pointer}
+.ctl button.pri{background:var(--brand);color:#fff;flex:1}
+.ctl button.act{background:var(--yellow)}
+.ctl button:hover{filter:brightness(.96)}
+button:focus-visible,input:focus-visible,li:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.prog{position:absolute;left:72px;top:788px;width:300px;height:6px;border-radius:3px;background:#e4eaf5;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--brand);transition:width .5s ease}
+.hint{position:absolute;left:72px;top:804px;width:300px;font:400 13px/1.4 var(--hf);color:#8a93a6}
+
+/* screen */
+.screen{position:absolute;left:400px;top:146px;width:1128px;height:664px;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 30px 80px rgba(10,20,50,.18),0 0 0 1px rgba(10,20,50,.06)}
+.scene{position:absolute;inset:0;padding:28px 32px;opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
+.scene.on{opacity:1;visibility:visible;transition:opacity .5s}
+[data-at]{opacity:1;transform:none}
+[data-at].in{opacity:1;transform:none}
+.cap{position:absolute;left:400px;top:828px;width:1128px;height:44px;display:flex;align-items:center;gap:14px}
+.cap .tag{flex:none;font:600 15px/1 var(--hf);color:var(--brand);background:var(--yellow);border-radius:10px;padding:8px 12px}
+.cap .txt{font:500 19px/1.3 var(--hf);color:var(--ink)}
+.cap .txt.swap{animation:tin .45s ease}
+
+h3.sh{margin:0 0 4px;font:600 26px/1.25 var(--hf);color:var(--brand)}
+.sub{font:400 16px/1.45 var(--bf);color:var(--muted);margin:0}
+.credit{position:absolute;right:14px;bottom:10px;font:400 12px/1 var(--hf);color:#8a93a6}
+.ph{border-radius:14px;overflow:hidden;background:#eef1f7;position:relative}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.ph figcaption{position:absolute;left:10px;bottom:10px;font:500 13px/1 var(--hf);background:rgba(11,42,102,.85);color:#fff;border-radius:8px;padding:7px 10px}
+.pill{display:inline-flex;align-items:center;gap:6px;font:500 13px/1 var(--hf);border-radius:999px;padding:6px 10px;background:var(--brandS);color:var(--brand)}
+.pill.y{background:var(--warnS);color:var(--warn)}
+
+/* s0 */
+.s0{display:grid;grid-template-columns:600px 1fr;gap:28px;height:100%}
+.s0 .ph{height:100%}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+.fact{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.fact b{display:block;font:600 30px/1.15 var(--hf);color:var(--brand)}
+.fact span{font:400 15px/1.35 var(--hf);color:var(--muted)}
+.fact.wide{grid-column:1/-1;background:var(--brandS);border-color:#d3e3fb}
+
+/* s1 master plan */
+.mp{position:relative;width:1064px;margin-top:14px}
+.mp img{display:block;width:100%;border-radius:12px}
+.hl{position:absolute;border:4px solid var(--yellow);border-radius:10px;box-shadow:0 0 0 3px rgba(21,66,149,.35)}
+.hl em{position:absolute;left:50%;top:-46px;transform:translateX(-50%);font:600 16px/1 var(--hf);font-style:normal;white-space:nowrap;background:var(--brand);color:#fff;border-radius:10px;padding:9px 12px}
+
+/* s2 room types */
+.s2{display:grid;grid-template-columns:300px 330px 1fr;gap:20px;margin-top:16px;height:540px}
+.rt{display:flex;flex-direction:column;gap:10px}
+.rt .ph{flex:1;background:#fff;border:1px solid var(--line)}
+.rt .ph img{object-fit:contain}
+.rt h4{margin:0;font:600 20px/1.2 var(--hf);display:flex;justify-content:space-between;align-items:center}
+.sw{display:inline-block;width:16px;height:16px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.fee{font:500 15px/1.3 var(--hf);color:var(--muted)}
+.fee b{color:var(--brand);font-size:18px}
+
+/* s3 floor table */
+.s3{display:grid;grid-template-columns:600px 1fr;gap:24px;margin-top:16px}
+.s3 .ph{background:#fff;border:1px solid var(--line);height:332px}
+.s3 .ph img{object-fit:contain}
+table.ft{width:100%;border-collapse:collapse;font:400 17px/1.3 var(--hf)}
+.ft th{font-weight:500;color:var(--muted);font-size:14px;text-align:right;padding:8px 10px;border-bottom:2px solid var(--line)}
+.ft th:first-child,.ft td:first-child{text-align:left}
+.ft td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:right}
+.ft tr.tot td{font-weight:600;color:var(--brand);font-size:20px;border-bottom:0;background:var(--brandS)}
+.ft td.a{background:rgba(239,233,184,.45)} .ft td.b{background:rgba(201,173,146,.35)}
+.note3{margin-top:14px;font:400 15px/1.45 var(--bf);color:var(--muted)}
+.mini{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+
+/* s4 per building */
+.formula{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;font:500 19px/1.3 var(--hf)}
+.formula .t{border-radius:10px;padding:10px 12px}
+.formula .ta{background:var(--a);color:#4b4205} .formula .tb{background:var(--b);color:#3d2716}
+.formula .tt{background:var(--brand);color:#fff}
+.formula .op{color:var(--muted)}
+.bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
+.bld{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--paper);display:flex;flex-direction:column;gap:8px}
+.bld .hd{display:flex;align-items:center;gap:10px}
+.bld .bd{width:48px;height:48px;border-radius:12px;background:var(--brand);color:#fff;display:grid;place-items:center;font:600 20px/1 var(--hf)}
+.bld .hd span{font:400 14px/1.3 var(--hf);color:var(--muted)}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%}
+.bld .big{font:600 30px/1.1 var(--hf);color:var(--brand)}
+.bld .row{display:flex;justify-content:space-between;font:400 15px/1.3 var(--hf);color:var(--muted)}
+.bld .row b{color:var(--ink);font-weight:500}
+.insight{margin-top:18px;background:var(--warnS);border-radius:14px;padding:14px 18px;font:500 17px/1.45 var(--hf);color:#5c4300}
+
+/* s5 totals */
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.tile{border-radius:16px;padding:18px 18px 16px;background:var(--navy);color:#fff}
+.tile span{font:400 14px/1.3 var(--hf);color:rgba(255,255,255,.75);letter-spacing:.04em}
+.tile b{display:block;font:600 34px/1.15 var(--hf);margin-top:6px}
+.tile small{font:400 14px/1.3 var(--hf);color:rgba(255,255,255,.75)}
+.tile.y{background:var(--yellow);color:var(--navy)} .tile.y span,.tile.y small{color:rgba(11,42,102,.75)}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.panel{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--paper)}
+.panel h4{margin:0 0 12px;font:600 19px/1.2 var(--hf);color:var(--brand)}
+.ctrlrow{display:flex;align-items:center;justify-content:space-between;gap:12px;font:400 16px/1.3 var(--hf);margin-bottom:10px}
+.ctrlrow input[type=number]{width:120px;font:500 17px/1 var(--hf);padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;text-align:right;background:#fff;color:var(--ink)}
+.ctrlrow input[type=range]{flex:1;accent-color:var(--brand)}
+.kv{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font:400 16px/1.3 var(--hf)}
+.kv b{font:600 22px/1 var(--hf);color:var(--brand)}
+
+.s2b{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:14px}
+.rt2{display:flex;flex-direction:column;gap:10px}
+.rt2 h4{margin:0;font:600 20px/1.2 var(--hf);display:flex;justify-content:space-between;align-items:center}
+.rt2 .plan{height:230px;background:#fff;border:1px solid var(--line)} .rt2 .plan img{object-fit:contain}
+.rt2 .rend{height:160px}
+.s3b{display:grid;grid-template-columns:472px 1fr;gap:24px;margin-top:12px}
+.s3b .fp{height:472px;background:#fff;border:1px solid var(--line)} .s3b .fp img{object-fit:contain}
+.kicker{display:flex;align-items:center;gap:10px;margin:-6px 0 10px;font:600 20px/1.2 var(--hf);color:var(--navy)}
+.kicker b{font:600 14px/1 var(--hf);background:var(--yellow);color:var(--navy);border-radius:8px;padding:7px 10px}
+.scene[data-sc="3"] .s3b{margin-top:8px}
+.scene[data-sc="3"] .s3b .fp{height:446px}
+/* s4 merged income */
+.scene[data-sc="4"] .formula{margin-top:10px;font-size:17px}
+.scene[data-sc="4"] .formula .t{padding:8px 10px}
+.scene[data-sc="4"] .bgrid{margin-top:14px;gap:12px}
+.scene[data-sc="4"] .bld{padding:12px 14px;gap:8px}
+.scene[data-sc="4"] .bld .bd{width:42px;height:42px;font-size:18px}
+.scene[data-sc="4"] .bld .big{font-size:28px}
+.scene[data-sc="4"] .bld .big small{font:400 14px/1 var(--hf);color:var(--muted)}
+.scene[data-sc="4"] .tgrid{margin-top:14px;gap:12px}
+.scene[data-sc="4"] .tile{padding:12px 16px}
+.scene[data-sc="4"] .tile b{font-size:28px;margin-top:2px}
+.calcbar{margin-top:14px;display:grid;grid-template-columns:1.1fr 1.3fr 1fr 1fr 1fr;gap:14px;align-items:center;padding:12px 16px}
+.calcbar .ctrlrow{flex-direction:column;align-items:flex-start;gap:4px;margin:0;font-size:14px}
+.calcbar .ctrlrow input[type=number]{width:100px;padding:6px 10px}
+.calcbar .ctrlrow input[type=range]{width:100%}
+.calcbar .cb{display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--line);padding-left:14px}
+.calcbar .cb span{font:400 14px/1.2 var(--hf);color:var(--muted)}
+.calcbar .cb b{font:600 22px/1.1 var(--hf);color:var(--brand)}
+/* s6 clubhouse */
+.s6{display:grid;grid-template-columns:560px 1fr;gap:24px;margin-top:16px}
+.s6 .phs{display:grid;grid-template-rows:262px 262px;gap:12px}
+.flist{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.flist li{display:flex;gap:12px;align-items:center;font:400 17px/1.35 var(--hf);background:var(--paper);border-radius:12px;padding:9px 14px}
+.flist li b{color:var(--brand);font-weight:600}
+.flist li i{flex:none;width:34px;height:34px;border-radius:10px;background:var(--brandS);color:var(--brand);display:grid;place-items:center;font:600 15px/1 var(--hf);font-style:normal}
+.own{margin-top:16px}
+.split{display:flex;height:64px;border-radius:14px;overflow:hidden;font:600 18px/1.2 var(--hf);color:#fff}
+.split div{display:flex;flex-direction:column;justify-content:center;padding:0 16px}
+.split small{font:400 13px/1.2 var(--hf);opacity:.85}
+.split .p1{background:var(--brand);flex:40} .split .p2{background:#8aa3cf;flex:60}
+.own p{margin:10px 0 0;font:400 15px/1.45 var(--bf);color:var(--muted)}
+
+/* s7 cost calc */
+.s7{display:grid;grid-template-columns:520px 1fr;gap:20px;margin-top:14px}
+.cost .ctrlrow{margin-bottom:7px;font-size:15px}
+.cost .ctrlrow input{width:110px;font-size:16px;padding:6px 10px}
+.csum{display:flex;justify-content:space-between;border-top:2px solid var(--ink);padding-top:8px;margin-top:6px;font:600 18px/1 var(--hf)}
+.res .kv{padding:7px 0}
+.res .kv b{font-size:20px}
+.hi{margin:10px 0 10px;border:3px solid var(--yellow);background:#fffbe6;border-radius:14px;padding:12px 14px 10px;box-shadow:0 8px 24px rgba(255,204,0,.25)}
+.hi-h{font:600 15px/1 var(--hf);color:var(--navy);margin-bottom:8px}
+.hi-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hi-t{background:#fff;border-radius:10px;padding:8px 12px;display:flex;flex-direction:column}
+.hi-t span{font:400 14px/1.3 var(--hf);color:var(--muted)}
+.hi-t b{font:700 40px/1.05 var(--hf);color:var(--brand)}
+.hi-t small{font:500 13px/1.35 var(--hf);color:var(--muted)}
+.hi-t small span{color:var(--brand);font-weight:600}
+.hi-p{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;font:500 15px/1.3 var(--hf)}
+.hi-p b{font:700 28px/1 var(--hf);color:var(--brand)}
+.hi .meter{margin:8px 0 2px;background:#fff}
+.meter{position:relative;height:14px;border-radius:7px;background:#e4eaf5;overflow:hidden;margin:12px 0}
+.meter i{position:absolute;left:0;top:0;bottom:0;border-radius:7px;transition:width .4s,background .4s}
+.verdict{border-radius:12px;padding:12px 14px;font:500 16px/1.45 var(--hf)}
+.verdict.good{background:var(--okS);color:var(--ok)} .verdict.warn{background:var(--warnS);color:var(--warn)} .verdict.bad{background:var(--badS);color:var(--bad)}
+.tagx{display:inline-block;font:600 12px/1 var(--hf);background:var(--yellow);color:var(--navy);border-radius:6px;padding:4px 7px;vertical-align:2px;margin-left:6px}
+
+/* s8 options */
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.opt{border-radius:16px;padding:18px 18px;background:var(--paper);border-top:8px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.opt h4{margin:0;font:600 22px/1.2 var(--hf)}
+.opt ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.opt li{font:400 15.5px/1.4 var(--bf);display:flex;gap:8px}
+.opt li b{flex:none;width:20px;font:700 16px/1.4 var(--hf)}
+.opt li b.p{color:var(--ok)} .opt li b.m{color:var(--bad)} .opt li b.c{color:var(--brand)}
+.opt.yes{border-top-color:var(--ok)} .opt.mid{border-top-color:var(--yellow);background:#fffdf1} .opt.no{border-top-color:var(--bad)}
+
+/* s9 two options */
+.opt2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.o2{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--paper)}
+.o2h{display:flex;align-items:center;gap:10px;padding:10px 14px;font:600 21px/1.2 var(--hf);color:#fff}
+.o2h b{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font:700 18px/1 var(--hf)}
+.o2h small{margin-left:auto;font:400 14px/1 var(--hf);opacity:.85}
+.o2a .o2h{background:var(--ok)} .o2a .o2h b{color:var(--ok)}
+.o2b .o2h{background:var(--brand)} .o2b .o2h b{color:var(--brand)}
+.o2s{padding:8px 16px 6px}
+.o2s h5{margin:0 0 4px;font:600 15px/1.2 var(--hf)}
+.o2s.pro h5{color:var(--ok)} .o2s.con h5{color:var(--bad)}
+.o2s ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
+.o2s li{font:400 15px/1.35 var(--bf);padding-left:20px;position:relative}
+.o2s.pro li::before{content:"+";position:absolute;left:2px;font-weight:700;color:var(--ok)}
+.o2s.con li::before{content:"!";position:absolute;left:5px;font-weight:700;color:var(--bad)}
+.o2s.con,.o2s.val{border-top:1px dashed var(--line)}
+.o2s.val h5{color:var(--warn)}
+.o2s.val li::before{content:"฿";position:absolute;left:2px;font-weight:700;color:var(--warn)}
+.o2b .o2s li{font-size:14.5px}
+.o2s li b{color:var(--brand)}
+.o2c{margin-top:12px;background:#fffbe6;border:2px solid var(--yellow);border-radius:12px;padding:10px 14px;font:400 15px/1.4 var(--hf)}
+.o2c b{display:block;color:var(--navy);font-weight:600;margin-bottom:2px}
+/* s9 checklist */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.check{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--paper);cursor:pointer;font:400 16px/1.35 var(--hf)}
+.check input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--ok);flex:none}
+.check small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.check.done{background:var(--okS);border-color:#bfe5d0}
+.check.done .t{text-decoration:line-through;color:var(--ok)}
+.prog9{font:600 18px/1 var(--hf);color:var(--brand)}
+
+/* s11 how to vote */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.hw{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.hw i{width:36px;height:36px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font:700 18px/1 var(--hf);font-style:normal}
+.hw h4{margin:0;font:600 22px/1.2 var(--hf);color:var(--brand)}
+.hw ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font:400 17px/1.45 var(--bf)}
+.hw li.big{list-style:none;margin-left:-18px;background:var(--yellow);color:var(--navy);border-radius:10px;padding:10px 12px;font:600 19px/1.35 var(--hf)}
+.tl{display:flex;align-items:center;gap:16px;margin-top:22px}
+.tp{display:flex;flex-direction:column;gap:2px;background:var(--brandS);border-radius:12px;padding:12px 16px}
+.tp b{font:600 20px/1.2 var(--hf);color:var(--brand)}
+.tp span{font:400 15px/1.3 var(--hf);color:var(--muted)}
+.tp.end{background:var(--navy)} .tp.end b{color:var(--yellow)} .tp.end span{color:rgba(255,255,255,.8)}
+.tline{flex:1;height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--brand) 0 14px,transparent 14px 22px)}
+/* video-only scenes */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.wy{min-height:250px}
+.wy{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.wy i{width:36px;height:36px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font:700 18px/1 var(--hf);font-style:normal}
+.wy h4{margin:0;font:600 24px/1.2 var(--hf);color:var(--brand)}
+.wy p{margin:0;font:400 18px/1.55 var(--bf);color:var(--ink)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vs div{background:var(--okS);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column}
+.vs div.bad{background:var(--badS)}
+.vs small{font:400 13px/1.3 var(--hf);color:var(--muted)}
+.vs b{font:700 38px/1.1 var(--hf);color:var(--ok)} .vs .bad b{color:var(--bad)}
+.cond{margin-top:24px;background:#fffbe6;border:2px solid var(--yellow);border-radius:14px;padding:14px 18px}
+.cond b{font:600 19px/1.2 var(--hf);color:var(--navy)}
+.cond ol{margin:10px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;counter-reset:c}
+.cond li{counter-increment:c;display:flex;gap:10px;align-items:flex-start;font:400 18px/1.4 var(--hf)}
+.cond li::before{content:counter(c);flex:none;width:30px;height:30px;border-radius:50%;background:var(--yellow);color:var(--navy);display:grid;place-items:center;font:700 16px/1 var(--hf)}
+.scene.cta{padding:0}
+.scene.cta img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cta-box{position:absolute;left:48px;top:50%;transform:translateY(-50%);width:640px;background:rgba(11,42,102,.9);color:#fff;border-radius:20px;padding:30px 34px;display:flex;flex-direction:column;gap:8px}
+.cta-box .kick{font:500 18px/1.2 var(--hf);color:var(--yellow)}
+.cta-box h2{margin:0;font:700 52px/1.15 var(--hf)}
+.cta-box p{margin:0;font:400 18px/1.45 var(--hf);opacity:.92}
+.cta-box p.when{font:600 22px/1.3 var(--hf);color:var(--navy);background:var(--yellow);border-radius:10px;padding:8px 12px;opacity:1;align-self:flex-start}
+.cta-box p.end{margin-top:6px;font-weight:500}
+/* video mode: no controls, screen centred */
+body.video .chapters,body.video .ctl,body.video .prog,body.video .hint,body.video .rotate{display:none!important}
+body.video .screen,body.video .cap{left:236px}
+body.video .scene,body.video [data-at]{transition:none}
+body.video .title.swap,body.video .cap .txt.swap{animation:none}
+/* end card */
+.endcard{position:absolute;inset:0;z-index:50;display:grid;place-items:center;background:rgba(7,22,60,.78);opacity:0;pointer-events:none;transition:opacity .6s}
+.endcard.on{opacity:1;pointer-events:auto}
+.endcard .box{width:900px;background:#fff;border-radius:22px;padding:40px 48px;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.endcard h3{margin:0 0 6px;font:600 34px/1.2 var(--hf);color:var(--brand)}
+.endcard p{margin:0 0 18px;color:var(--muted);font:400 18px/1.5 var(--hf)}
+.endcard ol{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.endcard li{display:flex;gap:14px;align-items:center;font:400 18px/1.35 var(--hf);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.endcard.on li{opacity:1;transform:none}
+.endcard li b{flex:none;width:34px;height:34px;border-radius:50%;background:var(--yellow);color:var(--brand);display:grid;place-items:center;font:600 16px/1 var(--hf)}
+.endcard .x{position:absolute;right:16px;top:12px;width:40px;height:40px;border:0;border-radius:50%;background:#f1f3f5;color:#495057;font:400 22px/40px var(--hf);cursor:pointer}
+.endcard .back{display:inline-block;margin-top:22px;font:500 16px/1 var(--hf);color:#fff;background:var(--brand);border:0;border-radius:10px;padding:12px 18px;cursor:pointer}
+
+.rotate{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:99;background:var(--yellow);color:var(--navy);font:500 14px/1.4 var(--hf);border-radius:12px;padding:10px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.rotate[hidden]{display:none}
+.rotate button{border:0;background:var(--navy);color:#fff;border-radius:8px;padding:6px 10px;font:500 13px/1 var(--hf)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="deck"><div class="stage" id="stage">
+  <div class="badge-top"><b>เฟส 1</b>เสนาคิทท์ เวสต์เกต–บางบัวทอง</div>
+  <div class="eyebrow" id="eyebrow">ข้อมูลประกอบการลงมติ · รับมอบสโมสร</div>
+  <h1 class="title" id="title">เฟส 1 จะรับมอบสโมสรหรือไม่</h1>
+  <div class="uline"></div>
+  <div class="snote">ข้อมูลจากโบรชัวร์ SENA และผังโครงการ · ค่าใช้จ่ายสโมสรเป็นตัวอย่าง</div>
+
+  <ol class="chapters" id="chapters"></ol>
+  <div class="ctl">
+    <button id="bPrev" title="หน้าก่อนหน้า (←)" aria-label="หน้าก่อนหน้า">◀</button>
+    <button class="pri" id="bNext" title="หน้าถัดไป (→ / Space)">▶ เริ่ม</button>
+    <button id="bAuto" title="เล่นต่อเนื่อง (A)" aria-label="เล่นต่อเนื่อง">⏵⏵</button>
+    <button id="bFull" title="เต็มจอ (F)" aria-label="เต็มจอ">⛶</button>
+  </div>
+  <div class="prog"><i id="prog"></i></div>
+  <div class="hint">→ / Space หน้าถัดไป · ← ย้อน · A เล่นต่อเนื่อง · R เริ่มใหม่ · F เต็มจอ · คลิกหัวข้อเพื่อข้าม</div>
+
+  <div class="screen" id="screen">
+
+    <!-- 0 โครงการ -->
+    <section class="scene" data-sc="0">
+      <div class="s0">
+        <figure class="ph" style="margin:0"><img src="img/render.jpg" alt="ภาพจำลองอาคารและสระว่ายน้ำ เสนาคิทท์ เวสต์เกต–บางบัวทอง"><figcaption>ภาพจำลองโครงการ</figcaption></figure>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><h3 class="sh">เสนาคิทท์ เวสต์เกต–บางบัวทอง</h3><p class="sub">คอนโด Low Rise 5 ชั้น ซอยโรงสวด ถ.บางกรวย–ไทรน้อย นนทบุรี · สร้างเสร็จปี 2565</p></div>
+          <div class="facts num">
+            <div class="fact" data-at="1"><b>4 อาคาร</b><span>เฟส 1 · A1–A4</span></div>
+            <div class="fact" data-at="1"><b>316 ห้อง</b><span>อาคารละ 79 ห้อง</span></div>
+            <div class="fact" data-at="1"><b>6 อาคาร</b><span>เฟส 2 · 474 ห้อง</span></div>
+            <div class="fact" data-at="1"><b>2 แบบห้อง</b><span>25 ตร.ม. และ 38 ตร.ม.</span></div>
+            <div class="fact" data-at="2"><b>27 บาท</b><span>ค่าส่วนกลาง ต่อ ตร.ม. ต่อเดือน</span></div>
+            <div class="fact" data-at="2"><b>300 บาท</b><span>กองทุน ต่อ ตร.ม. (จ่ายครั้งเดียว)</span></div>
+            <div class="fact wide" data-at="2" data-f="club2"><b>สโมสรใช้ร่วมกัน 2 เฟส</b><span>ตั้งอยู่ระหว่างเฟส 1 กับเฟส 2 · สัดส่วนเจ้าของ เฟส 1 : เฟส 2 = 40 : 60</span></div>
+          </div>
+        </div>
+      </div>
+      <span class="credit">ภาพ: SENA / Homenayoo · ภาพจำลองเพื่อการโฆษณา</span>
+    </section>
+
+    <!-- 1 ผัง -->
+    <section class="scene" data-sc="1">
+      <h3 class="sh">ผังเฟส 1: 4 อาคาร เรียงตามแนวซอยโรงสวด</h3>
+      <p class="sub">ทุกอาคารใช้ผังเดียวกัน 5 ชั้น มีห้องแบบ A (สีเหลือง) และแบบ B (สีน้ำตาล) อยู่ปลายอาคาร</p>
+      <div class="mp" style="margin-top:70px">
+        <img src="img/masterplan-p1.jpg" alt="ผังแม่บทเฟส 1 แสดงอาคาร A1 ถึง A4">
+        <div class="hl" data-at="1" style="left:75.8%;top:34%;width:21.8%;height:21%"><em>A1 · 79 ห้อง</em></div>
+        <div class="hl" data-at="1" style="left:51.1%;top:34%;width:21.8%;height:21%;transition-delay:.15s"><em>A2 · 79 ห้อง</em></div>
+        <div class="hl" data-at="1" style="left:27.2%;top:34%;width:21%;height:21%;transition-delay:.3s"><em>A3 · 79 ห้อง</em></div>
+        <div class="hl" data-at="1" style="left:1.8%;top:34%;width:23.1%;height:21%;transition-delay:.45s"><em>A4 · 79 ห้อง</em></div>
+      </div>
+      <span class="credit">ผัง: SENA / Homenayoo</span>
+    </section>
+
+    <!-- 2 แบบห้อง -->
+    <section class="scene" data-sc="2">
+      <h3 class="sh">มี 2 แบบห้อง: ห้องเล็กกับห้องใหญ่ จ่ายค่าส่วนกลางไม่เท่ากัน</h3>
+      <p class="sub">ค่าส่วนกลางคิดตามพื้นที่ห้อง 27 บาท × ตร.ม.</p>
+      <div class="s2b">
+        <div class="rt2">
+          <h4><span><i class="sw" style="background:var(--a)"></i>Type A · ห้องเล็ก</span><span class="pill">25 ตร.ม.</span></h4>
+          <figure class="ph plan" style="margin:0"><img src="img/plan-a-brochure.jpg" alt="แปลนห้อง Type A 1 ห้องนอน 25 ตร.ม."></figure>
+          <figure class="ph rend" style="margin:0" data-at="1"><img src="img/render-type-a.jpg" alt="ภาพจำลองห้อง Type A"></figure>
+          <div class="fee num">1 ห้องนอน · ค่าส่วนกลาง <b>675 บาท/เดือน</b> · <b>8,100 บาท/ปี</b></div>
+        </div>
+        <div class="rt2">
+          <h4><span><i class="sw" style="background:var(--b)"></i>Type B · ห้องใหญ่</span><span class="pill y">38 ตร.ม.</span></h4>
+          <figure class="ph plan" style="margin:0"><img src="img/plan-b-brochure.jpg" alt="แปลนห้อง Type B 2 ห้องนอน 38 ตร.ม."></figure>
+          <figure class="ph rend" style="margin:0" data-at="1"><img src="img/render-type-b.jpg" alt="ภาพจำลองห้อง Type B"></figure>
+          <div class="fee num">2 ห้องนอน (ห้องนอน + ห้องอเนกประสงค์) · <b>1,026 บาท/เดือน</b> · <b>12,312 บาท/ปี</b></div>
+        </div>
+      </div>
+      <span class="credit">ภาพ: โบรชัวร์ SENA · ภาพจำลองเพื่อการโฆษณา</span>
+    </section>
+
+    <!-- 3 ห้องต่ออาคาร -->
+    <section class="scene" data-sc="3">
+      <div class="kicker"><b>เรื่องลงมติ</b>เฟส 1 จะรับมอบสโมสรหรือไม่ · เสนาคิทท์ เวสต์เกต–บางบัวทอง</div>
+      <h3 class="sh">1 อาคาร = ห้องเล็ก 59 ห้อง + ห้องใหญ่ 20 ห้อง</h3>
+      <p class="sub">ผังชั้นของ A1–A4 เหมือนอาคาร B1–B4 ในโบรชัวร์เฟส 2 มี 2 แบบที่กลับด้านกัน จำนวนห้องเท่ากัน</p>
+      <div class="s3b">
+        <figure class="ph fp" style="margin:0" data-f="plan"><img src="img/floorplans-a1-a4.jpg" alt="ผังชั้น 1 ถึง 5 อาคาร A1 A3 และ A2 A4 สีเหลือง Type A สีน้ำตาล Type B"></figure>
+        <div>
+          <div class="mini" style="margin:0 0 12px"><span class="pill"><i class="sw" style="background:var(--a)"></i>Type A 25 ตร.ม.</span><span class="pill y"><i class="sw" style="background:var(--b)"></i>Type B 38 ตร.ม.</span></div>
+          <table class="ft num">
+            <thead><tr><th>ชั้น</th><th>Type A<br>25 ตร.ม.</th><th>Type B<br>38 ตร.ม.</th><th>รวม</th></tr></thead>
+            <tbody>
+              <tr data-at="0"><td>ชั้น 1<br><small style="color:var(--muted)">มีโถงทางเข้า ลิฟต์</small></td><td class="a">11</td><td class="b">4</td><td>15</td></tr>
+              <tr data-at="0"><td>ชั้น 2–5<br><small style="color:var(--muted)">ชั้นละ 12 + 4</small></td><td class="a">48</td><td class="b">16</td><td>64</td></tr>
+              <tr class="tot" data-at="1" data-f="perbld"><td>ต่ออาคาร</td><td>59</td><td>20</td><td>79</td></tr>
+              <tr class="tot" data-at="2" data-f="phase"><td>เฟส 1 (×4)</td><td>236</td><td>80</td><td>316</td></tr>
+            </tbody>
+          </table>
+          <p class="note3" data-at="2">ห้องใหญ่ 4 ห้องทุกชั้น อยู่ปลายอาคารฝั่งเดียวกัน (สีน้ำตาล) ควรเทียบกับทะเบียนห้องชุดของนิติบุคคล เผื่อมีห้องที่ปรับแบบตอนขาย</p>
+        </div>
+      </div>
+      <span class="credit">ผัง: ดัดแปลงจากโบรชัวร์ SENA (ผังเดียวกับ B1–B4 เฟส 2)</span>
+    </section>
+
+    <!-- 4 รายได้ A1–A4 + รวมเฟส 1 -->
+    <section class="scene" data-sc="4">
+      <h3 class="sh">ค่าส่วนกลางที่เก็บได้: ต่ออาคาร และรวมเฟส 1</h3>
+      <p class="sub">ห้องใหญ่มี 25% ของห้อง แต่จ่าย 34% ของยอดแต่ละอาคาร · ยอดเต็มคือถ้าทุกห้องจ่ายครบ</p>
+      <div class="formula num" data-f="formula">
+        <span class="t ta">59 ห้อง × 25 = 1,475 ตร.ม.</span><span class="op">+</span>
+        <span class="t tb">20 ห้อง × 38 = 760 ตร.ม.</span><span class="op">=</span>
+        <span class="t tt">2,235 ตร.ม. × 27 บาท = 60,345 บาท/เดือน ต่ออาคาร</span>
+      </div>
+      <div class="bgrid num" id="bgrid" data-f="blds"></div>
+      <div class="tgrid num" data-f="totals">
+        <div class="tile"><span>รวมเฟส 1</span><b>316 ห้อง</b><small>ห้องเล็ก 236 · ห้องใหญ่ 80</small></div>
+        <div class="tile"><span>พื้นที่รวม</span><b>8,940</b><small>ตร.ม.</small></div>
+        <div class="tile y"><span>เรียกเก็บ/เดือน (เต็ม)</span><b id="t5m">241,380</b><small>บาท</small></div>
+        <div class="tile y"><span>เรียกเก็บ/ปี (เต็ม)</span><b id="t5y">2,896,560</b><small>บาท</small></div>
+      </div>
+      <div class="panel calcbar num">
+        <div class="ctrlrow"><label for="rate">อัตรา (บาท/ตร.ม.)</label><input type="number" id="rate" value="27" min="0" step="0.5"></div>
+        <div class="ctrlrow"><label for="coll">เก็บได้จริง <b id="collOut">90%</b></label><input type="range" id="coll" min="60" max="100" value="90"></div>
+        <div class="cb"><span>เก็บได้จริง/เดือน</span><b id="gotM">–</b></div>
+        <div class="cb"><span>เก็บได้จริง/ปี</span><b id="gotY">–</b></div>
+        <div class="cb"><span>ต่ออาคาร/เดือน</span><b id="gotB">–</b></div>
+      </div>
+    </section>
+
+    <!-- 5 สโมสร -->
+    <section class="scene" data-sc="5">
+      <h3 class="sh">สโมสร: อยู่ระหว่างเฟส 1 กับเฟส 2</h3>
+      <div class="s6">
+        <div class="phs" data-f="photos">
+          <figure class="ph" style="margin:0"><img src="img/clubhouse-render.jpg" alt="ภาพจำลองคลับเฮาส์ 2 ชั้น และสระว่ายน้ำ"><figcaption>คลับเฮาส์ · ชั้นบนฟิตเนส ชั้นล่าง Co-Working</figcaption></figure>
+          <figure class="ph" style="margin:0"><img src="img/pool-model.jpg" alt="โมเดลสระว่ายน้ำ สระเด็ก และพูลเทอเรซ"><figcaption>สระว่ายน้ำ สระเด็ก และพูลเทอเรซ</figcaption></figure>
+        </div>
+        <div>
+          <ul class="flist">
+            <li data-at="0"><i>1</i>สระว่ายน้ำ สระเด็ก และพูลเทอเรซพร้อมเดย์เบด</li>
+            <li data-at="0"><i>2</i>ชั้น 1: Co-Working Space · ชั้น 2: ฟิตเนส</li>
+            <li data-at="0"><i>3</i>ห้องน้ำส่วนกลาง และสวน</li>
+            <li data-at="0"><i>P</i><span><b>ที่จอดรถส่วนกลาง และพื้นที่เช่าที่จอดรถ</b> รวมอยู่ในส่วนกลางที่โหวตครั้งนี้</span></li>
+            <li data-at="0"><i>☀</i>โมเดลมีแผงโซลาร์บนหลังคา ควรตรวจว่าติดตั้งจริงหรือไม่ เพราะมีผลกับค่าไฟ</li>
+          </ul>
+          <div class="own" data-at="1" data-f="own">
+            <div class="split num">
+              <div class="p1">เฟส 1 · 39.9%<small>4 อาคาร · 8,940 ตร.ม.</small></div>
+              <div class="p2">เฟส 2 · 60.1%<small>6 อาคาร · 13,475 ตร.ม.</small></div>
+            </div>
+            <p>เฟส 2: B1–B5 ผังเดียวกับเรา (59 + 20 ห้อง) ส่วน B6 มีห้องใหญ่ 25 ห้อง (54 + 25) พื้นที่ห้องชุดสองเฟสจึงเป็น 39.9 : 60.1 ใกล้กับสัดส่วน 40 : 60 แปลว่าแบ่งตามพื้นที่ห้องชุด ไม่ได้แบ่งตามจำนวนคนใช้</p>
+          </div>
+        </div>
+      </div>
+      <span class="credit">ภาพ: โบรชัวร์ SENA / Homenayoo · ภาพจำลอง อาจต่างจากของจริง</span>
+    </section>
+
+    <!-- 6 ค่าสโมสร 40% -->
+    <section class="scene" data-sc="6">
+      <h3 class="sh">ใช้ต่อ ไม่ต้องจ่ายเพิ่ม: ค่าสโมสรอยู่ในค่าส่วนกลางเดิมแล้ว<span class="tagx">แก้ตัวเลขได้</span></h3>
+      <p class="sub">ส่วนแบ่ง 40% ของเฟส 1 จ่ายจากค่าส่วนกลาง 27 บาท/ตร.ม. ที่เก็บอยู่แล้ว · ค่าใช้จ่ายสโมสรตั้งต้นเป็นตัวอย่าง ให้แทนด้วยงบจริง</p>
+      <div class="s7">
+        <div class="panel cost num" id="costs"></div>
+        <div class="panel res num">
+          <div class="ctrlrow"><label for="share">สัดส่วนของเฟส 1 (%)</label><input type="number" id="share" value="40" min="0" max="100"></div>
+          <div class="kv" data-f="share"><span>ส่วนของเฟส 1/เดือน (อยู่ในงบเดิม)</span><b id="r1">–</b></div>
+          <div class="kv"><span>เฉลี่ยต่อ ตร.ม. (จาก 27 บาทเดิม)</span><b id="r2">–</b></div>
+          <div class="hi" data-f="hi">
+            <div class="hi-h">ใช้ต่อ: แต่ละห้องต้องจ่ายเพิ่ม</div>
+            <div class="hi-g">
+              <div class="hi-t"><span><i class="sw" style="background:var(--a)"></i>ห้องเล็ก 25 ตร.ม.</span><b>0</b><small>บาท/เดือน · จ่ายเท่าเดิม 675 บาท (ในนี้เป็นค่าสโมสร ~<span id="r3">–</span> บาท)</small></div>
+              <div class="hi-t"><span><i class="sw" style="background:var(--b)"></i>ห้องใหญ่ 38 ตร.ม.</span><b>0</b><small>บาท/เดือน · จ่ายเท่าเดิม 1,026 บาท (ในนี้เป็นค่าสโมสร ~<span id="r4">–</span> บาท)</small></div>
+            </div>
+            <div class="hi-p"><span>ค่าสโมสรคิดเป็น % ของค่าส่วนกลางที่เก็บได้จริง</span><b id="r5">–</b></div>
+            <div class="meter"><i id="meter"></i></div>
+          </div>
+          <div class="verdict" id="verdict">–</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 ทางเลือก -->
+    <section class="scene" data-sc="7">
+      <h3 class="sh">ชั่งน้ำหนักประโยชน์ ค่าใช้จ่าย และผลกระทบของแต่ละทาง</h3>
+      <div class="opt2">
+        <div class="o2 o2a">
+          <div class="o2h"><b>1</b>ใช้บริการสโมสรต่อ<small>ค่าส่วนกลางเท่าเดิม · ได้ใช้</small></div>
+          <div class="o2s pro"><h5>ประโยชน์</h5><ul>
+            <li>รักษาสิทธิใช้สระว่ายน้ำ ฟิตเนส และพื้นที่สโมสร ใช้ได้ทุกคนในห้อง</li>
+            <li><b>ใช้ที่จอดรถส่วนกลาง และเช่าที่จอดรถได้ต่อ</b></li>
+            <li><b>ไม่ต้องจ่ายเพิ่ม</b> ค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม.</li>
+            <li>ส่วนกลางครบ ช่วยราคาขายต่อและค่าเช่า</li>
+            <li>มีสิทธิพิจารณาในอนาคตเมื่อมีการเสนอรับโอนจริง</li>
+          </ul></div>
+          <div class="o2s con"><h5>สิ่งที่ต้องพิจารณา</h5><ul>
+            <li>ส่วนแบ่ง 40% ใช้จากงบค่าส่วนกลางเดิม ต้องดูแลให้งบพอ</li>
+            <li>อาจมีค่าซ่อมและค่าบำรุงรักษา เช่น ปั๊ม ระบบกรอง หลังคา</li>
+            <li>ต้องมีระบบตรวจสอบเงิน บัญชีแยก และขอบเขตค่าใช้จ่ายที่ชัดเจน</li>
+          </ul></div>
+        </div>
+        <div class="o2 o2b">
+          <div class="o2h"><b>2</b>ไม่ใช้บริการร่วมต่อ<small>ค่าส่วนกลางเท่าเดิม · หมดสิทธิ์</small></div>
+          <div class="o2s pro"><h5>ประโยชน์</h5><ul>
+            <li>ลดภาระดูแลสโมสรในอนาคต ไม่ต้องรับค่าซ่อมใหญ่</li>
+            <li>นำทรัพยากรไปดูแลพื้นที่ของเฟส 1 เอง</li>
+          </ul></div>
+          <div class="o2s con" data-f="o2con"><h5>สิ่งที่ต้องพิจารณา</h5><ul>
+            <li><b>ค่าส่วนกลางไม่ลดลง</b> (นิติฯ ยืนยัน) แต่หมดสิทธิใช้สโมสร ที่จอดรถส่วนกลาง และพื้นที่เช่าที่จอดรถ</li>
+            <li>ถ้าจะใช้ต้องจ่ายเองรายคน ผู้ใหญ่ 18,000 บาท/ปี เด็กต่ำกว่า 10 ปี 7,000 บาท/ปี</li>
+            <li>ต้องชี้แจงการสะสางภาระเดิม และสิทธิในอนาคต</li>
+            <li>ถ้าวันหลังอยากกลับมาใช้ อาจต้องจ่ายย้อนหลังหรือรับสภาพที่ทรุดโทรม</li>
+          </ul></div>
+          <div class="o2s val" data-f="o2val"><h5>ผลต่อมูลค่าห้อง</h5><ul>
+            <li>ค่าเช่าอาจลดลงหรือห้องว่างนานขึ้น เพราะประกาศเขียน "มีสระ ฟิตเนส" ไม่ได้</li>
+            <li>ราคาขายต่ออาจต้องลด เพราะห้องเฟส 2 แบบเดียวกันข้าง ๆ ใช้สโมสรได้</li>
+            <li>ค่าเช่าลด 200–300 บาท/เดือน = เสีย 2,400–3,600 บาท/ปี โดยไม่ได้ประหยัดค่าส่วนกลางเลย</li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="o2c"><b>ถ้าเลือกทางที่ 1 ควรมีเงื่อนไข</b>ทำบันทึกข้อตกลงกับเฟส 2 (แบ่ง 40/60 ผู้บริหาร บัญชีแยก) · กำหนดเพดานงบและวิธีอนุมัติค่าซ่อมใหญ่</div>
+    </section>
+
+    <!-- 8 เช็กลิสต์ -->
+    <section class="scene" data-sc="8">
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <h3 class="sh">เช็กลิสต์ข้อมูลก่อนโหวต</h3><span class="prog9 num" id="prog9">0/9</span>
+      </div>
+      <p class="sub">ติ๊กเมื่อได้ข้อมูลแล้ว เบราว์เซอร์นี้จะจำไว้</p>
+      <div class="checks" id="checks"></div>
+    </section>
+
+    <!-- 11 วิธีลงคะแนน -->
+    <section class="scene" data-sc="11">
+      <h3 class="sh">วิธีลงคะแนน ตามประกาศนิติบุคคลอาคารชุด</h3>
+      <p class="sub">การลงคะแนนแสดงความคิดเห็นเรื่องการรับบริการอาคารสโมสรของเฟส 1</p>
+      <div class="how">
+        <div class="hw" data-f="h1"><i>1</i><h4>ใครมีสิทธิ์</h4><ul>
+          <li>เจ้าของกรรมสิทธิ์ห้องชุดเท่านั้น</li>
+          <li>ต้องไม่ค้างชำระค่าส่วนกลางเกิน 6 เดือน</li>
+          <li>มาเองไม่ได้ มอบอำนาจให้คนอื่นแทนได้</li></ul></div>
+        <div class="hw" data-f="h2"><i>2</i><h4>รับบัตรลงคะแนน</h4><ul>
+          <li>ที่ห้องสำนักงานนิติบุคคลฯ</li>
+          <li class="big">ตั้งแต่ วันจันทร์ 9 พ.ย. 2569<br>เวลา 10.00 น. เป็นต้นไป</li></ul></div>
+        <div class="hw" data-f="h3"><i>3</i><h4>เอกสารกรณีมอบอำนาจ</h4><ul>
+          <li>หนังสือมอบอำนาจ ลงลายมือชื่อแล้ว</li>
+          <li>สำเนาบัตรประชาชนผู้มอบอำนาจ เซ็นรับรองสำเนา</li>
+          <li>สำเนาบัตรประชาชนผู้รับมอบอำนาจ เซ็นรับรองสำเนา</li></ul></div>
+      </div>
+      <div class="tl num" data-f="tl">
+        <div class="tp"><b>จ. 9 พ.ย. 2569 · 10.00 น.</b><span>เริ่มรับบัตรลงคะแนน</span></div>
+        <div class="tline"></div>
+        <div class="tp end"><b>25 พ.ย. 2569</b><span>นิติบุคคลฯ รวบรวมและสรุปผลคะแนน</span></div>
+      </div>
+      <p class="note3">ประกาศไม่ได้ระบุเวลาปิดรับบัตร ควรสอบถามสำนักงานนิติบุคคลฯ และส่งบัตรก่อนวันสรุปผล</p>
+    </section>
+
+    <!-- 9 เหตุผลที่ควรใช้ต่อ (video only) -->
+    <section class="scene" data-sc="9">
+      <h3 class="sh">ทำไมควรใช้บริการสโมสรต่อ</h3>
+      <p class="sub">ทั้งสองทางจ่ายค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม. · นิติฯ ยืนยันว่าไม่ใช้สโมสร ค่าส่วนกลางก็ไม่ลด</p>
+      <div class="why num">
+        <div class="wy" data-f="w1"><i>1</i><h4>ไม่ต้องจ่ายเพิ่ม</h4><div class="vs"><div><small>ใช้ต่อ · ทั้งห้อง จ่ายเพิ่ม</small><b>0</b><small>บาท/ปี</small></div><div class="bad"><small>ไม่ใช้ต่อ · ถ้าอยากใช้ ผู้ใหญ่ 1 คน</small><b>18,000</b><small>บาท/ปี หรือ 80 บาท/วัน</small></div></div></div>
+        <div class="wy" data-f="w2"><i>2</i><h4>รักษามูลค่าห้อง</h4><p>ห้องเฟส 2 แบบเดียวกันข้าง ๆ ใช้สระและฟิตเนสได้ ถ้าเราไม่มีสิทธิ์ ห้องเราจะเสียเปรียบทั้งค่าเช่าและราคาขายต่อ</p></div>
+        <div class="wy" data-f="w3"><i>3</i><h4>ไม่ใช้ ก็ไม่ได้ลด</h4><p>นิติบุคคลฯ ยืนยัน ถ้าไม่ใช้สโมสร ค่าส่วนกลางยังเท่าเดิม เท่ากับจ่ายเท่าเดิม แต่ได้น้อยลง</p></div>
+      </div>
+      <div class="cond" data-f="cond">
+        <b>ใช้ต่อ พร้อมเงื่อนไขที่ปกป้องเฟส 1</b>
+        <ol><li>ข้อตกลงกับเฟส 2 เป็นลายลักษณ์อักษร บัญชีแยก ตรวจสอบได้</li><li>เพดานงบ และวิธีอนุมัติค่าซ่อมใหญ่</li></ol>
+      </div>
+    </section>
+
+    <!-- 10 ชวนลงคะแนน (video only) -->
+    <section class="scene cta" data-sc="10">
+      <img src="img/clubhouse-render.jpg" alt="">
+      <div class="cta-box" data-f="cta">
+        <span class="kick">ขอเชิญเจ้าของห้องเฟส 1 ทุกท่าน</span>
+        <h2>ลงคะแนน "ใช้ต่อ"</h2>
+        <p class="when">รับบัตรที่สำนักงานนิติบุคคลฯ · ตั้งแต่ จ. 9 พ.ย. 2569 เวลา 10.00 น.</p>
+        <p>สรุปผลคะแนน 25 พ.ย. 2569 · มาไม่ได้ มอบอำนาจได้</p>
+        <p class="end">ทุกเสียงช่วยรักษาคุณภาพชีวิต และมูลค่าห้องของเราทุกคน</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="cap"><span class="tag" id="ctag">เริ่ม</span><span class="txt" id="ctxt">กด ▶ หรือปุ่ม → เพื่อเริ่ม</span></div>
+
+  <div class="endcard" id="end">
+    <div class="box">
+      <button class="x" id="endX" title="ปิด (Esc)" aria-label="ปิด">✕</button>
+      <h3>สรุปสำหรับลูกบ้านเฟส 1</h3>
+      <p>ตัวเลขรายได้มาจากผังโครงการ ส่วนค่าใช้จ่ายสโมสรต้องได้งบจริงก่อนโหวต</p>
+      <ol class="num">
+        <li style="transition-delay:.1s"><b>1</b>4 อาคาร × 79 ห้อง = 316 ห้อง (ห้องเล็ก 25 ตร.ม. 236 ห้อง · ห้องใหญ่ 38 ตร.ม. 80 ห้อง)</li>
+        <li style="transition-delay:.25s"><b>2</b>อาคารละ 2,235 ตร.ม. เก็บได้ 60,345 บาท/เดือน</li>
+        <li style="transition-delay:.4s"><b>3</b>รวมเฟส 1 เต็มที่ 241,380 บาท/เดือน หรือ 2.90 ล้านบาท/ปี</li>
+        <li style="transition-delay:.55s"><b>4</b>สัดส่วนสโมสร 40 : 60 ใกล้กับพื้นที่ห้องชุดของสองเฟส (39.9 : 60.1)</li>
+        <li style="transition-delay:.7s"><b>5</b>ใช้ต่อหรือไม่ ค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม. ต่างกันแค่ได้ใช้สโมสรหรือไม่</li>
+      </ol>
+      <button class="back" id="endRe">↺ ดูอีกครั้ง</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="rotate" id="rotate" hidden><span>หมุนจอเป็นแนวนอนเพื่ออ่านได้ชัดขึ้น</span><button id="rotX">ปิด</button></div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var fmt=function(n){return Math.round(n).toLocaleString('th-TH')};
+  var fmt2=function(n){return n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})};
+
+  var AREA=8940, AREA_B=2235, UNITS=316;
+
+  var CH=['โครงการ','ผังเฟส 1','แบบห้อง','ห้องต่ออาคาร','รายได้ A1–A4 และรวม','สโมสร','ค่าสโมสร 40%','ทางเลือก','เช็กลิสต์','เหตุผล','ชวนลงคะแนน','วิธีลงคะแนน'];
+  var STEPS=[
+    [0,9,'โครงการ','เฟส 1 มี 4 อาคาร 316 ห้อง · เฟส 2 มี 6 อาคาร 474 ห้อง · สโมสรเป็นของร่วม 2 เฟส'],
+    [1,9,'ผัง','อาคาร A1–A4 อาคารละ 79 ห้อง เรียงตามแนวซอยโรงสวด'],
+    [2,9,'แบบห้อง','ห้องเล็ก 25 ตร.ม. จ่าย 675 บาท · ห้องใหญ่ 38 ตร.ม. จ่าย 1,026 บาท ต่อเดือน'],
+    [3,9,'นับห้อง','1 อาคาร = ห้องเล็ก 59 + ห้องใหญ่ 20 = 79 ห้อง · ทั้งเฟส 1 = 316 ห้อง'],
+    [4,9,'รายได้','A1–A4 อาคารละ 60,345 บาท/เดือน · รวมเฟส 1 เรียกเก็บเต็ม 241,380 บาท/เดือน หรือ 2.9 ล้านบาท/ปี'],
+    [5,9,'สโมสร','พื้นที่ห้องชุด เฟส 1 : เฟส 2 = 39.9 : 60.1 ใกล้กับสัดส่วน 40 : 60'],
+    [6,9,'ค่าสโมสร','ใช้ต่อไม่ต้องจ่ายเพิ่ม · ส่วนแบ่ง 40% อยู่ในค่าส่วนกลาง 27 บาท/ตร.ม. ที่จ่ายอยู่แล้ว'],
+    [7,9,'ทางเลือก','ทางที่ 1 ใช้บริการสโมสรต่อ · ทางที่ 2 ไม่ใช้บริการร่วมต่อ'],
+    [8,9,'เช็กลิสต์','ข้อมูล 10 อย่างที่ควรได้ก่อนวันลงคะแนน'],
+    [9,9,'เหตุผล','ไม่ต้องจ่ายเพิ่ม · รักษามูลค่าห้อง · ไม่ใช้ก็ไม่ได้ลด'],
+    [10,9,'ลงคะแนน','รับบัตรตั้งแต่ 9 พ.ย. 2569 · สรุปผล 25 พ.ย. 2569'],
+    [11,9,'ลงคะแนน','เจ้าของห้องที่ไม่ค้างค่าส่วนกลางเกิน 6 เดือน · รับบัตรที่นิติฯ ตั้งแต่ จ. 9 พ.ย. 10.00 น.']
+  ];
+  var TITLES=['เฟส 1 จะรับมอบสโมสรหรือไม่','ผังโครงการเฟส 1','แบบห้องและค่าส่วนกลางต่อห้อง','นับห้องเล็ก ห้องใหญ่ ต่ออาคาร','รายได้ค่าส่วนกลาง A1–A4 และรวมเฟส 1','สโมสรที่จะรับมอบ','ค่าสโมสรอยู่ในค่าส่วนกลางเดิม','ก่อนโหวต ควรพิจารณา 2 ทางเลือก','ก่อนวันโหวต','เหตุผลที่ควรใช้ต่อ','เชิญลงคะแนน','วิธีลงคะแนน'];
+
+  // hidden chapters: โครงการ, ผังเฟส 1, แบบห้อง (scenes stay in the file; remove an index to show it again)
+  var HIDE=[0,1,2,9,10];
+  var ALL=STEPS.slice();
+  STEPS=STEPS.filter(function(s){return HIDE.indexOf(s[0])<0});
+
+  // chapters
+  var chEl=$('chapters'),vis=0;
+  CH.forEach(function(c,i){
+    if(HIDE.indexOf(i)>=0)return;
+    var li=document.createElement('li');li.tabIndex=0;li.dataset.ch=i;li.innerHTML='<b>'+(++vis)+'</b><span>'+c+'</span>';
+    var go=function(){var k=-1;STEPS.forEach(function(s,j){if(s[0]===i)k=j});show(k)};
+    li.addEventListener('click',go);li.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();go()}});
+    chEl.appendChild(li);
+  });
+
+  // buildings (scene 4)
+  var bg=$('bgrid');
+  ['A1','A2','A3','A4'].forEach(function(b,i){
+    var d=document.createElement('div');d.className='bld';d.setAttribute('data-at','1');d.style.transitionDelay=(i*.12)+'s';
+    d.innerHTML='<div class="hd"><div class="bd">'+b+'</div><span>79 ห้อง · เล็ก 59 · ใหญ่ 20<br>2,235 ตร.ม. · 724,140 บ./ปี</span></div>'+
+      '<div class="bar"><i style="width:66%;background:var(--a)"></i><i style="width:34%;background:var(--b)"></i></div>'+
+      '<div class="big"><span class="cnt" data-to="60345">60,345</span> <small>บาท/เดือน</small></div>';
+    bg.appendChild(d);
+  });
+
+  // costs (scene 7)
+  var COSTS=[['ค่าไฟฟ้า (ปั๊มสระ แอร์ ไฟ)',25000],['ค่าน้ำประปา',3000],['เคมีและดูแลสระ',8000],['แม่บ้าน / ทำความสะอาด',12000],['ซ่อมบำรุงฟิตเนส ปั๊ม ระบบกรอง',5000],['ประกันภัย ภาษี (เฉลี่ย/เดือน)',3000]];
+  var cw=$('costs');
+  cw.innerHTML='<h4>ค่าใช้จ่ายสโมสร/เดือน <span class="tagx">ตัวอย่าง</span></h4>';
+  COSTS.forEach(function(c,i){
+    var r=document.createElement('div');r.className='ctrlrow';
+    r.innerHTML='<label for="c'+i+'">'+c[0]+'</label><input type="number" id="c'+i+'" value="'+c[1]+'" min="0" step="500">';
+    cw.appendChild(r);
+  });
+  var cs=document.createElement('div');cs.className='csum';cs.innerHTML='<span>รวมทั้งสโมสร</span><span id="csum">–</span>';cw.appendChild(cs);
+
+  function v(id){var n=parseFloat($(id).value);return isFinite(n)&&n>=0?n:0}
+  function calc(){
+    var rate=v('rate'),coll=v('coll')/100;
+    $('collOut').textContent=Math.round(coll*100)+'%';
+    var full=AREA*rate,got=full*coll;
+    $('t5m').textContent=fmt(full);$('t5y').textContent=fmt(full*12);
+    $('gotM').textContent=fmt(got)+' บาท';$('gotY').textContent=fmt(got*12)+' บาท';$('gotB').textContent=fmt(got/4)+' บาท';
+    var tot=0;COSTS.forEach(function(_,i){tot+=v('c'+i)});
+    $('csum').textContent=fmt(tot)+' บาท';
+    var sh=Math.min(v('share'),100)/100,mine=tot*sh,psqm=mine/AREA;
+    $('r1').textContent=fmt(mine)+' บาท';
+    $('r2').textContent=fmt2(psqm)+' บาท';
+    $('r3').textContent=fmt(psqm*25);
+    $('r4').textContent=fmt(psqm*38);
+    var pct=got?mine/got*100:0;
+    $('r5').textContent=got?fmt2(pct)+'%':'–';
+    var cls=pct<=20?'good':'warn';
+    var msg='ใช้ต่อหรือไม่ใช้ ค่าส่วนกลางเท่าเดิม 27 บาท/ตร.ม. (นิติฯ ยืนยันว่าไม่ใช้สโมสรก็ไม่ลด) ต่างกันแค่ได้ใช้สโมสรหรือไม่'
+      +(cls==='good'?'':' · ค่าสโมสรใช้เกิน 20% ของรายได้ ควรตรวจว่างบเดิมยังพอ');
+    var vd=$('verdict');vd.className='verdict '+cls;vd.textContent=msg;
+    var m=$('meter');m.style.width=Math.min(pct*2.5,100)+'%';m.style.background='var(--'+(cls==='good'?'ok':cls)+')';
+  }
+  ['input','change'].forEach(function(ev){document.addEventListener(ev,function(e){if(e.target.matches('#screen input[type=number],#screen input[type=range],#screen select'))calc()})});
+  calc();
+
+  // checklist (scene 9)
+  var ITEMS=[
+    ['ค่าใช้จ่ายสุทธิที่เฟส 1 ต้องจ่ายจริง','งบสโมสรจริง 6–12 เดือน × 40% หักรายได้ที่สโมสรเก็บเอง (ถ้ามี)'],
+    ['รายการซ่อมและผู้รับผิดชอบ','สระ ปั๊ม ระบบกรอง หลังคา ฟิตเนส โซลาร์ ใครซ่อม ใครจ่าย'],
+    ['สิทธิใช้บริการและที่จอดรถ','ถ้าไม่ใช้ต่อ ยังจอดได้หรือไม่ เช่าได้ในราคาเท่าไร'],
+    ['วันเริ่ม/ยุติบริการ และผลต่อการรับโอนในอนาคต','ถ้าเลิกตอนนี้ กลับมารับโอนภายหลังได้หรือไม่'],
+    ['ภาระเดิมที่ต้องสะสาง','ค่าใช้จ่ายค้างระหว่างเฟส 1 กับเฟส 2 หรือ SENA'],
+    ['ทะเบียนห้องชุด A1–A4','ยืนยันจำนวนห้องเล็ก/ใหญ่ และพื้นที่ตามโฉนด'],
+    ['ยอดค้างชำระค่าส่วนกลาง','ใช้ตั้ง % เก็บได้จริง'],
+    ['งบรายรับรายจ่ายเฟส 1 ปัจจุบัน','ดูว่าเหลือเงินต่อเดือนเท่าไร'],
+    ['ร่างข้อตกลงกับเฟส 2','แบ่ง 40/60 ผู้บริหาร บัญชีแยก ค่าซ่อมใหญ่'],
+    ['ข้อบังคับนิติบุคคลและ พ.ร.บ.อาคารชุด','คะแนนเสียงและองค์ประชุมที่มติต้องใช้']
+  ];
+  var st={};try{st=JSON.parse(localStorage.getItem('cv2-checks')||'{}')}catch(e){}
+  var ck=$('checks');
+  function p9(){var d=0;ITEMS.forEach(function(_,i){if(st[i])d++});$('prog9').textContent='ได้แล้ว '+d+'/'+ITEMS.length}
+  ITEMS.forEach(function(it,i){
+    var l=document.createElement('label');l.className='check'+(st[i]?' done':'');l.setAttribute('for','k'+i);
+    l.innerHTML='<input type="checkbox" id="k'+i+'"'+(st[i]?' checked':'')+'><span><span class="t">'+it[0]+'</span><small>'+it[1]+'</small></span>';
+    l.querySelector('input').addEventListener('change',function(e){st[i]=e.target.checked;l.classList.toggle('done',st[i]);p9();try{localStorage.setItem('cv2-checks',JSON.stringify(st))}catch(err){}});
+    ck.appendChild(l);
+  });
+  p9();
+
+  // count-up
+  function countUp(el){
+    var to=+el.dataset.to,t0=null;
+    if(document.body.classList.contains('video')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=fmt(to);return}
+    function f(t){if(!t0)t0=t;var k=Math.min((t-t0)/900,1);el.textContent=fmt(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)}
+    requestAnimationFrame(f);
+  }
+
+  // navigation
+  var cur=-1,auto=null,scenes=[].slice.call(document.querySelectorAll('.scene'));
+  var title=$('title'),ctag=$('ctag'),ctxt=$('ctxt');
+  function show(k){
+    if(k<0)k=0;
+    if(k>=STEPS.length){$('end').classList.add('on');stopAuto();return}
+    $('end').classList.remove('on');
+    var prev=cur>=0?STEPS[cur]:null,s=STEPS[k];cur=k;
+    scenes.forEach(function(sc){sc.classList.toggle('on',+sc.dataset.sc===s[0])});
+    var sc=scenes.filter(function(x){return +x.dataset.sc===s[0]})[0];
+    sc.querySelectorAll('[data-at]').forEach(function(el){
+      var was=el.classList.contains('in'),now=+el.dataset.at<=s[1];
+      el.classList.toggle('in',now);
+      if(now&&!was)el.querySelectorAll('.cnt').forEach(countUp);
+    });
+    if(!prev||prev[0]!==s[0]){title.textContent=TITLES[s[0]];title.classList.remove('swap');void title.offsetWidth;title.classList.add('swap')}
+    ctag.textContent=s[2];ctxt.textContent=s[3];ctxt.classList.remove('swap');void ctxt.offsetWidth;ctxt.classList.add('swap');
+    [].forEach.call(chEl.children,function(li){var i=+li.dataset.ch;li.classList.toggle('on',i===s[0]);li.classList.toggle('done',i<s[0])});
+    $('prog').style.width=((k+1)/STEPS.length*100)+'%';
+    $('bNext').textContent=k===STEPS.length-1?'▶ สรุป':'▶ ถัดไป';
+    try{localStorage.setItem('cv2-step',k)}catch(e){}
+  }
+  function next(){show(cur+1)}
+  function prev(){if($('end').classList.contains('on')){$('end').classList.remove('on');return}show(cur-1)}
+  function stopAuto(){clearInterval(auto);auto=null;$('bAuto').classList.remove('act')}
+  function toggleAuto(){if(auto){stopAuto();return}$('bAuto').classList.add('act');if(cur<0)next();auto=setInterval(function(){if(cur>=STEPS.length-1){show(STEPS.length);return}next()},5500)}
+  function full(){var d=document;try{if(!d.fullscreenElement)d.documentElement.requestFullscreen().catch(function(){});else d.exitFullscreen()}catch(e){}}
+  $('bNext').onclick=function(){stopAuto();next()};
+  $('bPrev').onclick=function(){stopAuto();prev()};
+  $('bAuto').onclick=toggleAuto;
+  $('bFull').onclick=full;
+  $('endX').onclick=function(){$('end').classList.remove('on')};
+  $('endRe').onclick=function(){show(0)};
+  addEventListener('keydown',function(e){
+    if(e.target.matches('input,textarea'))return;
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();stopAuto();next()}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();stopAuto();prev()}
+    else if(e.key==='a'||e.key==='A')toggleAuto();
+    else if(e.key==='r'||e.key==='R'){stopAuto();show(0)}
+    else if(e.key==='f'||e.key==='F')full();
+    else if(e.key==='Escape')$('end').classList.remove('on');
+  });
+  // video mode: #v<scene> shows one scene full-width without controls (used to render the narrated video)
+  var vm=/^#v(\d+)$/.exec(location.hash);
+  if(vm){
+    document.body.classList.add('video');
+    var vs=ALL.filter(function(x){return x[0]===+vm[1]})[0];
+    if(vs){STEPS=[vs];show(0);
+      // publish focus-target rects (1920x1080 viewport px) for build_video.py
+      var sc=document.querySelector('.scene.on'),r={};
+      if(sc)sc.querySelectorAll('[data-f]').forEach(function(el){var b=el.getBoundingClientRect(),st=document.getElementById('stage').getBoundingClientRect(),k=1920/st.width;r[el.dataset.f]=[(b.left-st.left)*k,(b.top-st.top)*k,(b.right-st.left)*k,(b.bottom-st.top)*k].map(Math.round)});
+      var pre=document.createElement('pre');pre.id='frects';pre.hidden=true;pre.textContent=JSON.stringify(r);document.body.appendChild(pre);
+    }
+  }else{
+    var start=0;try{var sv=parseInt(localStorage.getItem('cv2-step'),10);if(sv>=0&&sv<STEPS.length)start=sv}catch(e){}
+    show(start);
+  }
+
+  // scale stage
+  var stage=$('stage');
+  function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';
+    $('rotate').hidden=!(innerWidth<700&&innerHeight>innerWidth)||rotClosed}
+  var rotClosed=false;$('rotX').onclick=function(){rotClosed=true;$('rotate').hidden=true};
+  addEventListener('resize',fit);fit();
+})();
+</script>
+</body>
+</html>
