@@ -409,8 +409,9 @@ var coreSum=function(G,m){return sum(G.filter(function(g){return g.core}).map(fu
 var CORE_IN=coreSum(IN),CORE_EX=coreSum(EX);
 
 /* ---------- shared state ---------- */
-var KEY='fin69-deck-v1',S;
-function fresh(){var o={on:{},mo:[1,1,1,1,1,1,1,1],slide:0,esel:'fixed',asel:0,af:'all'};IN.concat(EX).forEach(function(g){o.on[(IN.indexOf(g)>=0?'i:':'e:')+g.k]=1});return o}
+var KEY='fin69-deck-v2',S;
+// default: recurring items only (non-recurring income/expense unticked)
+function fresh(){var o={on:{},mo:[1,1,1,1,1,1,1,1],slide:0,esel:'fixed',asel:0,af:'all'};IN.concat(EX).forEach(function(g){o.on[(IN.indexOf(g)>=0?'i:':'e:')+g.k]=g.core?1:0});return o}
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||!S.on||!S.mo)S=fresh();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
