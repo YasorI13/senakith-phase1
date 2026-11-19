@@ -472,7 +472,7 @@ function rDash(){
   var off=IN.filter(function(g){return !isOn('i:',g)}).concat(EX.filter(function(g){return !isOn('e:',g)})).map(function(g){return g.n});
   var ex=M.filter(function(_,i){return !S.mo[i]});
   $('dSay').innerHTML=(net<0?'ช่วงที่เลือก ใช้เงินเกินรายรับ <b class="neg">'+f0(-net)+'</b> บาท':'ช่วงที่เลือก รายรับมากกว่ารายจ่าย <b class="pos">'+f0(net)+'</b> บาท')+(n?' หรือเฉลี่ย '+fs(net/n)+' บาท/เดือน':'')+
-    '<br><span class="muted small">'+(off.length?'ตัดออก: '+off.join(', '):'นับทุกรายการตามงบ')+(ex.length?' · ไม่นับเดือน '+ex.join(' '):'')+(isOn('i:',IN[7])||!S.mo[0]?'':' · ม.ค. รายรับประจำเป็น 0 เพราะงบบันทึกเป็นเงินโอนรอตรวจสอบ แล้วไปออกใบเสร็จใน ก.พ.')+'</span>';
+    '<br><span class="muted small">'+(cp==='core'||cp==='steady'?'ตัดรายการที่ไม่ใช่รายการประจำออกทั้งหมด':off.length?'ตัดออก: '+off.join(', '):'นับทุกรายการตามงบ')+(ex.length?' · ไม่นับเดือน '+ex.join(' '):'')+(isOn('i:',IN[7])||!S.mo[0]?'':' · ม.ค. รายรับประจำเป็น 0 เพราะงบบันทึกเป็นเงินโอนรอตรวจสอบ แล้วไปออกใบเสร็จใน ก.พ.')+'</span>';
 }
 
 /* ---------- 3 fee ---------- */
