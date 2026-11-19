@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="งบเฟส 1">
+<meta name="theme-color" content="#0b2a66">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>งบการเงินเฟส 1 ปี 2569</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <script>document.documentElement.setAttribute('data-theme','light')</script>
@@ -642,7 +649,7 @@ $('goCore').onclick=function(){setPreset('core');show(1)};
 $('sReset').onclick=function(){rFut(true);save()};
 $('bPrev').onclick=function(){show(S.slide-1)};
 $('bNext').onclick=function(){show(S.slide+1)};
-function full(){var d=document;if(d.fullscreenElement)d.exitFullscreen();else if(d.documentElement.requestFullscreen)d.documentElement.requestFullscreen().catch(function(){})}
+function full(){window.fsToggle()}
 $('bFull').onclick=full;
 addEventListener('keydown',function(e){if(e.target.matches('input'))return;
   if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();show(S.slide+1)}
@@ -654,6 +661,42 @@ var stage=$('stage'),rotClosed=false;
 function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';$('rotate').hidden=!(innerWidth<700&&innerHeight>innerWidth)||rotClosed}
 $('rotX').onclick=function(){rotClosed=true;$('rotate').hidden=true};
 addEventListener('resize',fit);fit();
+})();
+</script>
+
+<style>
+.fsh{position:fixed;inset:0;z-index:200;background:rgba(5,10,24,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+.fsh[hidden]{display:none}
+.fsh .bx{background:#fff;color:#1d2433;border-radius:16px;max-width:420px;width:100%;padding:20px 20px 16px;font:400 15px/1.55 "Kanit","Leelawadee UI",Tahoma,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.fsh h4{margin:0 0 8px;font:600 18px/1.3 "Kanit","Leelawadee UI",Tahoma,sans-serif;color:#0b2a66}
+.fsh ol{margin:0 0 10px;padding-left:20px}
+.fsh p{margin:0 0 10px}
+.fsh button{border:0;background:#0b2a66;color:#fff;border-radius:10px;padding:9px 16px;font:500 15px/1 "Kanit","Leelawadee UI",Tahoma,sans-serif;float:right}
+</style>
+<div class="fsh" id="fsh" hidden role="dialog" aria-modal="true" aria-labelledby="fshT"><div class="bx" id="fshB"></div></div>
+<script>
+/* fullscreen: real Fullscreen API where supported (Android/desktop); iPhone and in-app browsers get instructions instead */
+(function(){
+  var ua=navigator.userAgent,d=document,box=d.getElementById('fsh'),b=d.getElementById('fshB');
+  function help(){
+    var line=/\bLine\//i.test(ua)||/FBAN|FBAV|Instagram/i.test(ua),ios=/iPhone|iPod|iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
+    var h=line?'<h4 id="fshT">เปิดในแอปแชตจะเต็มจอไม่ได้</h4><ol><li>กดปุ่ม ⋮ หรือ ⋯ มุมขวาบน</li><li>เลือก "เปิดในเบราว์เซอร์" (Safari / Chrome)</li><li>กดปุ่มเต็มจอ ⛶ อีกครั้ง</li></ol>'
+      :ios?'<h4 id="fshT">iPhone ไม่มีปุ่มเต็มจอสำหรับหน้าเว็บ</h4><p>วิธีดูแบบเต็มจอบน iPhone:</p><ol><li>เปิดลิงก์นี้ใน Safari</li><li>กดปุ่มแชร์ (สี่เหลี่ยมมีลูกศรชี้ขึ้น) แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"</li><li>เปิดจากไอคอนบนหน้าจอโฮม แล้วหมุนจอเป็นแนวนอน</li></ol><p>หรือแค่หมุนจอเป็นแนวนอน สไลด์จะใหญ่ขึ้นเกือบเต็มจอ</p>'
+      :'<h4 id="fshT">เบราว์เซอร์นี้ไม่ให้เปิดเต็มจอ</h4><p>ลองเปิดลิงก์ใน Chrome แล้วกดปุ่ม ⛶ อีกครั้ง หรือหมุนจอเป็นแนวนอน</p>';
+    b.innerHTML=h+'<button type="button" id="fshX">เข้าใจแล้ว</button><div style="clear:both"></div>';
+    box.hidden=false;d.getElementById('fshX').onclick=function(){box.hidden=true};
+  }
+  box.addEventListener('click',function(e){if(e.target===box)box.hidden=true});
+  window.fsToggle=function(){
+    var el=d.documentElement;
+    if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d);return}
+    var rq=el.requestFullscreen||el.webkitRequestFullscreen;
+    if(!rq){help();return}
+    try{var p=rq.call(el,{navigationUI:'hide'});
+      var lock=function(){try{screen.orientation.lock('landscape').catch(function(){})}catch(e){}};
+      if(p&&p.then)p.then(lock,help);else lock();
+    }catch(e){help()}
+  };
 })();
 </script>
 </body>
