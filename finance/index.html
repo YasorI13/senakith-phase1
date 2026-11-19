@@ -201,6 +201,59 @@ svg text{font-family:var(--hf);fill:var(--muted);font-size:14px}
 .rotate[hidden]{display:none}
 .rotate button{border:0;background:#0b2a66;color:#fff;border-radius:8px;padding:6px 10px;font:500 13px/1 var(--hf)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ---------- portrait phone layout (html.m): stage unscaled, content flows vertically ---------- */
+html.m,html.m body{overflow:auto;height:auto}
+html.m .deck{position:static}
+html.m .stage{position:relative;left:auto;top:auto;width:auto;height:auto;transform:none!important;overflow:visible;font-size:16px;padding:22px max(16px,env(safe-area-inset-left,0px)) calc(80px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:4px;min-height:100vh}
+html.m .eyebrow,html.m .title,html.m .uline,html.m .snote{position:static}
+html.m .badge{display:none}
+html.m .eyebrow{font-size:12px;letter-spacing:.06em}
+html.m .title{font-size:23px;white-space:normal;margin-top:4px}
+html.m .uline{width:56px;height:5px;margin:4px 0}
+html.m .snote{text-align:left;max-width:none;font-size:13px}
+html.m .scene{position:static;height:auto;margin-top:12px}
+html.m .scene.on{animation:none}
+html.m .cov,html.m .dash,html.m .two,html.m .cz,html.m .fut,html.m .an,html.m .act{display:flex;flex-direction:column;gap:12px;height:auto}
+html.m .kpis4,html.m .k4{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+html.m .facts,html.m .res{grid-template-columns:minmax(0,1fr);gap:8px}
+html.m .big{padding:14px 16px;border-radius:16px}
+html.m .big span{font-size:14px} html.m .big b{font-size:32px} html.m .big small{font-size:13px}
+html.m .kpi{padding:10px 12px;border-radius:12px} html.m .kpi b{font-size:19px} html.m .kpi span,html.m .kpi small{font-size:12px}
+html.m .thesis{font-size:16px;padding:14px 16px}
+html.m .thesis .row .btn{font-size:14px;padding:9px 12px}
+html.m .fact{padding:12px 14px} html.m .fact b{font-size:22px}
+html.m .card{padding:14px;border-radius:14px}
+html.m .card h3{font-size:18px}
+html.m .chartbox{padding:12px}
+html.m .chartbox>div:first-child{flex-wrap:wrap;gap:6px}
+html.m .leg{flex-wrap:wrap;gap:10px;font-size:12px}
+html.m .say{font-size:15px}
+html.m .bar1{gap:6px} html.m .bar1 .btn{padding:7px 10px;font-size:13px} html.m .mo{min-width:0}
+html.m .dright{display:contents}
+html.m .dash>*{order:9}
+html.m .dright>.bar1:nth-child(1){order:1} html.m .dright>.bar1:nth-child(2){order:2}
+html.m .k4{order:3;position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0}
+html.m .k4 .kpi{padding:7px 10px} html.m .k4 .kpi b{font-size:17px} html.m .k4 .kpi small{display:none}
+html.m .pick{order:4} html.m .dash .chartbox{order:5} html.m .dash .say{order:6}
+html.m .field input[type=number]{width:120px}
+html.m .tg{font-size:15px}
+html.m #eL .erow:first-child,html.m #eL .erow>span:not([class]){display:none}
+html.m .erow{grid-template-columns:22px minmax(0,1fr) auto 40px;grid-template-areas:"c n b p" ". t t t";height:auto;row-gap:6px;padding:8px}
+html.m .erow input{grid-area:c} html.m .erow .nm{grid-area:n;font-size:15px} html.m .erow .tr{grid-area:t;height:10px} html.m .erow b{grid-area:b;font-size:15px} html.m .erow em{grid-area:p;font-size:13px}
+html.m .cz .card{padding:16px} html.m .cz .card b.n{font-size:30px} html.m .cz .card p{font-size:15px}
+html.m .agrid{grid-template-columns:minmax(0,1fr);grid-auto-rows:auto}
+html.m .acard b{-webkit-line-clamp:unset}
+html.m .adet{order:-1;padding:16px;scroll-margin-top:12px} html.m .adet h3{font-size:20px} html.m .adet p{font-size:15px}
+html.m .alist{height:auto}
+html.m .aitem{grid-template-columns:minmax(0,1fr);gap:8px;padding:12px 14px} html.m .aitem h4{font-size:17px} html.m .aitem p{font-size:15px}
+html.m .club{padding:16px} html.m .club b.n{font-size:30px} html.m .club p{font-size:15px}
+html.m #eD,html.m #wD{scroll-margin-top:12px}
+html.m .nav{position:fixed;left:0;right:0;bottom:0;height:auto;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:50;gap:6px}
+html.m .tabs{overflow-x:auto;scrollbar-width:none}
+html.m .tabs::-webkit-scrollbar{display:none}
+html.m .tabs button{flex:none;height:40px;font-size:13px}
+html.m .nav .arw{width:42px;height:40px}
+html.m .nav .full{display:none}
 </style>
 </head>
 <body>
@@ -360,6 +413,7 @@ var fs=function(v){return (v<0?'−':'+')+f0(Math.abs(v))};
 var fn=function(v){return (v<0?'−':'')+f0(Math.abs(v))};
 var fM=function(v){return (v<0?'−':'')+(Math.abs(v)/1e6).toFixed(2)};
 var fk=function(v){var a=Math.abs(v);return (v<0?'−':'')+(a>=1e6?(a/1e6).toFixed(2)+'M':a>=1000||a===0?Math.round(a/1000)+'k':Math.round(a))};
+var MOB=false;
 var sum=function(a){return a.reduce(function(s,x){return s+x},0)};
 function add(){var o=[0,0,0,0,0,0,0,0];for(var j=0;j<arguments.length;j++)for(var i=0;i<8;i++)o[i]+=arguments[j][i]||0;return o}
 
@@ -468,12 +522,12 @@ function rDash(){
   $('dK').innerHTML=[['รายรับที่เลือก',f0(tin),n+' เดือน',''],['รายจ่ายที่เลือก',f0(tex),n+' เดือน',''],['ส่วนต่าง',fs(net),net<0?'ใช้เงินเกินรายรับ':'รายรับมากกว่ารายจ่าย',net<0?'neg':'pos'],['เฉลี่ยต่อเดือน',n?fs(net/n):'–','ส่วนต่าง ÷ '+n+' เดือน',net<0?'neg':'pos']]
     .map(function(k){return '<div class="kpi"><span>'+k[0]+'</span><b class="'+k[3]+'">'+k[1]+'</b><small>'+k[2]+'</small></div>'}).join('');
   // chart
-  var W=1000,H=340,L=70,R=W-8,T0=26,B=H-30,ins=[],outs=[];
+  var W=MOB?440:1000,H=MOB?300:340,L=MOB?50:70,R=W-8,T0=26,B=H-30,ins=[],outs=[];
   for(i=0;i<8;i++){ins.push(selTot(IN,'i:',i));outs.push(selTot(EX,'e:',i))}
   var lo=Math.min(0,Math.min.apply(null,ins)),rg=range(lo,Math.max(1,Math.max.apply(null,ins.concat(outs)))),ax=axis(W,L,R,T0,B,rg[0],rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/8,bw=w*.3;
   for(i=0;i<8;i++){var cx=L+w*i+w/2,op=S.mo[i]?1:.18,a=ins[i],b=outs[i],g=a-b;
     o+='<g opacity="'+op+'"><rect x="'+(cx-bw-3)+'" y="'+Math.min(y(a),y(0))+'" width="'+bw+'" height="'+Math.abs(y(0)-y(a))+'" rx="4" fill="var(--in)"/><rect x="'+(cx+3)+'" y="'+y(b)+'" width="'+bw+'" height="'+(y(0)-y(b))+'" rx="4" fill="var(--out)"/>'+
-      T(cx,Math.min(y(Math.max(a,0)),y(b))-8,(g<0?'':'+')+fk(g),'middle',' style="font-weight:600;font-size:15px;fill:var('+(g<0?'--bad':'--good')+')"')+'</g>';
+      T(cx,Math.min(y(Math.max(a,0)),y(b))-8,(g<0?'':'+')+fk(g),'middle',' style="font-weight:600;font-size:'+(MOB?12:15)+'px;fill:var('+(g<0?'--bad':'--good')+')"')+'</g>';
     o+=T(cx,B+22,M[i],'middle',S.mo[i]?' style="fill:var(--ink)"':'');}
   $('dC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="รายรับเทียบรายจ่ายรายเดือนตามรายการที่เลือก">'+o+'</svg>';
   var off=IN.filter(function(g){return !isOn('i:',g)}).concat(EX.filter(function(g){return !isOn('e:',g)})).map(function(g){return g.n});
@@ -487,13 +541,13 @@ function rFee(){
   var rate=+$('fRate').value||27,area=+$('fArea').value||8940,adv=$('fAdv').checked,full=rate*area;
   var v=[];for(var i=1;i<8;i++)v.push(D.fee[i]+(adv?D.adv_fee[i]:0));
   var lab=['ก.พ.*'].concat(M.slice(2)),bill=[2*full,full,full,full,full,full,full];
-  var W=960,H=600,L=70,R=W-10,T0=24,B=H-34,rg=range(0,Math.max(Math.max.apply(null,v),2*full)),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/7,bw=w*.56;
+  var W=MOB?440:960,H=MOB?380:600,L=MOB?50:70,R=W-10,T0=24,B=H-34,rg=range(0,Math.max(Math.max.apply(null,v),2*full)),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/7,bw=w*.56;
   v.forEach(function(x,i){var cx=L+w*i+w/2,p=x/bill[i]*100;
     o+='<rect x="'+(cx-w/2+6)+'" y="'+y(bill[i])+'" width="'+(w-12)+'" height="'+(B-y(bill[i]))+'" rx="6" fill="var(--soft)"/>';
     o+='<rect x="'+(cx-bw/2)+'" y="'+y(x)+'" width="'+bw+'" height="'+(B-y(x))+'" rx="5" fill="var(--in)"/>';
     o+='<line x1="'+(cx-w/2+6)+'" x2="'+(cx+w/2-6)+'" y1="'+y(bill[i])+'" y2="'+y(bill[i])+'" stroke="var(--bad)" stroke-width="2" stroke-dasharray="6 4"/>';
-    o+=T(cx,y(x)-10,Math.round(p)+'%','middle',' style="font-weight:600;font-size:17px;fill:var('+(p<80?'--bad':p<92?'--warn':'--good')+')"');
-    o+=T(cx,y(x)+24,fk(x),'middle',' style="fill:var(--card);font-size:15px;font-weight:500"');
+    o+=T(cx,y(x)-10,Math.round(p)+'%','middle',' style="font-weight:600;font-size:'+(MOB?13:17)+'px;fill:var('+(p<80?'--bad':p<92?'--warn':'--good')+')"');
+    if(!MOB)o+=T(cx,y(x)+24,fk(x),'middle',' style="fill:var(--card);font-size:15px;font-weight:500"');
     o+=T(cx,B+24,lab[i],'middle',' style="fill:var(--ink)"');});
   $('fC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ค่าส่วนกลางที่เก็บได้รายเดือนเทียบยอดเต็ม">'+o+'</svg>';
   var avg=sum(v.slice(1))/6;
@@ -511,13 +565,13 @@ function rCash(){
   if(!S.lines)S.lines={sav:1,net:1,nf:0,fd:0};
   $('cTg').innerHTML='<h3 style="margin:0">แสดงเส้น</h3>'+LINES.map(function(l){return '<label class="tg"><input type="checkbox" data-line="'+l[0]+'"'+(S.lines[l[0]]?' checked':'')+'><svg width="34" height="10"><line x1="0" x2="34" y1="5" y2="5" stroke="'+l[2]+'" stroke-width="3" stroke-dasharray="'+l[3]+'"/></svg>'+l[1]+'</label>'}).join('');
   var vis=LINES.filter(function(l){return S.lines[l[0]]}),all=[];vis.forEach(function(l){for(var i=0;i<8;i++)all.push(l[4](i))});if(!all.length)all=[0];
-  var W=980,H=600,L=70,R=W-90,T0=24,B=H-34,rg=range(0,Math.max.apply(null,all)),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/8,X=function(i){return L+w*i+w/2};
+  var W=MOB?440:980,H=MOB?380:600,L=MOB?50:70,R=W-(MOB?60:90),T0=24,B=H-34,rg=range(0,Math.max.apply(null,all)),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/8,X=function(i){return L+w*i+w/2};
   M.forEach(function(m,i){o+=T(X(i),B+24,m,'middle',' style="fill:var(--ink)"')});
-  o+='<rect x="'+(X(5)-w/2)+'" y="'+T0+'" width="'+(w*3)+'" height="'+(B-T0)+'" fill="var(--badS)" opacity=".5"/>'+T(X(6),T0+18,'เงินสินไหมก้อนใหญ่เข้า มิ.ย.','middle',' style="fill:var(--bad);font-size:13px"');
+  o+='<rect x="'+(X(5)-w/2)+'" y="'+T0+'" width="'+(w*3)+'" height="'+(B-T0)+'" fill="var(--badS)" opacity=".5"/>'+T(X(6),T0+18,(MOB?'สินไหมเข้า':'เงินสินไหมก้อนใหญ่เข้า มิ.ย.'),'middle',' style="fill:var(--bad);font-size:13px"');
   vis.forEach(function(l){var d='';for(var i=0;i<8;i++)d+=(i?'L':'M')+X(i)+' '+y(l[4](i));
     o+='<path d="'+d+'" fill="none" stroke="'+l[2]+'" stroke-width="3" stroke-dasharray="'+l[3]+'"/>';
     for(i=0;i<8;i++)o+='<circle cx="'+X(i)+'" cy="'+y(l[4](i))+'" r="'+(i===7?5:3.5)+'" fill="'+l[2]+'"/>';
-    o+=T(X(7)+12,y(l[4](7))+5,fM(l[4](7))+'M','start',' style="font-weight:600;font-size:16px;fill:'+l[2]+'"');});
+    o+=T(X(7)+12,y(l[4](7))+5,fM(l[4](7))+'M','start',' style="font-weight:600;font-size:'+(MOB?13:16)+'px;fill:'+l[2]+'"');});
   $('cC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ยอดเงินสิ้นเดือน">'+o+'</svg>';
   $('cT').innerHTML='<tr><td>เงินในบัญชีออมทรัพย์</td><td>'+f0(cash[7])+'</td></tr><tr><td>หัก เงินสินไหมที่ยังไม่จ่ายออก</td><td class="neg">−'+f0(held[7])+'</td></tr><tr><td>หัก เงินกองทุนที่รับปีนี้</td><td class="neg">−'+f0(fundCum[7])+'</td></tr><tr class="sum"><td>เงินดำเนินงานที่ใช้ได้จริง</td><td>'+f0(cash[7]-held[7]-fundCum[7])+'</td></tr><tr><td class="muted">เงินฝากประจำ (แยกต่างหาก)</td><td class="muted">'+f0(fd[7])+'</td></tr>';
 }
@@ -535,6 +589,17 @@ function rWf(){
    ['ส่วนต่างในงบ',IN[8].t,'d','ยอดรวมรายรับ ก.พ. สูงกว่าผลบวกรายการ 12.08 บาท และ มี.ค. 63.00 บาท ไม่มีรายการใดอธิบาย'],
    ['ยอด ส.ค.',cash[7],'e','เงินในบัญชีออมทรัพย์สิ้น ส.ค. 2569 ไม่รวมเงินฝากประจำ '+f0(fd[7])+' บาท']];
   if(S.wsel==null)S.wsel=1;
+  if(MOB){var W=440,rh=46,L=150,R=W-8,T0=4,r2=0,h2=0;WF.forEach(function(s){if(s[2]==='s')r2=s[1];else if(s[2]==='d')r2+=s[1];h2=Math.max(h2,r2,s[1])});
+    var mx=range(0,h2)[1],X=function(v){return L+v/mx*(R-L)},o='',H=T0+WF.length*rh+4;r2=0;
+    WF.forEach(function(s,i){var a,b,c;if(s[2]==='d'){a=r2;b=r2+s[1];r2=b;c=s[1]<0?'var(--bad)':'var(--good)'}else{a=0;b=s[1];r2=s[1];c='var(--brand)'}
+      var y=T0+i*rh,x0=X(Math.min(a,b)),x1=X(Math.max(a,b)),lb=s[2]==='d'?(s[1]<0?'':'+')+fk(s[1]):fM(s[1])+'M',ty=y+rh/2+3;
+      o+='<g data-w="'+i+'" style="cursor:pointer"><rect x="0" y="'+y+'" width="'+W+'" height="'+(rh-4)+'" rx="8" fill="'+(S.wsel===i?'var(--brandS)':'transparent')+'"/>'+
+        T(6,ty,WL[i].replace(/\|(?=[(รส])/,' ').replace('|',''),'start',' style="fill:var(--ink);font-size:14px"')+
+        '<rect x="'+x0+'" y="'+(y+8)+'" width="'+Math.max(2,x1-x0)+'" height="'+(rh-20)+'" rx="4" fill="'+c+'"/>'+
+        (x1<=R-60?T(x1+6,ty,lb,'start',' style="font-weight:600;font-size:13px;fill:'+c+'"'):x1-x0>60?T(x1-6,ty,lb,'end',' style="font-weight:600;font-size:13px;fill:var(--card)"'):T(x0-6,ty,lb,'end',' style="font-weight:600;font-size:13px;fill:'+c+'"'))+'</g>';
+      if(i<WF.length-1)o+='<line x1="'+X(r2)+'" x2="'+X(r2)+'" y1="'+(y+rh-12)+'" y2="'+(y+rh+8)+'" stroke="var(--muted)" stroke-dasharray="3 3"/>';});
+    $('wC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ที่มาของเงินที่เพิ่มขึ้น">'+o+'</svg>';
+  }else{
   var W=980,H=560,L=70,R=W-10,T0=30,B=H-64,run=0,hi=0;WF.forEach(function(s){if(s[2]==='s')run=s[1];else if(s[2]==='d')run+=s[1];hi=Math.max(hi,run,s[1])});
   var rg=range(0,hi),ax=axis(W,L,R,T0,B,0,rg[1],fk),y=ax.y,o=ax.g,w=(R-L)/WF.length,bw=w*.66;run=0;
   WF.forEach(function(s,i){var a,b,c;if(s[2]==='d'){a=run;b=run+s[1];run=b;c=s[1]<0?'var(--bad)':'var(--good)'}else{a=0;b=s[1];run=s[1];c='var(--brand)'}
@@ -544,6 +609,7 @@ function rWf(){
     var parts=WL[i].split('|');o+='<text x="'+cx+'" y="'+(B+24)+'" text-anchor="middle" style="fill:var(--ink);font-size:14px">'+parts.map(function(p,j){return '<tspan x="'+cx+'" dy="'+(j?18:0)+'">'+p+'</tspan>'}).join('')+'</text></g>';
     if(i<WF.length-1)o+='<line x1="'+(cx+bw/2)+'" x2="'+(cx+w-bw/2)+'" y1="'+y(run)+'" y2="'+y(run)+'" stroke="var(--muted)" stroke-dasharray="3 3"/>';});
   $('wC').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="ที่มาของเงินที่เพิ่มขึ้น">'+o+'</svg>';
+  }
   var s=WF[S.wsel];
   $('wD').innerHTML='<span class="chip '+(s[2]!=='d'?'lo':s[1]<0?'hi':'ok')+'" style="align-self:flex-start">'+(S.wsel+1)+' / '+WF.length+'</span><h3 style="font-size:26px;margin:0">'+s[0]+'</h3><b class="num" style="font:600 40px/1.1 var(--hf);color:'+(s[2]!=='d'?'var(--brand)':s[1]<0?'var(--bad)':'var(--good)')+'">'+(s[2]==='d'?fs(s[1]):f0(s[1]))+' บาท</b><p style="margin:0;font:400 19px/1.6 var(--bf)">'+s[3]+'</p>'+
     '<div style="margin-top:auto;display:flex;gap:8px"><button class="btn" data-wstep="-1">◀ ก่อนหน้า</button><button class="btn" data-wstep="1">ถัดไป ▶</button></div>';
@@ -576,8 +642,8 @@ function rFut(first){
     '<div class="kpi"><span>เงินดำเนินงานหมด</span><b class="'+(k!=null&&k<24?'neg':'')+'">'+(k!=null?'ราว '+when:'ไม่หมด')+'</b><small>'+(k!=null?'อีกประมาณ '+k+' เดือน จากเงินตั้งต้น '+fM(s0)+' ล้าน':'รายรับพอจ่าย เงินสะสมเพิ่มขึ้น')+'</small></div>'+
     '<div class="kpi"><span>อัตราที่ทำให้ไม่ขาดดุล</span><b>'+be.toFixed(1)+' บาท/ตร.ม.</b><small>ที่เก็บได้ '+F.coll+'% · ถ้าเก็บครบ 100%: '+((F.exp-OTHER)/AREA).toFixed(1)+' บาท</small></div>';
   var N=36,bal=[];for(var i=0;i<=N;i++)bal.push(s0+net*i);
-  var W=960,H=420,L=70,R=W-14,T0=20,B=H-34,rg=range(Math.min(0,bal[N]),Math.max(s0,bal[N])),ax=axis(W,L,R,T0,B,rg[0],rg[1],fk),y=ax.y,o=ax.g,X=function(i){return L+(R-L)*i/N};
-  for(i=0;i<=N;i+=6){var m=7+i;o+=T(X(i),B+24,MY[m%12]+' '+String(2569+Math.floor(m/12)).slice(2),i===N?'end':i?'middle':'start',' style="fill:var(--ink)"')}
+  var W=MOB?440:960,H=MOB?300:420,L=MOB?50:70,R=W-14,T0=20,B=H-34,rg=range(Math.min(0,bal[N]),Math.max(s0,bal[N])),ax=axis(W,L,R,T0,B,rg[0],rg[1],fk),y=ax.y,o=ax.g,X=function(i){return L+(R-L)*i/N};
+  for(i=0;i<=N;i+=(MOB?12:6)){var m=7+i;o+=T(X(i),B+24,MY[m%12]+' '+String(2569+Math.floor(m/12)).slice(2),i===N?'end':i?'middle':'start',' style="fill:var(--ink)"')}
   if(k!=null&&k<=N)o+='<rect x="'+X(k)+'" y="'+T0+'" width="'+(R-X(k))+'" height="'+(B-T0)+'" fill="var(--badS)" opacity=".6"/>'+T(X(k)+8,T0+20,'เงินไม่พอจ่าย','start',' style="fill:var(--bad);font-weight:600"');
   var d='';bal.forEach(function(v,i){d+=(i?'L':'M')+X(i)+' '+y(v)});
   o+='<path d="'+d+'" fill="none" stroke="var(--brand)" stroke-width="3.5"/><circle cx="'+X(0)+'" cy="'+y(s0)+'" r="6" fill="var(--brand)"/>'+T(X(0)+10,y(s0)-10,'เริ่ม '+fM(s0)+'M','start',' style="font-weight:600;fill:var(--brand)"');
@@ -624,13 +690,14 @@ function renderAll(){rCover();rDash();rFee();rCash();rWf();rExp();rAn()}
 function show(i){i=Math.max(0,Math.min(SC.length-1,i));S.slide=i;save();
   SC.forEach(function(s,j){s.classList.toggle('on',j===i)});
   [].forEach.call($('tabs').children,function(b,j){b.classList.toggle('on',j===i)});
-  $('title').textContent=SC[i].dataset.t;$('snote').textContent=SC[i].dataset.n||'';}
+  $('title').textContent=SC[i].dataset.t;$('snote').textContent=SC[i].dataset.n||'';
+  if(MOB){scrollTo(0,0);var tb=$('tabs').children[i];if(tb&&tb.scrollIntoView)tb.scrollIntoView({inline:'center',block:'nearest'})}}
 document.addEventListener('click',function(e){var t=e.target.closest('[data-go],[data-pre],[data-mo],[data-esel],[data-a],[data-af],[data-w],[data-wstep]');if(!t)return;
   if(t.dataset.go!=null)show(+t.dataset.go);
   else if(t.dataset.pre)setPreset(t.dataset.pre);
   else if(t.dataset.mo!=null){S.mo[+t.dataset.mo]=S.mo[+t.dataset.mo]?0:1;save();rDash()}
-  else if(t.dataset.esel){if(e.target.matches('input'))return;S.esel=t.dataset.esel;save();rExp()}
-  else if(t.dataset.a!=null){S.asel=+t.dataset.a;save();rAn()}
+  else if(t.dataset.esel){if(e.target.matches('input'))return;S.esel=t.dataset.esel;save();rExp();if(MOB)$('eD').scrollIntoView({behavior:'smooth',block:'start'})}
+  else if(t.dataset.a!=null){S.asel=+t.dataset.a;save();rAn();if(MOB)$('aD').scrollIntoView({behavior:'smooth',block:'start'})}
   else if(t.dataset.af){S.af=t.dataset.af;save();rAn()}
   else if(t.dataset.w!=null){S.wsel=+t.dataset.w;save();rWf()}
   else if(t.dataset.wstep){S.wsel=(S.wsel+ +t.dataset.wstep+WF.length)%WF.length;save();rWf()}
@@ -658,7 +725,10 @@ addEventListener('keydown',function(e){if(e.target.matches('input'))return;
 renderAll();rFut(!S.fut);
 var h=/^#(\d+)$/.exec(location.hash);show(h?+h[1]-1:(S.slide||0));
 var stage=$('stage'),rotClosed=false;
-function fit(){var s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';$('rotate').hidden=!(innerWidth<700&&innerHeight>innerWidth)||rotClosed}
+function fit(){var m=innerWidth<760&&innerHeight>innerWidth;
+  if(m!==MOB){MOB=m;document.documentElement.classList.toggle('m',m);renderAll();rFut()}
+  if(MOB){stage.style.transform='none';$('rotate').hidden=true;return}
+  var s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';$('rotate').hidden=!(innerWidth<700&&innerHeight>innerWidth)||rotClosed}
 $('rotX').onclick=function(){rotClosed=true;$('rotate').hidden=true};
 addEventListener('resize',fit);fit();
 })();
